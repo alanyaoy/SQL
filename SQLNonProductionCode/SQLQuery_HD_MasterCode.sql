@@ -4343,6 +4343,9 @@ WHERE Discontinued = No;
 
 
 DROP VIEW view_name;
+drop view [JDE_DB_Alan].[vw_NP_FC_Analysis]
+drop view [JDE_DB_Alan].[vw_NP_FC_Override_upload]
+
 
 -------------------------------------  View  9/3/2018 12/3/2018----------------------------------------------------------------------
 --select * from JDE_DB_Alan.FCPRO_NP_tmp np where np.ItemNumber in ('34.519.000') order by np.ItemNumber
@@ -4671,7 +4674,7 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
  
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801396351','2018-08-01','2019-07-01'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7501001000','2019-07-01','2019-12-01'
-
+    exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7501001000','2018-08-01','2019-07-01'
  	 
    select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in  ('24.7206.0000','2974000000','45.124.000')
   exec JDE_DB_Alan.sp_Cal_SafetyStock

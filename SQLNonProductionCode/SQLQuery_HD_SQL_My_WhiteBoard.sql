@@ -60,7 +60,7 @@ select * from JDE_DB_Alan.FCPRO_Fcst f where f.DataType1 in ('Adj_Fc')
 
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('s3000net5250n001')
-select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('24.7221.0199')
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('F16174A949')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('34.345.000','34.346.000','34.347.000','34.348.000','34.349.000','34.350.000','34.351.000','34.359.000','34.360.000','34.361.000','34.370.000','34.449.000','34.451.000','34.452.000')
 select * from JDE_DB_Alan.SlsHistoryHD hd where hd.ItemNumber in ('34.345.000','34.346.000','34.347.000','34.348.000','34.349.000','34.350.000','34.351.000','34.359.000','34.360.000','34.361.000','34.370.000','34.449.000','34.451.000','34.452.000')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.017.154')
@@ -71,6 +71,9 @@ select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload l where l.ItemNumber in (
 select * from JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload l where l.ItemNumber in ('18.013.089','18.009.029')
 select distinct l.ItemNumber from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload l
 select distinct l.ItemNumber from JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload l
+select * from JDE_DB_Alan.FCPRO_SafetyStock s where s.ItemNumber in ('7501001000')
+select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in ('7501001000')
+
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('P4H108A547')
 
