@@ -1,0 +1,147 @@
+
+ 
+ 1 year = 365.25 days
+ 1 day = 86,400 seconds
+ 
+ select * from TRAC_Dates
+  
+ 
+ --- 6/12/2017 ---
+ --http://www.sqlitetutorial.net/sqlite-date/  --
+ 
+ 1.
+  Using the TEXT storage class for storing SQLite date and time ---
+ 
+ --If you use the TEXT storage class to store date and time value, you need to use the ISO8601 string format as follows:
+
+--YYYY-MM-DD HH:MM:SS.SSS 
+--For example, 2016-01-01 10:20:05.123
+
+
+CREATE TABLE
+IF NOT EXISTS datetime_text (d1 text, d2 text);
+
+INSERT INTO datetime_text (d1, d2)
+VALUES
+ (
+ datetime('now'),
+ datetime('now', 'localtime')
+ );
+ 
+ 
+SELECT
+ d1,
+ typeof(d1),
+ d2,
+ typeof(d2)
+FROM
+ datetime_text;
+
+-- will yield output: 
+   d1                       typeof(d1)        d2                        typeof(d2)
+   2016-01-03 01:50:18      text             2016-01-03 08:50:18        text
+       
+
+
+  2. 
+ Using the TEXT storage class for storing SQLite date and time ---
+ --You can use the REAL storage class to store date and/ or time values as Julian day numbers, which is the number of days since noon in Greenwich on November 24, 4714 B.C. based on the proleptic Gregorian calendar.
+ 
+CREATE TABLE
+IF NOT EXISTS datetime_real (d1 real);
+
+INSERT INTO datetime_real (d1)
+VALUES
+ (julianday('now'));
+ 
+ SELECT
+ d1
+FROM
+ datetime_real;
+ 
+-- will yield output ( days ): 
+2,457,390.62151201
+
+The output is not human readable.Fortunately, you can use the built-in DATE and TIME functions to format a date and time value as follows:
+SELECT
+ date(d1),
+ time(d1)
+FROM
+ datetime_real;
+ 
+ -- will yield output: 
+ date(d1)               time(d1)
+ 2016-01-03             02:54:58
+ 
+ 
+ 3.
+ Using INTEGER to store SQLite date and time values
+ --Besides TEXT and REAL storage classes, you can use the INTEGER storage class to store date and time values.We typically use the INTEGER to store UNIX time which is  --the number of seconds since 1970-01-01 00:00:00 UTC. See the following example.
+--First, create a table that has one column whose data type is INTEGER to store the date and time values.
+
+CREATE TABLE
+IF NOT EXISTS datetime_int (d1 int);
+
+--Second, insert the current date and time value into the datetime_int table.
+
+
+INSERT INTO datetime_int (d1)
+VALUES
+	(strftime('%s','now'));
+
+SELECT
+ d1
+FROM
+ datetime_int;
+
+-- will yield output (seconds ): 
+1,512,512,820
+
+--It’s an integer.To format the result, you can use the built-in DATETIME function as follows:
+
+SELECT
+ datetime(d1,'unixepoch')
+FROM
+ datetime_int;
+ 
+ -- will yield output: 
+ datetime(d1,'unixepoch')
+ 2016-01-03 03:08:44
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

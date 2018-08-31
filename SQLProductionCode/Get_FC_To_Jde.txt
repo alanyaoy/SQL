@@ -1,0 +1,68 @@
+--select * from JDE_DB_Alan.dbo.cj
+
+--declare @ItemIDs table ( Item_ID nvarchar(1000) )
+--declare @SupplierIDs table (Supplier_ID  varchar(1000) )
+
+--insert into @ItemIDs values ('2780143000'),('2780047000'),('2851236354')
+--insert into @SupplierIDs values ('979516'),('20039')
+
+with cte as (
+	select f.ItemNumber,convert(varchar(6),f.Date,112) as Period_YM,f.Value,'Forecast' as Typ_
+	 from JDE_DB_Alan.FCPRO_Fcst f 
+	 --where s.ItemNumber in (select ids from @ItemIDs)
+	 --where f.ItemNumber in ('40.033.131')
+	union all
+	select s.ItemNumber,convert(varchar(6),convert(datetime,concat(s.CYM,'01')),112) Period_YM,s.SalesQty,'Sales' as Typ_
+	from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload s 
+	--where s.ItemNumber in (select ids from @ItemIDs)
+	--where s.ItemNumber in ('45.668.063')
+  ) ,
+
+   comb as ( select cte.ItemNumber,cte.Typ_,cte.Period_YM,cte.Value,m.StandardCost,p.Pareto,m.UOM,m.Description,m.LeadtimeLevel,m.QtyOnHand,m.SellingGroup,m.FamilyGroup,m.Family
+			 from cte left join JDE_DB_Alan.Master_ML345 m on cte.ItemNumber = m.ItemNumber
+					 left join JDE_DB_Alan.FCPRO_Fcst_Pareto p on cte.Itemnumber = p.ItemNumber					 
+	        where 
+				 --m.PrimarySupplier in (select Supplier_ID from @SupplierIDs)		       
+				 --or cte.ItemNumber in (select Item_ID from @ItemIDs)
+		 	     --m.PrimarySupplier in ('20615')
+				--m.PrimarySupplier in ('503978','1459')
+				-- cte.ItemNumber in ('2780143000','2851236354')	
+				--cte.ItemNumber in ('42.522.000','46.502.100','42.603.855','46.505.000','2781094000') 
+				--cte.ItemNumber in ('45.124.000','45.648.100') 				
+				cte.ItemNumber in ('27.586.137','F9174A952','2770011785','27.271.120','F17174A952','F8174A908','F16174A565','27.171.862','F9174A955','F9174A568','27.253.000','27.161.882','2780471000','F17174A955','27.160.882','27.252.000','27.258.000','2780470000','27.170.661','27.171.320','27.161.320','2789000750','F16174A568','27.171.135','27.170.320','F8174A977','27.170.882','27.170.862','27.171.180','27.161.862','27.171.882','27.161.785','27.171.810','27.160.661','2789000924','27.160.320','2789000955','27.170.810','27.160.862','27.161.878','2780115000','27.160.878','27.170.879','27.161.810','27.161.661','2789000953','2789000784','2780461862','27.264.850','27.160.785','27.170.450','27.257.000','27.171.878','27.174.320','F8174A951','27.174.882','27.170.180','27.171.450','F8174A948','27.174.878','2780461810','27.170.785','2780460810','27.174.862','2780148785','2780149180','2780460879','2780460882','2780148862','2780149320','2780149879','27.163.661','27.164.882','2780460689','2789000989','27.176.320','27.176.862','2789000447','2780461180','2780149661','27.170.048','27.166.661','2780461580','2780460862','27.166.862','27.163.862','27.162.879','2780461878','27.162.661','2780460082','2780148689','2780149689','2780149810','27.174.135','27.174.879','2780149862','2780461320','2780148180','27.164.785','27.165.862','2780148879','27.166.785','2780461450','27.164.879','2780460450','27.175.862','2780461882','2780148320','27.165.785','2780461689','27.163.879','2780460048','27.164.320','27.173.862','27.175.785','2780228000','27.173.785','27.176.048','27.175.320','27.176.785','27.172.810','3200155862','27.172.661','2780460320','2780461879','27.173.810','27.175.810','27.165.320','27.172.320','27.173.320','27.174.048','27.173.661','27.166.879','27.165.661','2780149048','2780148048','27.166.810','27.163.785','27.174.810','27.162.862','27.164.878','27.176.661','27.165.810','27.162.878','27.165.879','27.172.785','2780461661','27.165.878','27.173.879','27.163.810','27.174.450','27.172.862','27.164.862','27.175.450','27.173.180','27.162.810','2974000000','27.175.580','27.175.661','27.175.879','F16174A948','F16174A949','2789000710','2780148135','F8174A710','2780149580','2780460580','27.173.580','2780460135','27.172.879','27.176.879','27.164.810','2780149785','2780460180','27.174.661','27.164.661','27.172.580','2780461048','27.176.580','27.174.785','2780148661','27.174.180','2789000748','2780301000','27.176.180','2780302000','27.174.580','2954000000','2780114000','2780461785','2780460661','27.171.580','2780460785','27.171.879','27.171.048','F9174A576','27.171.785','F16174A977','F16174A955','2770000785','2789000713','F16174A951','F36174A458','F9174A951','2789000951','2789000682','F8174A949','F17174A951','F8174A955','2789000457','27.171.661','2770002534','2770002535','F37174A400') 
+	),
+
+   staging as 
+			(select  comb.*
+					,c.LongDescription as SellingGroup_
+					,d.LongDescription as FamilyGroup_
+					,e.LongDescription as Family_0
+					--,tbl.Family as Family_1
+					--,f.StandardCost,f.WholeSalePrice
+			from comb left join JDE_DB_Alan.MasterSellingGroup c  on comb.SellingGroup = c.Code
+					 left join JDE_DB_Alan.MasterFamilyGroup d  on comb.FamilyGroup = d.Code
+					 left join JDE_DB_Alan.MasterFamily e  on comb.Family = e.Code
+			   )
+ --  np as ( select * from JDE_DB_Alan.FCPRO_Fcst_NP_upload_tmp )
+  
+
+select staging.ItemNumber,'HD' as BranchPlant,staging.UOM,'BF' as ForcastType
+		--,staging.Period_YM
+
+		-- Get Last day of the Previous month,and format to dd/mm/yyyy for JDE format
+		--,convert(varchar(10),convert(date,dateadd(d,-1,dateadd(mm,1,convert(datetime,staging.Period_YM+'01',105))),103),103) as Period_YMD
+                
+		-- Gett 'Jde FC Date' Format ie 31/Month/Year,however when FC loaded into Jde, Jde will automatically add 1 day and push FC to Following month, ie 31/1/2018 FC will be push into Month slot of 1/Feb/2018, so here you need to change date again		
+		,convert(varchar(10),convert(date,dateadd(d,-1,dateadd(mm,0,convert(datetime,staging.Period_YM+'01',105))),103),103) as Period_YMD_2    
+		,staging.Value as ForecastQty,0 as ForecastAmt,0 as CustomerNumber,'N' as BypassForcing
+		--,staging.Pareto 
+		--,np.Range,staging.StandardCost
+		--,staging.Description,staging.FamilyGroup_,staging.QtyOnHand as SOH
+from staging 
+	--left join np on staging.ItemNumber = np.ItemNumber
+where  staging.Typ_ in ('Forecast')
+	--and np.Range is null	 
+	  --and staging.ItemNumber not in ( select np.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_NP_upload_tmp np )
+	--  and not exists ( select np.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_NP_upload_tmp np where np.ItemNumber = staging.ItemNumber)
+order by Pareto asc,staging.ItemNumber,staging.Period_YM
+

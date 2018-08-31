@@ -1,0 +1,11 @@
+SELECT [RowLabel]
+      ,[SellingGroup]
+      ,[FamilyGroup]
+      ,[Family]
+      ,[ItemNumber]
+      ,[StandardCost]
+      ,[WholeSalePrice]
+   --   ,[rnk]
+   --   ,[ReportDate]
+  FROM [JDE_DB_Alan].[JDE_DB_Alan].[Px_AWF_HD_MT_FCPro_upload] px
+--where px.[ItemNumber] like ('%850531003021%')

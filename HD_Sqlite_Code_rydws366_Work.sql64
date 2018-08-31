@@ -1,0 +1,61 @@
+
+---      22/11/2017  Some Check see if you are connected and can query data out of rydws366\sqlexpress----
+
+select * from jde_db_alan.fcpro_fc          -- name is incorrect
+select * from JDE_DB_Alan.fcpro_fcst
+
+select * from JDE_DB_Alan.FCPRO_Fcst f where f.itemnumber in 
+
+select * from JDE_DB_Alan.Masterfamily fm where fm.code in ('10')
+
+---~~~~~~~~~~~~~~~~~~~~~ List All tables its columns and datatype 19/11/2017 use first one------------------------
+declare @tblname varchar(100) = ('%pareto%')
+SELECT sch.name AS 'schema', 
+		tb.name AS Table_Name
+		,c.name AS Column_Name, c.column_id	
+		,tp.name AS data_type_name
+		--,tp.is_user_defined, tp.is_assembly_type
+		, case c.is_nullable when 1 then 'Yes' else 'No' end as nullable, c.PRECISION precision_,c.scale,SCHEMA_NAME(tp.schema_id) AS DataTypeSchema,tp.max_length as data_type_maxLng,c.max_length,i.rows as RecordCount
+FROM sys.columns AS c
+	 INNER JOIN sys.types AS tp ON c.user_type_id=tp.user_type_id	
+	 INNER JOIN sys.tables tb ON tb.OBJECT_ID = c.OBJECT_ID	
+	 INNER JOIN sys.schemas sch ON sch.schema_id = tb.schema_id	
+	 inner join INFORMATION_SCHEMA.COLUMNS schCol on schcol.TABLE_SCHEMA = sch.name and schcol.TABLE_NAME = tb.name and schcol.COLUMN_NAME = c.name
+	 inner join sys.sysindexes i on tb.object_id = i.id
+where tb.name like @tblname and i.rows<>0
+ -- where tb.name like ('%pare%') and i.rows<>0
+ORDER BY sch.name, tb.name, c.column_id
+
+
+---~~~~~~~~~~~~~~~~~~~~~ Check Tables Rows count , good for storge planning and partition 19/11/2017------------------------
+select * from sys.tables
+select * from sys.sysindexes i where i.id = 245575913
+
+select t.name as TableName, SCHEMA_NAME(t.schema_id) as SchemaName,t.object_id,i.rows as RecordCount,getdate() as Reportdate
+from sys.tables t inner join sys.sysindexes i on t.object_id = i.id 
+where i.rows <>0
+order by SchemaName, TableName
+
+--~~~~~~~~~~~~~~~~~~~~~ Check When a table is update ------------- very good
+
+select  DB_NAME(x.database_id) AS [Database],
+		us.database_id,t.object_id,t.name as TabelName,t.create_date as SystemCreateDate,t.modify_date as SystemModifyDate
+		,last_user_update,last_user_scan		
+FROM   sys.dm_db_index_usage_stats us
+       JOIN sys.tables t  ON t.object_id = us.object_id
+	   inner join sys.databases x on x.database_id = us.database_id		-- OK works
+
+WHERE   --   database_id = '5'							-- JDE_DB_Alan
+        --    us.database_id = db_id('JDE_DB_Alan')      -- works
+             DB_NAME(x.database_id)='JDE_DB_Alan'
+       --AND t.object_id = object_id('dbo.YourTable') 
+	   --AND t.object_id = '1858105660'
+	   --  and t.name like ('SlsHist%')
+order by t.modify_date desc
+
+select * from sys.tables t where t.name like ('SalesHist%')
+select * from sys.dm_db_index_usage_stats where object_id like ('%85010%')
+
+SELECT DB_NAME(database_id) AS [Database], database_id FROM sys.databases;  
+
+

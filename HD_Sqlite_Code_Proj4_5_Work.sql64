@@ -1,0 +1,99 @@
+
+-------- 11/10/2017 -------------------------------------------------------------------------------------------------------------
+select * from trac_items a where a.itemid4 in ('2851218661')
+
+--------------------------------------------
+select * from trac_forecasts limit 10
+select count(*) from trac_forecasts
+select count(distinct a.forecastId) from trac_forecasts a
+
+select * from trac_forecasts where forecastid in ('5971')
+---------------------------------------------
+select * from trac_forecasts limit 10
+select * from trac_forecasts where forecastid in ('5971')
+
+select * from trac_stats limit 10
+
+select * from trac_history limit 10
+
+select * from trac_hierarchy limit 10
+
+select * from trac_int_forecasts limit 10
+
+select * from trac_conversions r where r.itemid in ('5971')
+select * from trac_Units
+
+select * from trac_roadmap
+
+select * from trac_dates
+
+select * from trac_attributes
+
+select * from trac_view_history_forecasts
+
+select * from trac_ext_data_val
+
+select * from trac_items a where a.itemid4 in ('2851218661')
+----------------------------------------------------------------
+
+---------------------FC only (Units & Dollars ) -----------------------------------------------------------------------------------------------
+select a.ForecastId,a.Abs_Period,d.Description,a.FC_Statistical,a.FC_Adjusted,b.FC_Model,b.FC_Error,b.FC_StdDev,b.FC_MAPE,a.FC_Lower,a.FC_Upper,r.convfactor
+        , (a.FC_statistical*r.convfactor) as FC_Val
+from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+        inner join trac_items x on x.itemid = b.itemid) 
+     
+    inner join trac_dates d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+where x.itemid4 in ('2851218661')
+order by x.itemid4,a.abs_period asc
+
+
+---------------------FC + History -----------------------------------------------------------------------------------------------
+select a.ForecastId,a.Abs_Period,d.Description,a.FC_Statistical,a.FC_Adjusted,b.FC_Model,b.FC_Error,b.FC_StdDev,b.FC_MAPE,a.FC_Lower,a.FC_Upper,h.Hist_Value
+from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+        inner join trac_items x on x.itemid = b.itemid) 
+     
+    inner join trac_dates d on a.Abs_Period = d.Abs_Period)  trac_History h on h.ItemId = x.ItemId and h.Abs_Period = d.Abs_Period)
+where x.itemid4 in ('2851218661')
+order by x.itemid4,a.abs_period asc
+
+
+
+select a.ForecastId,a.Abs_Period,d.Description,a.FC_Statistical,a.FC_Adjusted,b.FC_Model,b.FC_Error,b.FC_StdDev,b.FC_MAPE,h.Hist_Value
+from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+        inner join trac_items x on x.itemid = b.itemid) 
+     
+     inner join trac_history h on h.ItemId = x.ItemId) inner join trac_dates d on a.Abs_Period = d.Abs_Period)
+where x.itemid4 in ('2851218661')
+order by x.itemid4,a.abs_period asc
+
+
+---------------------From Work 10/11/2017---------------------------
+
+select * from trac_items a where a.itemid4 in ('2851218661')
+
+select * from trac_forecasts limit 10
+
+select * from trac_stats limit 10
+
+select * from trac_history limit 10
+
+select * from trac_hierarchy limit 10
+
+select * from trac_int_forecasts limit 10
+
+select * from trac_roadmap
+
+select * from trac_dates
+
+select * from trac_attributes
+
+select a.
+from (((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+        inner join trac_items x on x.itemid = b.itemid)
+     
+     inner join trac_history d on d.itemid = x.itemid
+where b.itemid4 in ('2851218661')
+
+
+
+

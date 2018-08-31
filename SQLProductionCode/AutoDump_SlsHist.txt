@@ -1,0 +1,14 @@
+SELECT [RowLabel]
+      ,[SellingGroup]
+      ,[FamilyGroup]
+      ,[Family]
+      ,[ItemNumber]
+      ,[Description]
+      ,[CY]
+      ,[Month]
+      ,[PPY]
+      ,[PPC]
+      ,[SalesQty]
+     -- ,[ReportDate]
+  FROM [JDE_DB_Alan].[JDE_DB_Alan].[SlsHist_AWFHDMT_FCPro_upload] h
+ --where h.[ItemNumber] like ('%850531003021%')

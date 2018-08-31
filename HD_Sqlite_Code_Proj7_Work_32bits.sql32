@@ -1,0 +1,43 @@
+select *,mod(d.Abs_Periods/12)  from trac_dates d
+
+select * from trac_dates
+
+select * from trac_forecasts limit 8    
+
+----- Good version ----------------
+    with cte as 
+    (
+        select *, cast(substr(d.Description,1,4) as int) as YYYY,
+        case substr(d.Description,6,3)
+        WHEN 'Jan' then '01'
+        WHEN 'Feb' then '02'
+        WHEN 'Mar' then '03'
+        WHEN 'Apr' then '04'
+        WHEN 'May' then '05'
+        WHEN 'Jun' then '06'
+        WHEN 'Jul' then '07'
+        WHEN 'Aug' then '08'
+        WHEN 'Sep' then '09'
+        WHEN 'Oct' then '10'
+        WHEN 'Nov' then '11'
+        WHEN 'Dec' then '12' 
+        end as MM
+        from TRAC_Dates d 
+    ),
+    cte_ as ( select *,(cte.YYYY||'-'||cte.MM||'-'||'01') as YYYYMM 
+    from cte )
+    
+    select a.Abs_Period,x.itemid4,'Default' as DataType1,strftime(d.YYYYMM) as FC_Period,a.FC_Statistical
+            ,datetime('now','localtime') as ReportDate
+            ,date('now')            
+            ,strftime('%H','now','localtime')  'Hour:00-24'
+            ,strftime('%j','now') DayofYear
+            ,strftime('%w','now') 'DayofWK-0-6Sunday==0'
+            ,strftime('%W','now') 'WKofYear: 00-53'
+    from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+            inner join trac_items x on x.itemid = b.itemid) 
+            inner join cte_ d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+    --where x.itemid4 in ('2851218661')
+    -- where x.itemid4 in ('40.033.131')
+     where x.itemid4 in ('46.505.000')
+    order by x.itemid4,a.abs_period asc

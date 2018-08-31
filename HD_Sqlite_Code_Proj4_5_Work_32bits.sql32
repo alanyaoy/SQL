@@ -1,0 +1,90 @@
+select * from trac_dates
+
+select * from trac_forecasts limit 10
+
+select a.ForecastId,x.itemid4,a.Abs_Period,d.Description,a.FC_Statistical,a.FC_Adjusted,b.FC_Model,b.FC_Error,b.FC_StdDev,b.FC_MAPE,a.FC_Lower,a.FC_Upper,r.convfactor
+        , (a.FC_statistical*r.convfactor) as FC_Val
+from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+        inner join trac_items x on x.itemid = b.itemid) 
+     
+    inner join trac_dates d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+--where x.itemid4 in ('2851218661')
+  where x.itemid4 in ('40.033.131') 
+order by x.itemid4,a.abs_period asc
+
+
+--- simplified version ------
+select x.itemid4,d.Description as FC_Period,a.FC_Statistical
+from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+        inner join trac_items x on x.itemid = b.itemid) 
+     
+    inner join trac_dates d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+--where x.itemid4 in ('2851218661')
+  where x.itemid4 in ('40.033.131') 
+order by x.itemid4,a.abs_period asc
+
+
+select * from trac_forecasts limit 10
+
+----- Good version ----------------
+    with cte as 
+    (
+        select *, cast(substr(d.Description,1,4) as int) as YYYY,
+        case substr(d.Description,6,3)
+        WHEN 'Jan' then '01'
+        WHEN 'Feb' then '02'
+        WHEN 'Mar' then '03'
+        WHEN 'Apr' then '04'
+        WHEN 'May' then '05'
+        WHEN 'Jun' then '06'
+        WHEN 'Jul' then '07'
+        WHEN 'Aug' then '08'
+        WHEN 'Sep' then '09'
+        WHEN 'Oct' then '10'
+        WHEN 'Nov' then '11'
+        WHEN 'Dec' then '12' 
+        end as MM
+        from TRAC_Dates d 
+    ),
+    cte_ as ( select *,(cte.YYYY||'-'||cte.MM||'-'||'01') as YYYYMM 
+    from cte )
+    
+    select a.Abs_Period,x.itemid4,'Default' as DataType1,strftime(d.YYYYMM) as FC_Period,a.FC_Statistical
+            ,datetime('now','localtime') as ReportDate
+            ,date('now')            
+            ,strftime('%H','now','localtime')  'Hour:00-24'
+            ,strftime('%j','now') DayofYear
+            ,strftime('%w','now') 'DayofWK-0-6Sunday==0'
+            ,strftime('%W','now') 'WKofYear: 00-53'
+    from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+            inner join trac_items x on x.itemid = b.itemid) 
+            inner join cte_ d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+    --where x.itemid4 in ('2851218661')
+      where x.itemid4 in ('40.033.131')
+    order by x.itemid4,a.abs_period asc
+    
+
+   select date('2012/10/00','+2 days')            -- does not work, because there is NO ZERO day IN A MONTH or ANY MONTH !!!!!!
+    select date('2012/10/01','+1 day')              --does not work
+    select date('2012-10-01','+1 day')              -- work looks like you need to change '/' to '-', and keep YYYY-MM-DD format
+    
+    select date('2012-10-01', '+1 day')             -- works
+    
+     select date('2014-10-16','+2 days')           -- works
+     SELECT date('2014-10-16', '-15 days');         -- works
+      
+    select date('now','+2 days')                    -- works
+   
+  SELECT julianday('2008-07-03')
+  SELECT date('07-03-2008', '+90days');         -- does not work
+   SELECT date('07-03-2008', '+90 days');         -- does not work
+   SELECT date('2008-03-07', '+90 days');       -- works
+  
+  select strftime('2008-07-03')
+  select date('2014-10-16')
+  
+   
+  SELECT date('now','start of year','+9 months','weekday 2');    
+  SELECT date('2017-10-01')
+
+

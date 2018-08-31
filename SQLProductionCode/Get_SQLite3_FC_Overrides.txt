@@ -1,0 +1,42 @@
+   select * from trac_overrides limit 10
+   
+   select * from trac_stats limit 10
+   
+   with cte as 
+    (
+        select *, cast(substr(d.Description,1,4) as int) as YYYY,
+        case substr(d.Description,6,3)
+        WHEN 'Jan' then '01'
+        WHEN 'Feb' then '02'
+        WHEN 'Mar' then '03'
+        WHEN 'Apr' then '04'
+        WHEN 'May' then '05'
+        WHEN 'Jun' then '06'
+        WHEN 'Jul' then '07'
+        WHEN 'Aug' then '08'
+        WHEN 'Sep' then '09'
+        WHEN 'Oct' then '10'
+        WHEN 'Nov' then '11'
+        WHEN 'Dec' then '12' 
+        end as MM
+        from TRAC_Dates d 
+    ),
+    cte_ as ( select *,(cte.YYYY||'-'||cte.MM||'-'||'01') as YYYYMM 
+    from cte )
+    
+    select x.itemid4,'Default' as DataType1,strftime(d.YYYYMM) as FC_Period,a.override_base,a.override_value,a.override_comment,a.override_created
+            ,datetime('now','localtime') as ReportDate
+           -- ,date('now')            
+           -- ,strftime('%H','now','localtime')  'Hour:00-24'
+           -- ,strftime('%j','now') DayofYear
+           -- ,strftime('%w','now') 'DayofWK-0-6Sunday==0'
+           -- ,strftime('%W','now') 'WKofYear: 00-53'
+           -- ,a.Abs_Period		
+    from ((((trac_overrides a inner join trac_stats b on a.itemid = b.itemid) 
+            inner join trac_items x on x.itemid = b.itemid) 
+            inner join cte_ d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+    -- where x.itemid4 in ('42.522.000','2781094000')       
+    --where x.itemid4 in ('2851218661')
+    --  where x.itemid4 in ('40.033.131')
+    order by x.itemid4,a.abs_period asc
+    

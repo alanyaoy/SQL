@@ -1,0 +1,58 @@
+	with _cte as 
+		(
+		select *, cast(substr(d.Description,1,4) as int) as YYYY,
+				case substr(d.Description,6,3)
+				WHEN 'Jan' then '01'
+				WHEN 'Feb' then '02'
+				WHEN 'Mar' then '03'
+				WHEN 'Apr' then '04'
+				WHEN 'May' then '05'
+				WHEN 'Jun' then '06'
+				WHEN 'Jul' then '07'
+				WHEN 'Aug' then '08'
+				WHEN 'Sep' then '09'
+				WHEN 'Oct' then '10'
+				WHEN 'Nov' then '11'
+				WHEN 'Dec' then '12' 
+				end as MM
+		from TRAC_Dates d 
+		)
+	,cte_ as ( select *,(_cte.YYYY||'-'||_cte.MM||'-'||'01') as YYYYMM 
+			from _cte )
+	
+	,cte as (select x.itemid4,strftime(d.YYYYMM) as FC_Period
+			,a.FC_Statistical
+			,a.FC_Adjusted
+			,datetime('now','localtime') as ReportDate
+			-- ,date('now') 
+			-- ,strftime('%H','now','localtime') 'Hour:00-24'
+			-- ,strftime('%j','now') DayofYear
+			-- ,strftime('%w','now') 'DayofWK-0-6Sunday==0'
+			-- ,strftime('%W','now') 'WKofYear: 00-53'
+			,a.Abs_Period
+			,a.forecastid	
+			,b.itemid	
+			from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+			inner join trac_items x on x.itemid = b.itemid) 
+			inner join cte_ d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+			--where x.itemid4 in ('42.522.000','2781094000') 
+			--where x.itemid4 in ('2851218661')
+			-- where x.itemid4 in ('40.033.131')
+			--order by x.itemid4,a.abs_period asc 
+		)
+	,adj as (select cte.Itemid4,'Adj_FC' as DataType,cte.FC_Period,cte.FC_Adjusted as FC_Qty,cte.ReportDate
+			--,cte.Abs_Period,cte.forecastid,cte.itemid 
+			from cte
+		) 
+	,stat as (select cte.Itemid4,'Stat_FC' as DataType,cte.FC_Period,cte.FC_Statistical as FC_Qty,cte.ReportDate
+			--,cte.Abs_Period,cte.forecastid,cte.itemid 
+			from cte 
+		)
+	,comb as ( select * from adj 
+			union all
+			select * from stat
+		) 
+	select * from comb 
+          order by comb.itemid4,comb.DataType,comb.FC_Period asc
+
+
