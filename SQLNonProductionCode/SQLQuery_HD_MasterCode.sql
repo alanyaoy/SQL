@@ -4674,14 +4674,15 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
  
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801396351','2018-08-01','2019-07-01'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7501001000','2019-07-01','2019-12-01'
-    exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7501001000','2018-08-01','2019-07-01'
+  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7501001000','2018-08-01','2019-07-01'
+ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5250N001,S3000NET5300N001,82.336.906','2018-08-01','2019-07-01'
  	 
    select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in  ('24.7206.0000','2974000000','45.124.000')
   exec JDE_DB_Alan.sp_Cal_SafetyStock
 
   select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in ('45.124.000') order by h.CYM
   select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('24.7206.0000','2974000000','45.124.000')
-    select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('34.016.000')
+  select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('82.336.906')
 
 
   '24.7206.0000','2974000000','45.124.000'

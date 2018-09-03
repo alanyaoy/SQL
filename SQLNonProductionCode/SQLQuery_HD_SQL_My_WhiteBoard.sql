@@ -73,6 +73,8 @@ select distinct l.ItemNumber from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload l
 select distinct l.ItemNumber from JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload l
 select * from JDE_DB_Alan.FCPRO_SafetyStock s where s.ItemNumber in ('7501001000')
 select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in ('7501001000')
+select * from JDE_DB_Alan.FCPRO_SafetyStock 
+select * from jde
 
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('P4H108A547')
