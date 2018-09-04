@@ -293,6 +293,7 @@ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('D7174Q748')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('46.614.000')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('38.001.005')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.618.041')
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('43.212.001','43.212.002','43.212.003','43.212.004')
 
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('82.604.905CL')
@@ -350,6 +351,13 @@ select DATEADD(mm, DATEDIFF(m,0,GETDATE())+5,0)
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801404000','2018-05-01','2018-12-01'       -- works
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2018-05-01','2018-12-01'		-- works
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '6001130009009H','2018-05-01','2018-12-01'
+
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '42.210.031'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '82.501.904'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '42.210.031,32.379.200'
+
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber like ('%850531%')
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') order by h.ItemNumber,h.ReportDate,h.Date
 
  ------------------------------------------------------------------------------------------------------------------------------------------------------------
  ----- Last Consecutive 12 month -----

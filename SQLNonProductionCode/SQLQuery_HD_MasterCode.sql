@@ -2647,8 +2647,8 @@ select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in (
 			select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy
 
 
-exec JDE_DB_Alan.sp_FCPro_FC_Accuracy 'LT'
-exec JDE_DB_Alan.sp_FCPro_FC_Accuracy 'Non_LT'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'LT'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'Non_LT'
 
 select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy y
 where datepart(year,y.ReportDate) = 2018 and datepart(MONTH,y.ReportDate) = 8
@@ -3175,7 +3175,7 @@ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394638'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1398461,1398479,1398487'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1380543,1401156,1401164'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '726223'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1385969'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1377977,1379753,1379770,1379788'
 
 
 
@@ -3886,7 +3886,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-03-01' and '2018-03-09 13:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-08-02' and ReportDate <'2018-08-23 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-07-02' and '2018-07-27 13:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-09-01' and '2018-09-29 13:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -4676,6 +4676,9 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7501001000','2019-07-01','2019-12-01'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7501001000','2018-08-01','2019-07-01'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5250N001,S3000NET5300N001,82.336.906','2018-08-01','2019-07-01'
+ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5250N001,S3000NET5300N001,82.336.906','2018-08-01','2019-07-01'
+   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'F16174A949,7501001000','2018-08-01','2019-07-01'
+
  	 
    select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in  ('24.7206.0000','2974000000','45.124.000')
   exec JDE_DB_Alan.sp_Cal_SafetyStock
@@ -6299,4 +6302,8 @@ select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('24.7220.1858') an
 
 --------------------------------------------------------------------------------
 
+
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '42.210.031'
+
 exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis '43.205.532M'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'LT'
