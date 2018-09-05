@@ -4677,7 +4677,7 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7501001000','2018-08-01','2019-07-01'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5250N001,S3000NET5300N001,82.336.906','2018-08-01','2019-07-01'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5250N001,S3000NET5300N001,82.336.906','2018-08-01','2019-07-01'
-   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'F16174A949,7501001000','2018-08-01','2019-07-01'
+   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'F16174A949,7501001000','2018-11-01','2019-07-01'
 
  	 
    select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in  ('24.7206.0000','2974000000','45.124.000')
@@ -6303,7 +6303,7 @@ select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('24.7220.1858') an
 --------------------------------------------------------------------------------
 
 
-exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '42.210.031'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '38.001.001'
 
 exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis '43.205.532M'
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'LT'
