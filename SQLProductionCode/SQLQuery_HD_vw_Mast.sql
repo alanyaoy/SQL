@@ -12,19 +12,14 @@
 USE [JDE_DB_Alan]
 GO
 
-/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 6/06/2018 10:28:38 AM ******/
+/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 12/09/2018 9:33:29 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-
-
-
-
-ALTER view [JDE_DB_Alan].[vw_Mast] with schemabinding as
+CREATE view [JDE_DB_Alan].[vw_Mast] with schemabinding as
 --- please note following view for Master only includes Items which is forecastable ---
 with fc as (
 		select f.ItemNumber,f.DataType1,f.Date
@@ -53,7 +48,8 @@ with fc as (
 				   ,m.ShortItemNumber
 				    ,m.StockingType,m.PlannerNumber,m.PrimarySupplier
 					,m.StandardCost,m.WholeSalePrice,m.Description,m.QtyOnHand 	
-					,m.LeadtimeLevel					
+					,m.LeadtimeLevel
+					,m.UOM					
 					,case when isnull(round(m.LeadtimeLevel/30,0),0) <0.5 then 1
 					      else isnull(cast(round(m.LeadtimeLevel/30,0) as int),0 ) end as Leadtime_Mth
 					,c.LongDescription as SellingGroup_
@@ -78,6 +74,7 @@ with fc as (
 					,mas.StandardCost,mas.WholeSalePrice,mas.Description,mas.QtyOnHand,mas.SOHDate,mas.SOHDate_
 					,mas.masyr,mas.masmth,mas.masdte
 					,mas.LeadtimeLevel
+					,mas.UOM
 					,mas.Leadtime_Mth
 					,mas.rn 
 				from mas where rn =1  )
@@ -87,6 +84,7 @@ with fc as (
 				,a.StandardCost,a.WholeSalePrice,a.Description,a.QtyOnHand,a.SOHDate,a.SOHDate_
 				,a.masyr,a.masmth,a.masdte
 				,a.LeadtimeLevel
+				,a.UOM
 				,a.Leadtime_Mth
 				,a.rn 				
                 from mas_ a 

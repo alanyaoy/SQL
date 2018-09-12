@@ -20,8 +20,8 @@ select * from JDE_DB_Alan.SlsHistoryHD hd where hd.ItemNumber in ('45.021.000')
 select * from JDE_DB_Alan.SlsHistoryHD hd where hd.ItemNumber in ('82.391.901')
 select * from JDE_DB_Alan.SlsHistoryMT mt where mt.ItemNumber in ('45.021.000')
 select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in ('2780136000')
-select * from JDE_DB_Alan.SlsHistoryHD hd where hd.ItemNumber in ('2780136000')
-select * from JDE_DB_Alan.SlsHistoryMT mt where mt.ItemNumber in ('2780136000')
+select * from JDE_DB_Alan.SlsHistoryHD hd where hd.ItemNumber in ('7454010000')
+select * from JDE_DB_Alan.SlsHistoryMT mt where mt.ItemNumber in ('7454010000')
 
 select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload l where l.ItemNumber in ('27.160.661')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('27.160.661')
@@ -50,6 +50,7 @@ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.010.035')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.010.035')
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('82.600.901')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('709901')
 select distinct m.StockingType from JDE_DB_Alan.Master_ML345 m 
 select distinct m.UOM from JDE_DB_Alan.Master_ML345 m 
@@ -115,6 +116,13 @@ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('38.001.001','38
 
 
 select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('42.210.031') and f.DataType1 in ('adj_fc') and f.Date between '2018-10-01' and '2019-05-01'
+
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2974000000','2018-11-01','2019-07-01'
+
+select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%petra%') and m.StockingType in ('P','S')
+select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%chester%') and m.StockingType in ('P','S') order by m.ItemNumber
+select * from JDE_DB_Alan.Master_ML345 m where (m.Description like ('%linna%') or m.Description like ('%chester%')) and m.StockingType in ('S')  and m.ManFC in ('M') order by m.ItemNumber
+
 ---============= Update FC table =========
 ;update f
 set f.Value = 803
