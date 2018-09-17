@@ -392,10 +392,10 @@ CREATE TABLE JDE_DB_Alan.Master_ML345_temp
 	SellingGroup	varchar(100),
 	InvCat			varchar(100),
 	NonStk			varchar(100),
-	WholeSalePrice		decimal(18,6),
+	WholeSalePrice	decimal(18,6),
 	UOM				varchar(100),
 	LeadtimeLevel   decimal(18,6),
-	StandardCost		   decimal(18,6),
+	StandardCost	decimal(18,6),
 	QtyOnHand      decimal(18,6),
 	StockValue      decimal(18,6),
 	SS				decimal(18,6),
@@ -4066,6 +4066,12 @@ https://www.w3schools.com/sql/func_sqlserver_convert.asp
 
 select getdate()
 
+select convert(varchar(7),getdate(),120) as myDate1							-- yield 2018-09 -- this month												
+select cast(SUBSTRING(REPLACE(CONVERT(char(10),getdate(),126),'-',''),1,6) as integer) as [myDate2]		-- yield 201809 -- this month in Integer
+select cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0),126),'-',''),1,6) as integer) as [myDate2]		-- yield 201808 --- last month in Integer
+select cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,GETDATE())-37,0),126),'-',''),1,6) as integer) as dt			-- yield 201508 ---  36 month ago
+
+
 select convert(varchar(10),getdate(),112) -- yield 20171216 - ISO
 select convert(varchar(6),getdate(),112)  -- yield 201712 - ISO
 
@@ -4097,6 +4103,9 @@ select cast(DATEADD(s,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())+6,0)) as datetime) 
 select DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) as startdate									--	this  month			2018-02-01 00:00:00.000
 select DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0) as startdate									-- last  month		2018-01-01 00:00:00.000
 select DATEADD(mm, DATEDIFF(m,0,GETDATE())+11,0) as startdate									-- next 12  month		2018-01-01 00:00:00.000
+select DATEADD(mm, DATEDIFF(m,0,GETDATE())-37,0) as startdate									-- next 12  month		2018-01-01 00:00:00.000
+
+
 
 select dateadd(d,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE()),0))									-- last day of preceding month
 select convert(varchar(10),dateadd(d,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0)),120)     -- last day of preceding month - only 10 Character includes YYYY-MM-DD

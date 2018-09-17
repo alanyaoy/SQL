@@ -114,6 +114,8 @@ select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('24.7220.1858')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('38.001.001','38.003.001','38.004.000','38.001.002','38.001.003','38.001.004','38.001.005','38.001.006','38.002.001','38.002.002','38.002.003','38.002.004','38.002.005','38.002.006','38.003.002','38.003.003','38.003.004','38.003.005','38.003.006')
  order by m.ItemNumber
 
+ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('24.7207.0000')
+
 
 select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('42.210.031') and f.DataType1 in ('adj_fc') and f.Date between '2018-10-01' and '2019-05-01'
 
