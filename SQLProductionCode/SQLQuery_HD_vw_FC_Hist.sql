@@ -12,34 +12,28 @@
 USE [JDE_DB_Alan]
 GO
 
-/****** Object:  View [JDE_DB_Alan].[vw_FC_Hist]    Script Date: 14/09/2018 12:22:11 PM ******/
+/****** Object:  View [JDE_DB_Alan].[vw_FC]    Script Date: 20/09/2018 11:06:17 AM ******/
 SET ANSI_NULLS ON
 GO
+
+	--- 20/9/2018 ---
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-
-	
-	
-	
-	
-	
-	
-	ALTER view  [JDE_DB_Alan].[vw_FC_Hist] with schemabinding as 
-	select f.ItemNumber,f.DataType1
+	ALTER view  [JDE_DB_Alan].[vw_FC] with schemabinding as 
+	select f.ItemNumber
+			,f.DataType1
 			,f.Date
-			,convert(varchar(7),f.Date,120) as myDate1		
-			,cast(SUBSTRING(REPLACE(CONVERT(char(10),f.Date,126),'-',''),1,6) as integer) as [myDate2]		
+			,convert(varchar(7),f.Date,120) as FCDate_			
+			,cast(SUBSTRING(REPLACE(CONVERT(char(10),f.Date,126),'-',''),1,6) as integer) as FCDate2_
 			,datepart(year,f.date) fcyr
-			,datepart(month,f.date) fcmth,DATEPART(day,f.date) fcdte				
+			,datepart(month,f.date) fcmth
+			,DATEPART(day,f.date) fcdte				
 			,f.Value as FC_Vol
 			,f.ReportDate
-			,convert(varchar(7),f.ReportDate,120) as myReportDate1
-			,cast(SUBSTRING(REPLACE(CONVERT(char(10),f.ReportDate,126),'-',''),1,6) as integer) as [myReportDate2]	
-		from JDE_DB_Alan.FCPRO_Fcst_History f 
+		from JDE_DB_Alan.FCPRO_Fcst f 
 		where f.DataType1 in ('Adj_FC')
-		     -- and f.ItemNumber in ('42.210.031')
 GO
 
 
