@@ -12,13 +12,12 @@
 USE [JDE_DB_Alan]
 GO
 
-/****** Object:  View [JDE_DB_Alan].[vw_NP_FC_Analysis]    Script Date: 12/03/2018 12:23:12 PM ******/
+/****** Object:  View [JDE_DB_Alan].[vw_NP_FC_Analysis]    Script Date: 25/09/2018 10:27:39 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
 
 ALTER view [JDE_DB_Alan].[vw_NP_FC_Analysis] with schemabinding
 as
@@ -32,7 +31,9 @@ as
 with _np as 
 			( select npfc.ItemNumber,npfc.date,npfc.Value,npfc.DataType,npfc.CN_Number,npfc.Comment,npfc.Creator,npfc.LastUpdated,npfc.ReportDate 
 				from JDE_DB_Alan.FCPRO_NP_tmp npfc
-				where npfc.Value > 0)
+				where npfc.Value > 0
+				      and npfc.ValidStatus = 'Y'               --- add 31/8/2018
+					  )
 
 	,np_ as ( select _np.ItemNumber,_np.Date,_np.Value,_np.DataType,_np.CN_Number,_np.Comment,_np.Creator,_np.LastUpdated,_np.ReportDate
 					,min(_np.Date) over(partition by _np.ItemNumber) as FcStartDate
@@ -53,8 +54,8 @@ with _np as
 					 ,np_.FcStartDate,np_.FcEndDate,np_.CurrentMth_,np_.FcTTL_12_Qty,np_.FcTTL_12_Qty_MthlyAvg,np_.FcMthCount,np_.Mth_Elapsed
 				from np_
 				--where np_.Mth_Elapsed > 7
-
-
+				--where np_.ItemNumber in ('7501001000')
+				where np_.Mth_Elapsed <=8									-- 25/9/2018
 GO
 
 

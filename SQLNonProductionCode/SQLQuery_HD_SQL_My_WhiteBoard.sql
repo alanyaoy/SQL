@@ -3,6 +3,10 @@
 use JDE_DB_Alan
 go
 
+
+select convert(varchar(7),getdate(),120) as myDate1		
+select cast(SUBSTRING(REPLACE(CONVERT(char(10),getdate(),126),'-',''),1,6) as integer) as [myDate2]
+
 select * from JDE_DB_Alan.Master_ML345
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('82.600.902CL','82.600.903CL','82.600.904CL','82.600.905CL','82.600.906CL','82.600.907CL','82.600.908CL','82.601.901CL','82.601.902CL','82.601.903CL','82.601.905CL','82.601.906CL','82.601.907CL','82.601.908CL','82.602.901CL','82.602.902CL','82.602.903CL','82.602.905CL','82.602.906CL','82.602.907CL','82.602.908CL') order by ItemNumber
@@ -58,6 +62,8 @@ select * from JDE_DB_Alan.vw_FC f where f.ItemNumber in ('18.010.035') and f.Dat
 select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('18.010.035') and f.DataType1 in ('Adj_Fc')
 select * from JDE_DB_Alan.FCPRO_MI_2_Raw_Data_tmp f where f.ItemID in ('18.010.035')
 select * from JDE_DB_Alan.FCPRO_Fcst f where f.DataType1 in ('Adj_Fc')
+select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload
+select * from JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload
 
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('s3000net5250n001')
@@ -89,6 +95,8 @@ select * from JDE_DB_Alan.FCPRO_MI_2_Raw_Data_tmp l order by l.ItemID
 select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy a order by a.DataType,a.Item,a.Date_
 select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy a where a.Item in ('42.210.031') order by a.Item,a.Date_
 select distinct a.ReportDate from JDE_DB_Alan.FCPRO_Fcst_Accuracy a
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.ReportDate > '2018-09-02' 
+order by h.Date
 
 
 --select * from JDE_DB_Alan.FCPRO_MI_2_Raw_Data_tmp t order by t.ItemID
@@ -102,6 +110,8 @@ select * from JDE_DB_Alan.FCPRO_MI_2_tmp t order by t.ItemNumber
 select * from JDE_DB_Alan.FCPRO_MI_2_tmp t where t.ItemNumber in  ('18.013.089','18.009.029') order by t.ItemNumber
 insert into JDE_DB_Alan.FCPRO_MI_2_tmp values ('18.009.029','2018-10-01',15,'Market Intelligence_2','test','test','test','2018-08-16','Y','test','2018-08-16')
 delete from JDE_DB_Alan.FCPRO_MI_2_tmp  where ItemNumber in ('18.009.029')
+select * from JDE_DB_Alan.FCPRO_MI_2_tmp t where ItemNumber in ('24.7218.4462')
+
 
 
 select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in ('6001130009009H')
@@ -113,13 +123,36 @@ select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('24.7220.1858')
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('38.001.001','38.003.001','38.004.000','38.001.002','38.001.003','38.001.004','38.001.005','38.001.006','38.002.001','38.002.002','38.002.003','38.002.004','38.002.005','38.002.006','38.003.002','38.003.003','38.003.004','38.003.005','38.003.006')
  order by m.ItemNumber
+ 
+ select * 
+ from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.421.855','46.019.000','46.019.063','46.002.000','46.002.063','9761001','9707027','42.180.049','42.603.855','44.209.000','44.210.000','46.504.000','46.505.000','46.506.000','46.507.000','46.614.700','46.614.500','42.204.000','42.230.000','42.236.000','46.203.000','46.524.000','46.510.000','46.011.000','46.011.100','46.011.134','46.011.734','46.011.737','46.011.810','46.011.850','46.602.000','46.602.100','46.602.134','46.602.734','46.602.737','46.602.810','46.011.850','46.021.000','46.517.000','46.005.000','46.005.100','46.005.134','46.005.734','46.005.737','46.005.810','46.005.850','46.004.000','46.004.100','46.004.134','46.004.734','46.004.737','46.004.810','46.005.850','46.012.000','46.012.100','46.012.134','46.012.734','46.012.737','46.012.810','46.012.850','46.603.000','46.603.100','46.603.134','46.603.734','46.603.737','46.603.810','46.012.850','46.013.000','46.013.100','46.013.134','46.013.734','46.013.737','46.013.810','46.013.850','46.604.000','46.604.100','46.604.134','46.604.734','46.604.737','46.604.810','46.013.850','46.608.000','46.608.100','46.608.134','46.608.734','46.608.737','46.608.810','46.608.850','46.606.000','46.606.100','46.606.134','46.606.734','46.606.737','46.606.810','46.606.850','46.607.000','46.607.100','46.607.134','46.607.734','46.607.737','46.607.810','46.607.850','46.610.000','46.609.000','46.611.000','46.306.000','46.599.000','42.064.000','42.065.000','42.066.000','42.067.000','46.518.063','42.068.000','46.108.063','46.530.063','46.405.063','46.406.063','46.407.000','46.408.000','46.409.000','46.410.063','46.411.000','46.412.000','46.025.000','46.414.000','46.416.100','46.419.000','46.419.100','46.420.000','46.020.000','46.020.100','46.205.000','46.502.100','46.502.837','46.502.122','46.512.000','46.513.000','46.514.000','46.515.000','46.516.000','46.500.000','46.520.000','42.198.000','46.550.000','46.551.855','46.552.855','46.553.030','46.553.063','46.556.000','46.557.000','46.558.000','46.559.030','46.560.000','46.561.000','44.132.000','510006','42.063.000','42.056.000','42.057.000','42.058.000','42.501.855','42.505.000','42.506.030','42.512.000','42.649.850','42.651.000','42.522.000','44.131.855','34.095.000','34.099.000','34.075.000','34.076.000','34.098.000','34.080.000','34.097.000','34.020.000','34.216.000','34.230.000','34.215.000','34.231.000','2984495001','34.240.000','34.241.000')
+ order by m.ItemNumber
 
- select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('24.7207.0000')
+ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('510006')
 
 
 select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('42.210.031') and f.DataType1 in ('adj_fc') and f.Date between '2018-10-01' and '2019-05-01'
 
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2974000000','2018-11-01','2019-07-01'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '085552500D064','2018-09-01','2019-07-01'
+exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis 
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '24.7218.4462','2018-09-01','2019-07-01'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '24.7364.1858,24.7200.0001T,24.7221.1858','2018-09-01','2019-07-01'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7127970914,7493500182,7146040000','2018-09-01','2019-07-01'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '24.7221.1858,38.001.001,42.421.855,46.614.500','2018-09-01','2019-07-01'
+
+
+select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in ('7501001000')
+
+select * from JDE_DB_Alan.FCPRO_Fcst m where m.ItemNumber in ('7602209490')
+select * from JDE_DB_Alan.FCPRO_Fcst m where m.ItemNumber in ('42.210.031') and m.DataType1 in ('Adj_FC')
+select * from JDE_DB_Alan.vw_FC_Hist m where m.ItemNumber in ('42.210.031') and m.DataType1 in ('Adj_FC')
+select * from JDE_DB_Alan.vw_FC f where f.ItemNumber in ('42.210.031')
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031')
+select distinct h.DataType1 from JDE_DB_Alan.FCPRO_Fcst_History h
+select distinct h.DataType1 from JDE_DB_Alan.FCPRO_Fcst h
+
+ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('FA.S3300.280.CT')
 
 select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%petra%') and m.StockingType in ('P','S')
 select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%chester%') and m.StockingType in ('P','S') order by m.ItemNumber
@@ -365,6 +398,10 @@ select DATEADD(mm, DATEDIFF(m,0,GETDATE())+5,0)
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801404000','2018-05-01','2018-12-01'       -- works
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2018-05-01','2018-12-01'		-- works
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '6001130009009H','2018-05-01','2018-12-01'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '42.210.031','2018-10-02','2019-03-03'
+'085552500D064'
+
+select m.ItemNumber,m.WholeSalePrice,m.UOM from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.010.035','18.010.036','18.607.016','18.615.007','24.5405.0000','24.7002.0001','24.7102.1858','24.7114.1858','24.7121.1858','24.7122.1858','24.7125.1858','24.7127.1858','24.7129.1858A','24.7202.0001','24.7206.0000','24.7218.4462','32.340.000','32.379.200','32.380.855','32.455.462','32.501.000','82.396.931','S3000NET5250N903')
 
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '42.210.031'
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '82.501.904'

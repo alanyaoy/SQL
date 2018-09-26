@@ -732,6 +732,8 @@ drop view [vw_NP_FC_Analysis_Old]
 drop view [vw_NP_FC_Analysis]
 drop table JDE_DB_Alan.FCPRO_NP_tmp
 drop view JDE_DB_Alan.vw_Mast
+drop view JDE_DB_Alan.vw_FC
+
 
 CREATE TABLE JDE_DB_Alan.FCPRO_NP_tmp
    (     	
@@ -3869,6 +3871,8 @@ order by pvt.ItemNumber
  -- where cte.Date_Uploaded > '2018-08-02' and cte.Date_Uploaded < '2018-08-26 14:59:00'
   order by cte.Date_Uploaded asc
 
+
+  select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.ReportDate > '2018-09-02'
   select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ItemNumber in ('27.176.320')
   select distinct fh.ReportDate from JDE_DB_Alan.FCPRO_Fcst_History fh 
 
@@ -3886,7 +3890,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-03-01' and '2018-03-09 13:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-08-02' and ReportDate <'2018-08-23 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-09-01' and '2018-09-29 13:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-09-02' and '2018-09-05 13:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -6287,19 +6291,6 @@ with cte as (
 
 
 
- ---&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&------------------
--- END_EXIT:
-
--- last line of the script
-set noexec off -- Turn execution back on; only needed in SSMS, so as to be able 
-               -- to run this script again in the same session.
-
-select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
-
-
-
-
-
 ---============= Update FC table =========
 ;update f
 set f.Value = 803
@@ -6317,3 +6308,21 @@ exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '38.001.001'
 
 exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis '43.205.532M'
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'LT'
+
+
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
+
+
+
+----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE --------
+----- NEVER ENTER YOUR CODE BELOW THIS LINE --------- ----- NEVER ENTER YOUR CODE BELOW THIS LINE --------- ----- NEVER ENTER YOUR CODE BELOW THIS LINE ---------
+
+ ---&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&------------------
+-- END_EXIT:
+
+-- last line of the script
+set noexec off -- Turn execution back on; only needed in SSMS, so as to be able 
+               -- to run this script again in the same session.
+
+
+
