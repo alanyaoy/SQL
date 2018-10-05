@@ -3377,7 +3377,7 @@ set @DataType = 'Adj_FC,Sales'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'18.010.035,18.010.036,18.013.089,18.615.007,24.5349.4459,24.7002.0001,24.7102.1858,24.7120.4459,24.7121.4459,24.7122.4459,24.7124.4459,24.7127.4459,24.7146.4459A,24.7163.0000A,24.7168.4459A,24.7169.4459A,24.7207.4459,24.7219.4459,24.7250.4459,24.7251.4459,24.7253.4459,24.7334.4459,2780229000,32.379.200,32.455.155','Adj_FC'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'24.7218.4462,32.501.000,43.211.004,32.379.200,32.380.855,18.607.016,24.7201.0000,24.7102.7052,24.7102.7052,32.455.465,24.7115.0952A,24.7114.0952A,24.7128.0952,709895,24.7353.0000A,24.7136.0155A,709901,24.7120.0952','Adj_FC'
 
-
+	
 
   	
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Exl null,'27.255.943,2991221862,27.251.682,27.252.951,27.251.996,27.252.955,27.239.664,27.239.470,27.237.575,2780034000,27.708.454,F17174A951,27.393.785,27.589.140,27.702.977,27.704.950,27.707.454,2780471000,Z43088A547,4170681885,7300111000,7300159000,4151068300,2671000000,27.200.647,27.222.502,27.222.634,27.231.644,27.231.916,27.232.700,27.239.502,27.240.470,27.251.624,27.251.744,27.251.750,27.251.955,27.252.457,27.252.686,27.252.688,27.252.713,27.252.986,27.589.137,27.589.141,27.589.195,27.254.944,27.255.940,27.585.126,7502000000,7502001000,7504001000,2780115000,2780128000,2780136000,2801386048,2801386785,2801386879,2801463000,4600291661,27.704.964,27.708.400,2801382669,2920033000,2991228000,FZ42088A547,F9174A951,FZ45088A599,KIT2759,PR101075951,PR101075989,PR161075604,27.232.707,27.232.977,27.237.572,27.240.502,27.240.664,27.251.457,27.251.688,27.251.749,27.251.951,27.251.953,27.251.985,27.251.986,27.252.682,27.252.985,27.254.938,27.255.938,2801386669,27.200.634,27.200.664,27.231.545,27.231.634,27.231.975,2801382785,2801382862,2801404000,2801462000,27.200.502,27.252.749,2982128000,7520000008,27.231.738,2920441200,7300110000,27.237.916,27.200.738,2801386609,F37174A400,2801382048,2801386180,7612208007,2991219785,27.251.737,27.252.624,27.252.916,27.171.661,2801382320,2781315000,2801382609,2801386320,4600189661,27.171.785,2801386862,27.240.467,2801382180,27.589.196,F17174A955,4600276661,4600289661,7501001000,7501005000,7511000000,7541000000,7542000000,KIT2758,PR241050501,PR241050502,7520064000,27.251.713,27.251.916,27.251.994,27.252.953,27.254.940,27.255.944,27.222.643,27.232.702,27.237.576,27.237.653,27.237.738,27.251.681,27.292.000,27.585.110,27.585.140,27.585.141,27.701.599,27.701.635,27.702.955,27.589.133,27.703.605,27.703.951,27.704.951,27.710.957,2770004000,2770011785,2780470000,2801386276,2801386661,2801382276,2801382661,2801382879,27.708.445,27.708.458,2921273000,4150054785,4151070300,2920443000,4152336885,2991333661,2991333862,3400112300,2851284354,2851284609,2851284669,4170681133,4170681651,4160144125,4155352000,2801385661,27.710.952,2801436276,2801436048,2801350000,2801436862,2851230661,2851230689,2851230785,2851224785,2851230072,2851236785,2851284167,2780050000,2780120000,2780229000,27.704.965,27.703.977,27.703.908,27.700.635,27.700.689,27.703.568,27.588.201,27.588.226,2780143000,27.251.686,27.243.785,27.258.000,7530000005,7530000013,4611200661,27.200.916,27.160.135,2770002534,4600260000,F36174A458,F16174A568,F16174A951,27.161.785,27.171.180,27.171.862,2851284785,2801381661,F8174A949,F8174A955,2991221661,27.171.048,27.702.710,4600228000,2780145000,34.043.000,2991221785,2801386324,2801382324,2920076000,2920905000,2851230862,2851284661,27.170.785,27.588.238,J6108A146,7503000000,4150459000,27.171.320,4170681785,2789000951,27.240.487,4600277917,2991380000,7520000016,27.171.879,FP3108A544,2920750000,H7174N952,2801382810,PR141075604,2991319180,2991227000,2801386689,2801386810,2801436072,2851224862,2851230167,2851230354,27.251.928,27.171.810,PR221050502,PR81075200,PR81075951,2801382580,KIT2729,PR111075N951,PR131075600,PR141075605,FM45108A599,FQ1096A401,FZ40088A501,PR161075601,PR161075605,PR61075200,F17174A952,F9174A952,FM45108A594,PR111075N953,PR121075411,PR121075949,PR121075953,PR91075N951,2991333785,2801436354,2801436661,2920435200,2991221180,2991221276,2851284862,2920830000,2801382689,2789000682,2851284048,2851284072,2851284324,27.710.576,2770000785,2789000953,2789000955,2780144000,4600197000,7840001000,4600277532,4150288785,4155349000,4155350000,4155351000,4170417000,4170418000,7590002000,7602209013,27.587.201,27.264.850,4600208001,4600230000,4150951885,27.395.785,4150082180,27.700.599,27.702.908,3400369320,27.254.943,27.252.000,4170681320,4600195000,4150249102,4150951180,4150951785,4170440000,27.161.661,7602209005,4170729000,4170730000,7503001000,7504000000,F16174A948,F16174A949,F16174A977,F8174A951,F9174A568,F9174A576,7300109000,7300158000,2789000457,27.710.951,2770002535,27.587.238,27.707.445,27.704.952,27.704.955,27.700.660,27.701.660,27.702.948,27.702.949,27.585.127,27.585.125,4600198000,27.257.000,4150249103,D8174A700,F16174A565,F16174A955,27.703.948,27.710.955,2801386580,2801436785,2920247000,27.703.955,F9174A955,FZ5088A221,2851224661,F8174A948,2789000713,27.271.120,27.588.213,7804000000,27.254.946,27.704.784,27.239.467,4150951426,27.171.580,27.170.661,4600186661,PRHRV3L949,PRHRV3S924,4600172550,4199040300,4199070000,5007312000,4600220486,4600220661,27.162.661,27.174.882,2801499245,2911532245,2911530276,3400669661,2991307000,2991263785,2991279000,2991280000,2991573000,2991906785,34.033.000,3400382000,3400669048,342J6108221,342M4501,342M4511,342M45594,342Q296401,342Q296402,342Q296403,342Q296410,342J6108141,7300444000,4199050820,4199060000,4199040820,3200156862,2801433276,2990932000,2801436324,2911529862,KIT8105,2991290000,34.028.000,2801491661,4600279000,4150082320,4150155137,4140126000,4150082785,5007311000,4150084133,4152336685,4152336849,4152336450,4153085000,4150144128,4199080000,4199120000,4199030300,4199030331,4250085528,4600172133,4600173486,4600172810,4600173133,2801499609,27.587.208,27.587.213,27.394.785,27.308.036,27.309.036,27.311.037,27.392.000,27.707.400,27.707.458,2780033000,2781094000,2780043000,2780114000,2780143355,2780143370,2780143379,2780144150,2780144280,2780144360,2780144571,2780144636,2780144820,2780144890,2780145330,2780145360,2780145840,2780148320,2780148810,2780148879,2780149048,2780149580,2780149689,2780149810,2780155000,2780163000,2780167000,2780228000', 'Adj_FC' 
@@ -3872,6 +3872,7 @@ order by pvt.ItemNumber
   order by cte.Date_Uploaded asc
 
 
+  select distinct h.ReportDate from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031')
   select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.ReportDate > '2018-09-02'
   select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ItemNumber in ('27.176.320')
   select distinct fh.ReportDate from JDE_DB_Alan.FCPRO_Fcst_History fh 
@@ -3881,7 +3882,7 @@ order by pvt.ItemNumber
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-03-01' and '2018-03-09 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
-
+  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-01' and '2018-10-03 13:00:00'
 
 
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > dateadd(d,-3,getdate()) group by fh.ReportDate order by fh.ReportDate
@@ -3890,7 +3891,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-03-01' and '2018-03-09 13:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-08-02' and ReportDate <'2018-08-23 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-09-02' and '2018-09-05 13:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-01' and '2018-10-03 13:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -3898,6 +3899,20 @@ order by pvt.ItemNumber
  select DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) as startdate									 --	this  month			2018-03-01 00:00:00.000	
 select DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0) as startdate									-- last  month		2018-02-01 00:00:00.000
 select count(*) cnt from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1	
+
+
+
+-- delete one month data --
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-10-01'
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30'              -- '2018-09-30' will default to 2018-09-30 00:00:00
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'
+select distinct h.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.Date in ('2018-09-01') and h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'	
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01 00:00:00.000') and h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01') and h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'			-- change h.Date format it yield same result
+
+  delete from JDE_DB_Alan.FCPRO_Fcst_History 
+  where  Date in ('2018-09-01') and ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'
 
 ------------------------------------------------------------------------
 
@@ -3938,6 +3953,13 @@ set h.ReportDate = '2018-07-31 15:00:00'
 from JDE_DB_Alan.FCPRO_Fcst_History h
 --where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
 where h.ReportDate between '2018-07-25' and '2018-08-1 13:00:00'
+
+;update h
+set h.ReportDate = '2018-09-30 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+--where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
+where h.ReportDate between '2018-09-25' and '2018-09-28 13:00:00'
 
 
 ---================= Update Records in FC history table ================================================================================================================
@@ -4114,6 +4136,8 @@ select DATEADD(mm, DATEDIFF(m,0,GETDATE())-37,0) as startdate									-- next 12
 select dateadd(d,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE()),0))									-- last day of preceding month
 select convert(varchar(10),dateadd(d,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0)),120)     -- last day of preceding month - only 10 Character includes YYYY-MM-DD
 
+select DATEADD(mm, DATEDIFF(m,0,GETDATE()),0)
+select dateadd(d,0,DATEADD(mm, DATEDIFF(m,0,GETDATE()),0))
 select dateadd(d,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())-2,0))				  --- yied 2018-02-28 00:00:00.000  -- this is start of day of 28/2/2018 in dawn very early in the morning, you just past last moment of previous day which is 27/2/2018 ( after mid mnight )
 select dateadd(ss,1,dateadd(d,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())-2,0)))	  --- yied 2018-02-28 00:00:01.000   -- your foot is first step in the morning of 28/2/2018 , you just start new day in last day of Feb ! to be eactly you are entering in 1st seconds of 28/2/2018 in the morning !
 select dateadd(ss,-1,dateadd(d,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())-2,0)))  --- yields 2018-02-27 23:59:59.000  -- this is last month of previous day -> 27/2/2018
@@ -5349,6 +5373,10 @@ exec JDE_DB_Alan.sp_Mismatch_Multi null,null,'2019-05-01 00:00:00'
 exec JDE_DB_Alan.sp_Mismatch_Multi  '34.523.000,34.522.000,34.521.000,34.519.000,34.514.000,34.515.000,34.516.000,34.520.000,34.513.000,34.517.000,34.518.000',null,'2019-03-03'
 exec JDE_DB_Alan.sp_Mismatch_Multi  'F16174A949',null,'2019-03-03'
 
+exec JDE_DB_Alan.sp_Mismatch_Multi_V9 '42.210.031','2019-09-03',null,null							-- no 'Start_Fc-SavedDate' or 'End_Fc-SavedDate' - using default setting mean to using current month FC
+exec JDE_DB_Alan.sp_Mismatch_Multi_V9 '42.210.031','2019-09-03','2018-09-28','2018-09-30 17:00:00'  -- has 'Start_Fc-SavedDate' or 'End_Fc-SavedDate' range, use FC saved during that range period
+
+
 select m.ItemNumber,m.PrimarySupplier from JDE_DB_Alan.Master_ML345 m where m.PrimarySupplier like ('%180%')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
 
@@ -6303,15 +6331,36 @@ select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('24.7220.1858') an
 
 --------------------------------------------------------------------------------
 
-
-exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '38.001.001'
-
-exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis '43.205.532M'
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'LT'
 
+--- Forecast accuracy data are in 'Waterfall' format ---
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '38.001.001'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '42.210.031'
+
+---================================================================
+exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis null,'43.205.532M'
+exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis 'Last_Mth_FC','43.205.532M'				-- old, manual set date to 'This_Mth_FC' Or 'Last_Mth_FC' -- not good, what if FC is saved in mid of month not End of month ?
+exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis 'This_Mth_FC','38.001.001'				--old, manual set date to 'This_Mth_FC' Or 'Last_Mth_FC' -- not good
+exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis '42.210.031','2018-10-01','2019-09-03'		    	-- FC Saving date Range is too large,note 'start' and 'end' date here is FC Saving date ! Not FC Period date !-- 5/10/2018
+exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis '42.210.031','2018-10-01','2018-10-03'			   -- good, working
+exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis '42.210.031','2018-09-28','2018-09-30 17:00:00'    -- good, working
+
+
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '42.210.031','2018-10-01','2019-11-02'
+
+
+select * from JDE_DB_Alan.vw_FC_Hist h where h.ItemNumber in ('42.210.031') and h.myReportDate3 between '2018-09-28' and '2018-10-01'
+select * from JDE_DB_Alan.vw_FC_Hist h where h.ItemNumber in ('42.210.031') and h.myReportDate3 between '2018-09-28' and '2018-09-30 17:00:00'
+select * from JDE_DB_Alan.vw_FC_Hist h where h.ItemNumber in ('42.210.031') and h.myReportDate3 between '2018-10-02' and '2018-10-05'
+
+
+select distinct h.ReportDate from JDE_DB_Alan.vw_FC_Hist h where h.ItemNumber in ('42.210.031')
+select distinct h.myReportDate3,h.myReportDate4,h.myReportDate2 from JDE_DB_Alan.vw_FC_Hist h where h.ItemNumber in ('42.210.031')
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
-
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-10-01'
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01 00:00:00.000') and h.ReportDate between '2018-09-28' and '2018-10-01'
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01') and h.ReportDate between '2018-09-28' and '2018-10-01'
 
 
 ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE --------
