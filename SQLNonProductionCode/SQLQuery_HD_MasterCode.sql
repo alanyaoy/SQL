@@ -3891,7 +3891,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-03-01' and '2018-03-09 13:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-08-02' and ReportDate <'2018-08-23 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-01' and '2018-10-03 13:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-06' and '2018-10-15 13:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -3900,7 +3900,7 @@ order by pvt.ItemNumber
 select DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0) as startdate									-- last  month		2018-02-01 00:00:00.000
 select count(*) cnt from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1	
 
-
+exec JDE_DB_Alan.sp_Z_FC_Hist_Summary
 
 -- delete one month data --
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-10-01'
@@ -5374,7 +5374,7 @@ exec JDE_DB_Alan.sp_Mismatch_Multi  '34.523.000,34.522.000,34.521.000,34.519.000
 exec JDE_DB_Alan.sp_Mismatch_Multi  'F16174A949',null,'2019-03-03'
 
 exec JDE_DB_Alan.sp_Mismatch_Multi_V9 '42.210.031','2019-09-03',null,null							-- no 'Start_Fc-SavedDate' or 'End_Fc-SavedDate' - using default setting mean to using current month FC
-exec JDE_DB_Alan.sp_Mismatch_Multi_V9 '42.210.031','2019-09-03','2018-09-28','2018-09-30 17:00:00'  -- has 'Start_Fc-SavedDate' or 'End_Fc-SavedDate' range, use FC saved during that range period
+exec JDE_DB_Alan.sp_Mismatch_Multi_V9 '42.210.031,24.7128.4462,38.001.001','2019-09-03','2018-09-28','2018-09-30 17:00:00'  -- has 'Start_Fc-SavedDate' or 'End_Fc-SavedDate' range, use FC saved during that range period
 
 
 select m.ItemNumber,m.PrimarySupplier from JDE_DB_Alan.Master_ML345 m where m.PrimarySupplier like ('%180%')
@@ -6361,6 +6361,8 @@ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-10-01'
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01 00:00:00.000') and h.ReportDate between '2018-09-28' and '2018-10-01'
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01') and h.ReportDate between '2018-09-28' and '2018-10-01'
+
+exec JDE_DB_Alan.sp_Z_FC_Hist_Summary 
 
 
 ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE --------
