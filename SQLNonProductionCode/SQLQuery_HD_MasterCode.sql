@@ -966,29 +966,29 @@ create clustered index idx_Item on JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload (ItemNu
 
 CREATE TABLE JDE_DB_Alan.SlsHistoryAWF_HD_MT
    ( 
-     BU				varchar(100) NOT NULL,	 
+     BU					varchar(100) NOT NULL,	 
 	 ShortItemNumber	varchar(100) NOT NULL,  
-	 ItemNumber		varchar(100) NOT NULL, 				-- 2nd ItemNumber	
-	 Century		int NOT NULL,  		 		 
-	 FinancialYear	int NOT NULL, 	
-	 FinancialMonth	int NOT NULL, 	
-	 DocumentType	varchar(100) NOT NULL,
-	 Quantity		decimal ,	
-	 UOM			varchar(100) NOT NULL 	    
+	 ItemNumber			varchar(100) NOT NULL, 				-- 2nd ItemNumber	
+	 Century			int NOT NULL,  		 		 
+	 FinancialYear		int NOT NULL, 	
+	 FinancialMonth		int NOT NULL, 	
+	 DocumentType		varchar(100) NOT NULL,
+	 Quantity			decimal ,	
+	 UOM				varchar(100) NOT NULL 	    
   )  
 --GO	
 
 CREATE TABLE JDE_DB_Alan.SlsHistoryAWF  
    ( 
-     BU				varchar(100) NOT NULL, 
+     BU					varchar(100) NOT NULL, 
      ShortItemNumber	varchar(100) NOT NULL, 
-	 ItemNumber		varchar(100) NOT NULL, 				-- 2nd ItemNumber
-	 Century		int NOT NULL,  		 		 
-	 FinancialYear	int NOT NULL, 	
-	 FinancialMonth	int NOT NULL, 	
-	 DocumentType	varchar(100) NOT NULL,
-	 Quantity		decimal ,	
-	 UOM			varchar(100) NOT NULL 	    
+	 ItemNumber			varchar(100) NOT NULL, 				-- 2nd ItemNumber
+	 Century			int NOT NULL,  		 		 
+	 FinancialYear		int NOT NULL, 	
+	 FinancialMonth		int NOT NULL, 	
+	 DocumentType		varchar(100) NOT NULL,
+	 Quantity			decimal ,	
+	 UOM				varchar(100) NOT NULL 	    
   )  
 --GO	
 
@@ -1093,6 +1093,62 @@ CREATE TABLE JDE_DB_Alan.OpenPO
    )
 ALTER TABLE JDE_DB_Alan.OpenPO ADD CONSTRAINT PK_Item_PO PRIMARY KEY (ItemNumber,OrderNumber,QuantityOrdered,DueDate);
 ALTER TABLE JDE_DB_Alan.OpenPO ADD OpenPOID int NOT NULL IDENTITY (1,1) PRIMARY KEY	
+
+
+delete from JDE_DB_Alan.TestCO
+drop table JDE_DB_Alan.TestCO
+CREATE TABLE JDE_DB_Alan.TestCO
+   ( 
+		 TestCO_ID					 int not null identity (1,1) primary key			--- seed is 1 by increment1		-- 22/10/2018
+		,OrderNumber				varchar(100)
+		,LineNumber					int			
+		,BranchPlant			   varchar(100)	
+		,RelatedWONum              varchar(100)	
+		,RelatedWOType             varchar(100) 
+		,Customer					varchar(100)		
+		,CustomerName				 varchar(100)
+		,CustomerSub				 varchar(100)
+		,EnterDate					datetime		
+		,SchdPickDate				datetime
+		,OrigPromiseDate			datetime
+		,PromiseDelDate				datetime
+		,CO_Name						varchar(100)		
+		,ItemNumber					varchar(100)	
+		,ItemDescription			varchar(100)		
+		,SlsCd1						varchar(100)	
+		,SlsCd2						varchar(100)		
+		,SlsCd3						varchar(100)	
+		,SlsCd4						varchar(100)	
+		,OrderQty					decimal(18,2)
+		,PrimaryUOM				    varchar(100)
+		,ListPrice				    decimal(18,2)	
+		,ExtPrice					decimal(18,2)
+		,Buyer						varchar(100)	
+		,WOStartDate				datetime
+		,WOFinishDate				datetime
+		,Brand						varchar(100)
+		,StateCode1					varchar(100)
+		,StateCode2					varchar(100)
+		,OrderTakenBy				varchar(100)
+		,Reportdate			  datetime default(getdate())
+   )
+
+
+
+drop table JDE_DB_Alan.TestWO
+CREATE TABLE JDE_DB_Alan.TestWO
+   ( 
+		 TestWO_ID		  int not null identity (1,1) primary key			--- seed is 1 by increment1		-- 22/10/2018
+		,ItemNumber					varchar(100)				
+		,OrderQuantity				decimal(18,2)			
+		,UM							varchar(100)
+		,Customer					varchar(100)		
+		,RequestDate				datetime
+		,ComponentBranch			varchar(100)
+		,WONumber					varchar(100) 		
+		,Reportdate			  datetime default(getdate())
+   )
+
 
 --=============================== Data --==============================================================
 -------------------------- bulk insert for Master Data ---------------------------------------------
@@ -3882,7 +3938,7 @@ order by pvt.ItemNumber
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-03-01' and '2018-03-09 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
-  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-01' and '2018-10-03 13:00:00'
+  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-01' and '2018-10-08 13:00:00'
 
 
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > dateadd(d,-3,getdate()) group by fh.ReportDate order by fh.ReportDate
@@ -3891,7 +3947,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-03-01' and '2018-03-09 13:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-08-02' and ReportDate <'2018-08-23 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-06' and '2018-10-15 13:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-01' and '2018-10-8 13:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -6363,6 +6419,85 @@ select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.03
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01') and h.ReportDate between '2018-09-28' and '2018-10-01'
 
 exec JDE_DB_Alan.sp_Z_FC_Hist_Summary 
+
+
+----------------------------------------
+--- Test CO Summary --- Commercial orders
+
+--delete from JDE_DB_Alan.TestCO
+--delete from JDE_DB_Alan.TestWO
+
+select * from JDE_DB_Alan.TestCO
+select c.OrderNumber,c.LineNumber,c.BranchPlant,c.RelatedWONum,c.OrderQty,c.ListPrice,c.OrderQty*c.ListPrice as OrderAmt,c.Customer,c.CustomerName,c.EnterDate,c.PromiseDelDate,c.CO_Name,c.ItemNumber,c.ItemDescription,c.SlsCd2,c.SlsCd3,c.Brand,c.OrderTakenBy,c.Reportdate
+from JDE_DB_Alan.TestCO c
+exec JDE_DB_Alan.sp_Exp_Test_CO_mast
+
+  ------ Check if records in Test CO has duplicated -------
+
+    with cte as 
+  (
+	  select   c.RelatedWONum,convert(varchar(19),c.ReportDate,120) as Date_Uploaded
+				,count(*)  as WO_Uploaded
+	  from JDE_DB_Alan.TestCO C
+	  group by  c.RelatedWONum,convert(varchar(19),c.ReportDate,120) )
+  
+  select *, sum(cte.WO_Uploaded) over (partition by RelatedWONUm order by Date_Uploaded) TTL_WO_Tbl
+          ,ROW_NUMBER() over( partition by RelatedWONum order by Date_Uploaded) as rn
+		  ,rank() over ( partition by RelatedWONum order by Date_Uploaded) rk								--Use rank ( not dense_rank), although using rank will skip but rank will give you right final counts
+  from cte 
+ -- where cte.WO_Date_Uploaded > '2018-08-02' and cte.Date_Uploaded < '2018-08-26 14:59:00'
+  order by cte.Date_Uploaded asc
+
+
+
+--- . Get Details of Test CO/WO --- 23/10/2018
+select * from JDE_DB_Alan.TestCO
+select * from JDE_DB_Alan.TestWO
+
+exec JDE_DB_Alan.sp_Exp_Test_WO_mast
+
+
+	;with tb as
+	   ( select w.ItemNumber,w.OrderQuantity,w.UM,w.WONumber,c.OrderNumber as CO,c.CustomerName
+				,c.ItemNumber as FinItemNumber,c.ItemDescription as FinItemDesp,c.SlsCd2,SlsCd3,c.CO_Name as Proj_Name,c.StateCode2
+				,c.OrderTakenBy as Comments,w.Reportdate
+			from JDE_DB_Alan.TestWO w left join JDE_DB_Alan.TestCO c 
+				   on w.WONumber = c.RelatedWONum
+
+		 )
+	   ,tbl as ( select tb.ItemNumber,tb.OrderQuantity,tb.UM,tb.CO,tb.WONumber,tb.CustomerName
+						,tb.FinItemNumber,tb.FinItemDesp,tb.SlsCd2,tb.SlsCd3,tb.Proj_Name,tb.StateCode2						
+						,m.StockingType,m.WholeSalePrice
+						--,tb.OrderQuantity*m.WholeSalePrice as Amt
+						,m.Description
+						,tb.Comments
+						,tb.Reportdate
+					from tb left join JDE_DB_Alan.vw_Mast m
+							on tb.ItemNumber = m.ItemNumber
+							)
+            
+
+		select * from tbl
+		order by tbl.Reportdate,tbl.WONumber,tbl.ItemNumber
+
+    ------ Check if records in Test WO has duplicated -------
+
+    with cte as 
+  (
+	  select   w.WONumber,convert(varchar(19),w.ReportDate,120) as Date_Uploaded
+				,count(*)  as WO_Records_Uploaded
+	  from JDE_DB_Alan.TestWO w
+	  group by  w.WONumber,convert(varchar(19),w.ReportDate,120) )
+  
+  select *, sum(cte.WO_Records_Uploaded) over (order by Date_Uploaded) TTL_WO_Records_Tbl
+          ,ROW_NUMBER() over( partition by WONumber order by Date_Uploaded) as rn
+		  ,rank() over ( partition by WONumber order by Date_Uploaded) rk								--Use rank ( not dense_rank), although using rank will skip but rank will give you right final counts
+  from cte 
+ -- where cte.WO_Date_Uploaded > '2018-08-02' and cte.Date_Uploaded < '2018-08-26 14:59:00'
+  order by cte.Date_Uploaded asc
+
+
+
 
 
 ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE --------
