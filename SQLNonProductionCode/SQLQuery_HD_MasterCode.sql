@@ -5428,6 +5428,8 @@ exec JDE_DB_Alan.sp_Mismatch_Multi null,'180704','2019-03-01 00:00:00'   -- does
 exec JDE_DB_Alan.sp_Mismatch_Multi null,null,'2019-05-01 00:00:00'
 exec JDE_DB_Alan.sp_Mismatch_Multi  '34.523.000,34.522.000,34.521.000,34.519.000,34.514.000,34.515.000,34.516.000,34.520.000,34.513.000,34.517.000,34.518.000',null,'2019-03-03'
 exec JDE_DB_Alan.sp_Mismatch_Multi  'F16174A949',null,'2019-03-03'
+exec JDE_DB_Alan.sp_Mismatch_Multi '42.210.031',null,'2019-09-03'
+
 
 exec JDE_DB_Alan.sp_Mismatch_Multi_V9 '42.210.031','2019-09-03',null,null							-- no 'Start_Fc-SavedDate' or 'End_Fc-SavedDate' - using default setting mean to using current month FC
 exec JDE_DB_Alan.sp_Mismatch_Multi_V9 '42.210.031,24.7128.4462,38.001.001','2019-09-03','2018-09-28','2018-09-30 17:00:00'  -- has 'Start_Fc-SavedDate' or 'End_Fc-SavedDate' range, use FC saved during that range period
