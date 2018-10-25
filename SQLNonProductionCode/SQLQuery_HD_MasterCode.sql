@@ -4184,8 +4184,9 @@ select DATEDIFF(m,0,GETDATE())
 select cast(DATEADD(s,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())+6,0)) as datetime) as startdate		-- Set the StartDate for changing FC from Jun/2018 onwards ( + 6 months ),pay attention to 's' --> seconds, that is clever
 select DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) as startdate									--	this  month			2018-02-01 00:00:00.000
 select DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0) as startdate									-- last  month		2018-01-01 00:00:00.000
+select DATEADD(mm, DATEDIFF(m,0,GETDATE())-18,0) as startdate									-- last 18 month		2018-01-01 00:00:00.000
 select DATEADD(mm, DATEDIFF(m,0,GETDATE())+11,0) as startdate									-- next 12  month		2018-01-01 00:00:00.000
-select DATEADD(mm, DATEDIFF(m,0,GETDATE())-37,0) as startdate									-- next 12  month		2018-01-01 00:00:00.000
+select DATEADD(mm, DATEDIFF(m,0,GETDATE())-37,0) as startdate									-- last 36  month		2018-01-01 00:00:00.000
 
 
 
@@ -6426,7 +6427,7 @@ exec JDE_DB_Alan.sp_Z_FC_Hist_Summary
 ----------------------------------------
 --- Test CO Summary --- Commercial orders
 
---delete from JDE_DB_Alan.TestCO
+delete from JDE_DB_Alan.TestCO where OrderNumber in ('5509167')
 --delete from JDE_DB_Alan.TestWO
 
 select * from JDE_DB_Alan.TestCO

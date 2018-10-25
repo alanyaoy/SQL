@@ -372,7 +372,9 @@ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('28.676.000')
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '28.676.000','2018-07-01','2019-06-01'
 select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('28.676.000')
 
-exec JDE_DB_Alan.sp_Mismatch_Multi '42.210.031',null,'2019-09-03'
+exec JDE_DB_Alan.sp_Mismatch_Multi '42.210.031',null,'2019-10-03'
+exec JDE_DB_Alan.sp_Mismatch_Multi '42.210.031',null,null
+exec JDE_DB_Alan.sp_Mismatch_Multi '18.010.035,18.010.036,18.607.016,18.615.007,24.5403.0000,24.7102.0199,24.7114.0155,24.7125.0155,24.7127.0155,24.7128.0155,24.7129.0155A,24.7201.0000,24.7203.0001,24.7206.0000,24.7220.1858,32.340.000,32.379.200,32.380.855,32.455.855,32.501.000,43.207.565M,82.633.908',null,'2019-09-03'
 
 
 exec JDE_DB_Alan.sp_Mismatch_Multi_V9 '42.210.031','2019-09-03',null,null							-- no 'Start_Fc-SavedDate' or 'End_Fc-SavedDate' - using default setting mean to using current month FC
@@ -801,7 +803,7 @@ where h.ItemNumber in ('0751031000202H','0751031000207H','0751031003001H','07510
 ----------------------------------------
 
 -- To Get Details of Test CO/WO ---
-select * from JDE_DB_Alan.TestCO
+select * from JDE_DB_Alan.TestCO 
 select * from JDE_DB_Alan.TestWO
 
 
