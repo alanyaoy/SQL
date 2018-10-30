@@ -5426,10 +5426,12 @@ exec JDE_DB_Alan.sp_Mismatch '2019-09-01'
 exec JDE_DB_Alan.sp_Mismatch_Multi '38.002.001',null,'2019-09-01'
 exec JDE_DB_Alan.sp_Mismatch_Multi null,'2140857','2019-09-01'
 exec JDE_DB_Alan.sp_Mismatch_Multi null,'180704','2019-03-01 00:00:00'   -- does not work why ?
-exec JDE_DB_Alan.sp_Mismatch_Multi null,null,'2019-05-01 00:00:00'
+exec JDE_DB_Alan.sp_Mismatch_Multi null,null,'2019-09-02 00:00:00'			--- query all SKUs , yield 644,096 records in 33 seconds --- 26/10/2018
+
 exec JDE_DB_Alan.sp_Mismatch_Multi  '34.523.000,34.522.000,34.521.000,34.519.000,34.514.000,34.515.000,34.516.000,34.520.000,34.513.000,34.517.000,34.518.000',null,'2019-03-03'
 exec JDE_DB_Alan.sp_Mismatch_Multi  'F16174A949',null,'2019-03-03'
 exec JDE_DB_Alan.sp_Mismatch_Multi '42.210.031',null,'2019-09-03'
+
 
 
 exec JDE_DB_Alan.sp_Mismatch_Multi_V9 '42.210.031','2019-09-03',null,null							-- no 'Start_Fc-SavedDate' or 'End_Fc-SavedDate' - using default setting mean to using current month FC
@@ -6498,6 +6500,34 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
   from cte 
  -- where cte.WO_Date_Uploaded > '2018-08-02' and cte.Date_Uploaded < '2018-08-26 14:59:00'
   order by cte.Date_Uploaded asc
+
+
+  -------- Forecast accuracy By Range --------- 26/10/2018
+
+  select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h
+
+  ;with t as (
+    
+		  select distinct h.SellingGroup , h.FamilyGroup,  h.Family
+		  from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h
+		  )
+
+   ,fm as ( select distinct t.SellingGroup,t.FamilyGroup,t.Family
+		   from t 
+		   where t.SellingGroup like ('%win%')
+
+		   )
+   ,_fm as (
+            select fm.*
+			       ,DENSE_RANK() over ( partition by sellinggroup order by familygroup) as rnk_family
+				   ,DENSE_RANK() over ( partition by familygroup order by family) as rnk_familygroup
+				   ,row_number() over ( partition by sellinggroup order by sellinggroup) as rn
+			from fm
+			)
+ 
+    select * from _fm
+
+
 
 
 
