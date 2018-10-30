@@ -84,7 +84,7 @@ select distinct l.ItemNumber from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload l
 select distinct l.ItemNumber from JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload l
 select * from JDE_DB_Alan.FCPRO_SafetyStock s where s.ItemNumber in ('7501001000')
 select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in ('7501001000')
-select * from JDE_DB_Alan.FCPRO_SafetyStock 
+select * from JDE_DB_Alan.FCPRO_SafetyStock
 
 exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis 
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data 
@@ -145,7 +145,7 @@ exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '24.7218.4462','2018-09-01','2019-07-01'
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '24.7364.1858,24.7200.0001T,24.7221.1858','2018-09-01','2019-07-01'
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7127970914,7493500182,7146040000','2018-09-01','2019-07-01'
-exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '24.7221.1858,38.001.001,42.421.855,46.614.500','2018-09-01','2019-07-01'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '22.740.091,22.741.091','2018-09-01','2019-07-01'
 
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2018-09-01','2019-07-01'
 
@@ -829,5 +829,11 @@ select * from JDE_DB_Alan.TestWO
    from JDE_DB_Alan.vw_FC_Hist fh 
   where fh.ItemNumber in ('38.001.001') 
         and fh.myDate2 = '201810' 
+
+
+
+----------------------------------------------------------
+
+
 		 
 		 

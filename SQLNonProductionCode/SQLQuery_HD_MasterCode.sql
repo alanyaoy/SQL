@@ -3234,6 +3234,8 @@ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1398461,1398479,1398487'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1380543,1401156,1401164'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '726223'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1377977,1379753,1379770,1379788'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394654,1394662,1394671,1394689,1394697,1394700'
+select m.ItemNumber,m.ShortItemNumber,m.description from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('38.002.001','38.002.002','38.002.003','38.002.004','38.002.005','38.002.006')
 
 
 
@@ -6430,8 +6432,10 @@ exec JDE_DB_Alan.sp_Z_FC_Hist_Summary
 --- Test CO Summary --- Commercial orders
 
 delete from JDE_DB_Alan.TestCO where OrderNumber in ('5509167')
---delete from JDE_DB_Alan.TestWO
+delete from JDE_DB_Alan.TestWO where Reportdate > '2018-10-25'
+select * from JDE_DB_Alan.TestWO w where Reportdate > '2018-10-25'
 
+select * from JDE_DB_Alan.TestCO
 select * from JDE_DB_Alan.TestCO
 select c.OrderNumber,c.LineNumber,c.BranchPlant,c.RelatedWONum,c.OrderQty,c.ListPrice,c.OrderQty*c.ListPrice as OrderAmt,c.Customer,c.CustomerName,c.EnterDate,c.PromiseDelDate,c.CO_Name,c.ItemNumber,c.ItemDescription,c.SlsCd2,c.SlsCd3,c.Brand,c.OrderTakenBy,c.Reportdate
 from JDE_DB_Alan.TestCO c
@@ -6479,8 +6483,7 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
 						,tb.Reportdate
 					from tb left join JDE_DB_Alan.vw_Mast m
 							on tb.ItemNumber = m.ItemNumber
-							)
-            
+							)            
 
 		select * from tbl
 		order by tbl.Reportdate,tbl.WONumber,tbl.ItemNumber
@@ -6505,7 +6508,6 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
   -------- Forecast accuracy By Range --------- 26/10/2018
 
   select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h
-
   ;with t as (
     
 		  select distinct h.SellingGroup , h.FamilyGroup,  h.Family
@@ -6519,13 +6521,14 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
 		   )
    ,_fm as (
             select fm.*
+			       --,RANK() over ( partition by sellinggroup order by familygroup) as rnk_family_
 			       ,DENSE_RANK() over ( partition by sellinggroup order by familygroup) as rnk_family
 				   ,DENSE_RANK() over ( partition by familygroup order by family) as rnk_familygroup
 				   ,row_number() over ( partition by sellinggroup order by sellinggroup) as rn
 			from fm
 			)
  
-    select * from _fm
+    select top 3 * from _fm
 
 
 
