@@ -227,11 +227,14 @@ CREATE TABLE JDE_DB_Alan.MasterFamilyGroup
 drop table JDE_DB_Alan.MasterFamily
 CREATE TABLE JDE_DB_Alan.MasterFamily
    ( 
-     Code				varchar(100) NOT NULL primary key, 
-     Description		varchar(100), 
-	 Description2		varchar(100), 
-	 LongDescription	varchar(100)	    
+     Code				varchar(100) NOT NULL primary key
+     ,Description		varchar(100) 
+	 ,Description2		varchar(100)
+	 ,LongDescription	varchar(100)
+	 ,ReportDate		datetime default(getdate())										   -- added 23/5/2018						 	    
   )  
+ ALTER TABLE JDE_DB_Alan.MasterFamily ADD ReportDate datetime default(getdate());	 -- added 23/5/2018	
+
 --GO		
 
 --CREATE TABLE JDE_DB_Alan.Master_Description_Hierarchy_SKU_Level
@@ -548,6 +551,20 @@ CREATE TABLE JDE_DB_Alan.Master_ItemCrossRef
 	ReportDate				datetime default(getdate())
   )  
 --GO	
+
+
+drop table JDE_DB_Alan.MasterSupplier												--13/11/2018
+CREATE TABLE JDE_DB_Alan.MasterSupplier
+   ( 		
+		 PlannerNumber				varchar(100)
+		,SupplierNumber				varchar(100)
+		,SupplierName				varchar(100)		
+		,Reportdate			  datetime default(getdate())
+		--,CONSTRAINT PK_Item_PO PRIMARY KEY (ItemNumber,OrderNumber,QuantityOrdered,DueDate)
+
+   )
+ALTER TABLE JDE_DB_Alan.MasterSupplier ADD CONSTRAINT PK_Item_PO PRIMARY KEY (ItemNumber,OrderNumber,QuantityOrdered,DueDate);
+ALTER TABLE JDE_DB_Alan.MasterSupplier ADD OpenPOID int NOT NULL IDENTITY (1,1) PRIMARY KEY	
 
 
 
@@ -1129,7 +1146,7 @@ CREATE TABLE JDE_DB_Alan.TestCO
 		,Brand						varchar(100)
 		,StateCode1					varchar(100)
 		,StateCode2					varchar(100)
-		,OrderTakenBy				varchar(100)
+		,OrderTakenBy				varchar(5000)
 		,Reportdate			  datetime default(getdate())
    )
 
@@ -1318,19 +1335,22 @@ select * from JDE_DB_Alan.MasterPrice
 --------- End of And Get Price for Unique Item from this Table -------------------------
 ----------- END OF Get Price for Unique Items in Price Table -----------------------
 
+select * from JDE_DB_Alan.MasterFamily
 delete from JDE_DB_Alan.StkAvailability
 select * from JDE_DB_Alan.MasterMTLeadingZeroItemList a
 select * from JDE_DB_Alan.Master_ML345 a where a.ShortItemNumber in ('1074571')
 delete from JDE_DB_Alan.MasterFamily
 delete from JDE_DB_Alan.MasterFamilyGroup
 delete from JDE_DB_Alan.MasterMTLeadingZeroItemList 
+delete from JDE_DB_Alan.MasterSupplier
 
 --bulk insert JDE_DB_Alan.JDE_Fcst
 --bulk insert JDE_DB_Alan.Master_ItemCrossRef
 --BULK INSERT JDE_DB_Alan.MasterSellingGroup
 --BULK INSERT JDE_DB_Alan.MasterFamilyGroup
- BULK INSERT JDE_DB_Alan.MasterFamily
+ --BULK INSERT JDE_DB_Alan.MasterFamily
 -- BULK INSERT JDE_DB_Alan.Master_ML345
+BULK INSERT JDE_DB_Alan.MasterSupplier
 
 -- BULK INSERT JDE_DB_Alan.Master_ML345
 -- BULK INSERT JDE_DB_Alan.MasterPrices
@@ -1343,7 +1363,9 @@ delete from JDE_DB_Alan.MasterMTLeadingZeroItemList
  -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Description_Hierarchy_SKU_Level_CSV.csv'   
   -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_SellingGroup_CSV.csv'
   --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_FamilyGroup_CSV.csv'
-    from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_Family_CSV.csv'
+  --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_Family_CSV.csv'
+  --  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\Master_Hierarchy_ETC\HierarchyMaster_Family_CSV.csv'
+      from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Supplier_Summary.csv'
 --	 from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Report_HD_Conversions_CSV.csv'
  -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Bricos_MT_SuperssionItems_CSV.csv'
   --from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Bricos_MT_LeadingZeroItems_CSV_.csv'
@@ -3434,7 +3456,7 @@ set @DataType = 'Adj_FC,Sales'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394654'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'18.010.035,18.010.036,18.013.089,18.615.007,24.5349.4459,24.7002.0001,24.7102.1858,24.7120.4459,24.7121.4459,24.7122.4459,24.7124.4459,24.7127.4459,24.7146.4459A,24.7163.0000A,24.7168.4459A,24.7169.4459A,24.7207.4459,24.7219.4459,24.7250.4459,24.7251.4459,24.7253.4459,24.7334.4459,2780229000,32.379.200,32.455.155','Adj_FC'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'24.7218.4462,32.501.000,43.211.004,32.379.200,32.380.855,18.607.016,24.7201.0000,24.7102.7052,24.7102.7052,32.455.465,24.7115.0952A,24.7114.0952A,24.7128.0952,709895,24.7353.0000A,24.7136.0155A,709901,24.7120.0952','Adj_FC'
-
+  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'24.7221.0952','Adj_FC'
 	
 
   	
@@ -3928,6 +3950,9 @@ order by pvt.ItemNumber
   select *, sum(cte.Records_Uploaded) over (order by Date_Uploaded) TTL_Records_HistTbl from cte 
  -- where cte.Date_Uploaded > '2018-08-02' and cte.Date_Uploaded < '2018-08-26 14:59:00'
   order by cte.Date_Uploaded asc
+  
+
+  exec JDE_DB_Alan.sp_Z_FC_Hist_Summary 
 
 
   select distinct h.ReportDate from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031')
@@ -3940,16 +3965,16 @@ order by pvt.ItemNumber
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-03-01' and '2018-03-09 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
-  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-01' and '2018-10-08 13:00:00'
+  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:20' and '2018-11-05 13:39:00'
 
 
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > dateadd(d,-3,getdate()) group by fh.ReportDate order by fh.ReportDate
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > '2018-08-02'
   delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > dateadd(d,-3,getdate())
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
-  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-03-01' and '2018-03-09 13:00:00'
+  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-08-02' and ReportDate <'2018-08-23 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-01' and '2018-10-8 13:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-10-01' and '2018-10-15 13:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -3971,6 +3996,16 @@ select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.03
 
   delete from JDE_DB_Alan.FCPRO_Fcst_History 
   where  Date in ('2018-09-01') and ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'
+
+
+  delete from JDE_DB_Alan.FCPRO_Fcst_History 
+  where  Date in ('2018-10-01') and ReportDate between '2018-10-30' and '2018-11-01 17:00:00:00'
+
+   select * from JDE_DB_Alan.FCPRO_Fcst_History 
+  where  Date in ('2018-10-01') and ReportDate between '2018-10-30' and '2018-11-01 17:00:00:00'
+
+     select distinct h.ItemNumber  from JDE_DB_Alan.FCPRO_Fcst_History h
+   where ReportDate between '2018-10-30' and '2018-11-01 17:00:00:00'
 
 ------------------------------------------------------------------------
 
@@ -4013,11 +4048,11 @@ from JDE_DB_Alan.FCPRO_Fcst_History h
 where h.ReportDate between '2018-07-25' and '2018-08-1 13:00:00'
 
 ;update h
-set h.ReportDate = '2018-09-30 15:00:00'
+set h.ReportDate = '2018-10-31 15:00:00'
 --select * 
 from JDE_DB_Alan.FCPRO_Fcst_History h
 --where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
-where h.ReportDate between '2018-09-25' and '2018-09-28 13:00:00'
+where h.ReportDate between '2018-10-01' and '2018-10-25 13:00:00'
 
 
 ---================= Update Records in FC history table ================================================================================================================
@@ -4774,7 +4809,8 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5250N001,S3000NET5300N001,82.336.906','2018-08-01','2019-07-01'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5250N001,S3000NET5300N001,82.336.906','2018-08-01','2019-07-01'
    exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'F16174A949,7501001000','2018-11-01','2019-07-01'
-     exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '','2018-11-01','2019-07-01'
+     exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2018-11-01','2019-10-01'
+
 
  	 
    select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in  ('24.7206.0000','2974000000','45.124.000')
@@ -6409,7 +6445,7 @@ exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis '42.210.031','2018-10-01','2018-10-0
 exec JDE_DB_Alan.sp_FCPro_FC_Sales_Analysis '42.210.031','2018-09-28','2018-09-30 17:00:00'    -- good, working
 
 
-exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '42.210.031','2018-10-01','2019-11-02'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2018-11-01','2019-10-02'
 
 
 select * from JDE_DB_Alan.vw_FC_Hist h where h.ItemNumber in ('42.210.031') and h.myReportDate3 between '2018-09-28' and '2018-10-01'
@@ -6431,7 +6467,8 @@ exec JDE_DB_Alan.sp_Z_FC_Hist_Summary
 ----------------------------------------
 --- Test CO Summary --- Commercial orders
 
-delete from JDE_DB_Alan.TestCO where OrderNumber in ('5509167')
+delete from JDE_DB_Alan.TestCO where OrderNumber in ('5510877')
+delete from JDE_DB_Alan.TestCO where Reportdate > '2018-11-05'
 delete from JDE_DB_Alan.TestWO where Reportdate > '2018-10-25'
 select * from JDE_DB_Alan.TestWO w where Reportdate > '2018-10-25'
 
