@@ -12,12 +12,15 @@
 USE [JDE_DB_Alan]
 GO
 
-/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 9/11/2018 12:06:20 PM ******/
+/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 13/12/2018 2:45:28 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
+
+
 
 
 ALTER view [JDE_DB_Alan].[vw_Mast] with schemabinding as
@@ -45,7 +48,8 @@ with fc as (
 		 )
 		 --- get your master ---
 	 ,mas as (
-            select m.ItemNumber
+            select   m.BU
+					,m.ItemNumber
 				   ,m.ShortItemNumber
 				    ,m.StockingType,m.PlannerNumber,m.PrimarySupplier
 					,m.StandardCost,m.WholeSalePrice,m.Description,m.QtyOnHand 	
@@ -63,6 +67,7 @@ with fc as (
 				  ,datepart(day,GETDATE()) masdte
 				  ,row_number() over(partition by m.itemNumber order by itemnumber ) as rn     -- filter out duplicate records
 				  ,m.SellingGroup,m.Family,m.FamilyGroup
+				  ,m.GLCat,m.StockValue
 
 			from  JDE_DB_Alan.Master_ML345 m 
 			         left join JDE_DB_Alan.MasterSellingGroup c  on m.SellingGroup = c.Code
@@ -72,7 +77,7 @@ with fc as (
 
 			  )  			   
      ,mas_ as (
-				select mas.ItemNumber,mas.ShortItemNumber,mas.StockingType,mas.PlannerNumber,mas.PrimarySupplier
+				select mas.BU,mas.ItemNumber,mas.ShortItemNumber,mas.StockingType,mas.PlannerNumber,mas.PrimarySupplier
 				     ,mas.SellingGroup_,mas.FamilyGroup_,mas.Family_0
 					,mas.StandardCost,mas.WholeSalePrice,mas.Description,mas.QtyOnHand,mas.SOHDate,mas.SOHDate_
 					,mas.masyr,mas.masmth,mas.masdte
@@ -81,9 +86,10 @@ with fc as (
 					,mas.Leadtime_Mth
 					,mas.rn 
 					,mas.SellingGroup,mas.FamilyGroup,mas.Family
+					,mas.GLCat,mas.StockValue
 				from mas where rn =1  )
 
-     select a.ItemNumber,a.ShortItemNumber,a.StockingType,a.PlannerNumber,a.PrimarySupplier
+     select a.BU,a.ItemNumber,a.ShortItemNumber,a.StockingType,a.PlannerNumber,a.PrimarySupplier
 	             ,a.SellingGroup_,a.FamilyGroup_,a.Family_0
 				,a.StandardCost,a.WholeSalePrice,a.Description,a.QtyOnHand,a.SOHDate,a.SOHDate_
 				,a.masyr,a.masmth,a.masdte
@@ -91,7 +97,8 @@ with fc as (
 				,a.UOM
 				,a.Leadtime_Mth
 				,a.rn
-				,a.SellingGroup,a.FamilyGroup,a.Family 				
+				,a.SellingGroup,a.FamilyGroup,a.Family 	
+				,a.GLCat,a.StockValue	
                 from mas_ a 
      -- where a.ItemNumber in ('42.210.031')
 GO

@@ -2291,6 +2291,7 @@ with cte as
 
 select ss.ItemNumber,ss.SS_ as SS_Qty,isnull(ss.SS_*cte_.StandardCost,0) as SS_Dollar,cte_.LeadtimeLevel
 		,cte_.PrimarySupplier,cte_.PlannerNumber,cte_.StockingType
+		,cte_.SellingGroup
 		,case cte_.PlannerNumber 
 								--when '20071' then 'Domenic Cellucci'
 								when '20071' then 'Rosie Ashpole'
@@ -2306,6 +2307,7 @@ select ss.ItemNumber,ss.SS_ as SS_Qty,isnull(ss.SS_*cte_.StandardCost,0) as SS_D
 --where  cte_.PrimarySupplier in ('1454','1281') --and ss.ItemNumber in ('34.486.000')
 --  where ss.ItemNumber in ('42.210.031')
 	where cte_.StockingType not in ('O','U')
+	      and cte_.SellingGroup in ('AD','TM','WC')
  order by  cte_.PrimarySupplier,ss.Pareto
 
 
@@ -6570,7 +6572,9 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
   order by cte.Date_Uploaded asc
 
 
+---==========================================================
   -------- Forecast accuracy By Range --------- 26/10/2018
+  -----------------------------------------------------------
 
   select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h
   ;with t as (
@@ -6596,6 +6600,58 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
     select top 3 * from _fm
 
 
+---========================================================================
+  -------- Inventory Value --------- 13/12/2018
+--------------------------------------------------------------------------
+  select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
+  select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('05.980.000')
+
+
+ --select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('05.980.000')
+ 
+  
+  with a as 
+			
+    ----- Use left join --- remove scrap items -- method 1
+    (  select m.ItemNumber as myItm ,m.QtyOnHand as mySOH,m.StockValue as mySOHVal
+		  from JDE_DB_Alan.vw_Mast m
+		  where m.GLCat in ('SCRA')	
+		        )
+
+  ,_tb as ( select * 
+				from JDE_DB_Alan.vw_Mast m left join a on m.ItemNumber = a.myItm
+				where a.myItm is null 
+				--where m.ItemNumber in ('42.210.031','32.379.200','05.980.000')	
+				)
+
+    ---- Use 'except' --- remove scrap items -- method 2
+  ,aa as ( select * from JDE_DB_Alan.vw_Mast m where m.GLCat in ('SCRA')   )
+  ,_ttb as ( select * from JDE_DB_Alan.vw_Mast a except select * from aa )
+
+  --select * from _ttb
+
+    ------------- Inventory On SKU level -----------------
+  ,tb as (select t.BU,t.ItemNumber,t.ShortItemNumber,t.StockingType,t.PlannerNumber,t.PrimarySupplier,t.SellingGroup_,t.FamilyGroup_,t.Family_0
+                 ,t.StandardCost,t.WholeSalePrice,t.Description,t.QtyOnHand,t.SOHDate,t.SOHDate_,t.masyr,t.masmth,t.masdte,t.LeadtimeLevel,t.UOM,t.Leadtime_Mth
+				 ,t.rn,t.SellingGroup,t.FamilyGroup,t.Family
+			--from _tb t	
+			  from _ttb t 
+			)
+
+		 --- Inventory aggregate level 1 ---
+   ,agg1 as (  select t.SellingGroup_,t.FamilyGroup_,t.Family_0,sum(t.QtyOnHand) as TTL_Stk_Units,sum(t.StockValue) as TTL_Stk_Dollar
+			   from _tb t
+			   group by t.SellingGroup_,t.FamilyGroup_,t.Family_0
+			   )
+
+         --- Inventory aggregate level 2 ---
+	,agg2 as ( select t.FamilyGroup_,sum(t.TTL_Stk_Units) as StkUnits,sum(t.TTL_Stk_Dollar) as StkDollar
+				from agg1 t
+            group by t.FamilyGroup_
+            )
+
+    select * from agg2 order by StkDollar desc
+	--select * from tb
 
 
 
