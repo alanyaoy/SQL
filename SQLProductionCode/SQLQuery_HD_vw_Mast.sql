@@ -12,12 +12,14 @@
 USE [JDE_DB_Alan]
 GO
 
-/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 13/12/2018 2:45:28 PM ******/
+/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 10/01/2019 9:36:42 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
+
 
 
 
@@ -68,11 +70,21 @@ with fc as (
 				  ,row_number() over(partition by m.itemNumber order by itemnumber ) as rn     -- filter out duplicate records
 				  ,m.SellingGroup,m.Family,m.FamilyGroup
 				  ,m.GLCat,m.StockValue
+				  ,case m.PlannerNumber when '20072' then 'Salman Saeed'
+						when '20004' then 'Margaret Dost'	
+						when '20005' then 'Imelda Chan'
+						when '20071' then 'Rosie Ashpole'
+						when '20003' then 'Lee Roise'
+						when '30036' then 'Violet Glodoveza'
+						when '30039' then 'Ben'
+						--when '20071' then 'Domenic Cellucci'
+						else 'Unknown'
+					end as Owner_
 
 			from  JDE_DB_Alan.Master_ML345 m 
 			         left join JDE_DB_Alan.MasterSellingGroup c  on m.SellingGroup = c.Code
 					 left join JDE_DB_Alan.MasterFamilyGroup d  on m.FamilyGroup = d.Code
-					 left join JDE_DB_Alan.MasterFamily e  on m.Family = e.Code			   
+					 left join JDE_DB_Alan.MasterFamily e  on m.Family = e.Code							 	   
 			 --where exists ( select fc.ItemNumber from fc where fc.ItemNumber = m.ItemNumber )   --- Probably need to remove this condition as it has significant impact on performance and any code using this view table --- 30/5/2018
 
 			  )  			   
@@ -87,6 +99,7 @@ with fc as (
 					,mas.rn 
 					,mas.SellingGroup,mas.FamilyGroup,mas.Family
 					,mas.GLCat,mas.StockValue
+					,mas.Owner_
 				from mas where rn =1  )
 
      select a.BU,a.ItemNumber,a.ShortItemNumber,a.StockingType,a.PlannerNumber,a.PrimarySupplier
@@ -99,7 +112,9 @@ with fc as (
 				,a.rn
 				,a.SellingGroup,a.FamilyGroup,a.Family 	
 				,a.GLCat,a.StockValue	
-                from mas_ a 
+				,a.Owner_
+				,s.SupplierName
+                from mas_ a left join JDE_DB_Alan.MasterSupplier s on a.PrimarySupplier = s.SupplierNumber
      -- where a.ItemNumber in ('42.210.031')
 GO
 

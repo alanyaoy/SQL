@@ -557,7 +557,7 @@ drop table JDE_DB_Alan.MasterSupplier												--13/11/2018
 CREATE TABLE JDE_DB_Alan.MasterSupplier
    ( 		
 		 PlannerNumber				varchar(100)
-		,SupplierNumber				varchar(100)
+		,SupplierNumber				varchar(100) not null primary key
 		,SupplierName				varchar(100)		
 		,Reportdate			  datetime default(getdate())
 		--,CONSTRAINT PK_Item_PO PRIMARY KEY (ItemNumber,OrderNumber,QuantityOrdered,DueDate)
@@ -715,15 +715,15 @@ CREATE TABLE JDE_DB_Alan.FCPRO_Fcst_Pareto
 		FamilyGroup			varchar(100)      ,
 		Family				varchar(100)      ,
 		DataType1			varchar(100)      ,
-		ItemLvlFC_24_Amt	decimal(18,2),
-		RunningTTL			decimal(18,2),
-		GrandTTL			decimal(18,2),
-		Pct					decimal(18,12),
-		RunningTTLPct		decimal(18,12),
+		--ItemLvlFC_24_Amt	decimal(18,2),
+		--RunningTTL			decimal(18,2),
+		--GrandTTL			decimal(18,2),
+		--Pct					decimal(18,12),
+		--RunningTTLPct		decimal(18,12),
 		rnk					int,
 		Pareto				varchar(2),	
 		StockingType		 varchar(100),
-		PlannerNumber		 varchar(100),			
+		--PlannerNumber		 varchar(100),			
 		ReportDate			datetime default(getdate())
   )  
 --GO	
@@ -871,7 +871,7 @@ CREATE TABLE JDE_DB_Alan.FCPRO_Fcst_Accuracy
 		,PlannerNumber			varchar(100)
 		,ReportDate		datetime default(getdate()),
 		--constraint PK_Item_FC primary key (ItemNumber,date)							--- Need to make your primary key unique,not null,also remember you can hv only one Primary key as well
-		constraint PK_Item_FC_Accuracy primary key (Item,Date_,DataType)			  --- if there is violation of constraint you enforced & you are using RecordSet rather using CSV ( to bulk insert ) you will receive error message which is a very good thing -- 2/3/2018
+		constraint PK_Item_FC_Accuracy primary key (Item,Date_,DataType,ReportDate)			  --- if there is violation of constraint you enforced & you are using RecordSet rather using CSV ( to bulk insert ) you will receive error message which is a very good thing -- 2/3/2018
 																					-- Date_ is forecast period 
   )  
 --GO	
@@ -3995,7 +3995,7 @@ order by pvt.ItemNumber
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-03-01' and '2018-03-09 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
-  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-11 13:20' and '2018-11-29 17:39:00'
+  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-01-01 13:20' and '2019-10-01 17:39:00'
 
 
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > dateadd(d,-3,getdate()) group by fh.ReportDate order by fh.ReportDate
@@ -4003,8 +4003,8 @@ order by pvt.ItemNumber
   delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > dateadd(d,-3,getdate())
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
- delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-08-02' and ReportDate <'2018-08-23 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-11' and '2018-11-29 17:00:00'
+ delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-12-01' and ReportDate <'2018-12-05 14:59:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-01-01' and '2019-10-01 17:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -4028,14 +4028,17 @@ select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.03
   where  Date in ('2018-09-01') and ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'
 
 
+---********************************************************************
   delete from JDE_DB_Alan.FCPRO_Fcst_History 
-  where  Date in ('2018-10-01') and ReportDate between '2018-10-30' and '2018-11-01 17:00:00:00'
+  where  Date in ('2018-11-01') and ReportDate between '2018-11-29' and '2018-12-01 17:00:00:00'
 
    select * from JDE_DB_Alan.FCPRO_Fcst_History 
-  where  Date in ('2018-10-01') and ReportDate between '2018-10-30' and '2018-11-01 17:00:00:00'
+  where  Date in ('2018-11-01') and ReportDate between '2018-11-29' and '2018-12-01 17:00:00:00'
 
      select distinct h.ItemNumber  from JDE_DB_Alan.FCPRO_Fcst_History h
-   where ReportDate between '2018-10-30' and '2018-11-01 17:00:00:00'
+   where ReportDate between '2018-11-30' and '2018-12-01 17:00:00:00'
+   ---********************************************************************
+
 
 ------------------------------------------------------------------------
 
@@ -4078,11 +4081,11 @@ from JDE_DB_Alan.FCPRO_Fcst_History h
 where h.ReportDate between '2018-07-25' and '2018-08-1 13:00:00'
 
 ;update h
-set h.ReportDate = '2018-10-31 15:00:00'
+set h.ReportDate = '2018-12-31 15:00:00'
 --select * 
 from JDE_DB_Alan.FCPRO_Fcst_History h
 --where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
-where h.ReportDate between '2018-10-01' and '2018-10-25 13:00:00'
+where h.ReportDate between '2018-12-01' and '2018-12-25 13:00:00'
 
 
 ---================= Update Records in FC history table ================================================================================================================
