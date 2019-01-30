@@ -706,6 +706,20 @@ CREATE TABLE JDE_DB_Alan.FCPRO_SafetyStock
 
 )
 
+CREATE TABLE JDE_DB_Alan.FCPRO_SafetyStock_RM
+(       
+		ItemNumber			varchar(100)      not null,
+		Sales_12Mth			decimal(18,2),		
+		Pareto				varchar(2),	
+		Stdevp_				decimal(18,2),	
+		LeadtimeLevel		decimal(18,12),
+		rk					int,
+		SS_					decimal(18,12),
+		ReportDate			datetime default(getdate())
+
+)
+
+
 drop table JDE_DB_Alan.FCPRO_Fcst_Pareto
 CREATE TABLE JDE_DB_Alan.FCPRO_Fcst_Pareto
    ( 
@@ -1038,6 +1052,26 @@ CREATE TABLE JDE_DB_Alan.SlsHistoryMT
 	 UOM			varchar(100) NOT NULL 	    
   )  
 --GO	
+
+CREATE TABLE JDE_DB_Alan.SlsHistoryRM
+   ( 
+     BU				varchar(100) NOT NULL, 	 
+	 ShortItemNumber	varchar(100) NOT NULL, 
+	 ItemNumber		varchar(100) NOT NULL, 				-- 2nd ItemNumber
+	-- StockType		varchar(100) NOT NULL, 
+	 Hierarchy			varchar(100), 
+	 GLCategory			varchar(100),		
+	 SalesChannel		varchar(100),
+	 Century		int NOT NULL,  		 		 
+	 FinancialYear	int NOT NULL, 	
+	 FinancialMonth	int NOT NULL, 	
+	 DocumentType	varchar(100) NOT NULL,
+	 Quantity		decimal ,	
+	 UOM			varchar(100) NOT NULL 	    
+  )  
+--GO
+
+
 
 drop table JDE_DB_Alan.StkAvailability
 CREATE TABLE JDE_DB_Alan.StkAvailability
@@ -1420,7 +1454,8 @@ select count(*) TTL_Record, count(distinct x.ItemNumber) TTL_UniqueItem from JDE
  -- BULK INSERT JDE_DB_Alan.HistoryMTB4Superssion 
   -- BULK INSERT JDE_DB_Alan.SlsHistoryMT
   --BULK INSERT JDE_DB_Alan.SlsHistoryHD
-    Bulk insert JDE_DB_Alan.FCPRO_Fcst
+   -- Bulk insert JDE_DB_Alan.FCPRO_Fcst
+    Bulk insert JDE_DB_Alan.SlsHistoryRM
  -- bulk insert JDE_DB_Alan.FCPRO_NP_tmp
  -- bulk insert JDE_DB_Alan.FCPRO_MI_tmp
     --  from 'C:\Alan_GWA_C\Work\ImportData.csv'
@@ -1428,8 +1463,9 @@ select count(*) TTL_Record, count(distinct x.ItemNumber) TTL_UniqueItem from JDE
      -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\FC_Raw_Data\HD_Sales_MT_History6_Excel_SuperssioRawData_CSV.csv'
    --from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\FC_Raw_Data\RI transactions MT since Jan15_CSV.csv'
   --from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\FC_Raw_Data\RI transactions HD since Jan15_CSV.csv'
+  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Transaction_Data_Download\JDE_Transaction_IM_2\RawMaterial_SS_Nic_CSV.csv'
   --from 'T:\s _ Supply Chain\archive\Inventory_By_Location_Template_CSV.csv'
-  from  'T:\Forecast Pro\Forecast Pro TRAC\Output\Hunter Douglas\FC_Pro_Fcst_upload_To_SQLSVR_CSV_Download_Template.csv'
+  --from  'T:\Forecast Pro\Forecast Pro TRAC\Output\Hunter Douglas\FC_Pro_Fcst_upload_To_SQLSVR_CSV_Download_Template.csv'
    -- from  'T:\Forecast Pro\Forecast Pro TRAC\Output\Hunter Douglas\FC_Download_CSV_test.csv'
    --   from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_DemandPlanning\FC_Change\HD_New_Product_Induction\Signature_Series_20037_CSV.csv'
 	--  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_DemandPlanning\FC_Change\HD_Market_Intelligence\Jde_FC_Downloaded_20037_BroomField_DA Review_CSV_.csv'
@@ -6529,7 +6565,7 @@ exec JDE_DB_Alan.sp_Exp_Test_CO_mast
 
 
 
---- . Get Details of Test CO/WO --- 23/10/2018
+---  Get Details of Test CO/WO --- 23/10/2018
 select * from JDE_DB_Alan.TestCO
 select * from JDE_DB_Alan.TestWO
 

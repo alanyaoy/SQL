@@ -867,4 +867,45 @@ select * from JDE_DB_Alan.TestWO
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'non-lt'
 select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy y where y.Item in ('42.210.031') order by y.DataType desc,y.Item
 		 
-		 
+
+----------- Isolate Textfile forecast 15/1/2019 -----------------------------------
+select * from JDE_DB_Alan.vw_Mast;
+
+with _t as (
+			select m.PlannerNumber,m.Owner_,StockingType,count(m.ItemNumber) as SKU_Cnt
+			from JDE_DB_Alan.vw_Mast m
+			group by m.PlannerNumber,m.Owner_,StockingType
+			--order by m.PlannerNumber,SKU_Cnt desc
+			)
+      ,t_ as ( select t.PlannerNumber,t.Owner_,t.StockingType,t.SKU_Cnt
+	                  ,sum(t.SKU_Cnt) over ( partition by t.plannerNumber order by t.SKU_Cnt ) as RunnTTL
+	            from _t as t 
+				)
+      select * from t_
+	  order by t_.PlannerNumber desc
+
+
+select 155832/24
+
+;with fc as (
+	select f.*,p.Pareto 
+	from JDE_DB_Alan.FCPRO_Fcst f left join JDE_DB_Alan.FCPRO_Fcst_Pareto p on f.ItemNumber = p.ItemNumber
+	where f.DataType1 like ('%Adj_FC')		 
+	)
+select fc.ItemNumber,fc.DataType1,fc.Date,fc.value as QTY,fc.Value * m.WholeSalePrice as FC_Revenue,m.PlannerNumber,m.Owner_
+       ,m.UOM
+	   ,m.FamilyGroup_,m.Family_0
+	   ,fc.Pareto
+  from fc left join JDE_DB_Alan.vw_Mast m on fc.ItemNumber = m.ItemNumber
+  where m.PlannerNumber in ('20003')
+
+
+
+  ---
+
+  select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('09.400.951','09.566.000','82.865.000')
+
+
+
+  select * from JDE_DB_Alan.vw_Hist_RM r
+  where r.ItemNumber in ('09.400.951')

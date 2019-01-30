@@ -98,6 +98,13 @@ order by st.last_execution_time desc
 --ORDER BY AVG_LOGICAL_READS DESC
 
 
+----------------Checl when Store procedure is created and updated---------------------------------------------------
+
+SELECT name, create_date, modify_date 
+FROM sys.objects
+WHERE type = 'P'
+ORDER BY modify_date DESC
+
 select 1
 
 SELECT
@@ -519,3 +526,11 @@ go
 -- last line of the script
 set noexec off -- Turn execution back on; only needed in SSMS, so as to be able 
                -- to run this script again in the same session.
+
+
+----------------Checl when Store procedure is created and updated---------------------------------------------------
+
+SELECT name, create_date, modify_date 
+FROM sys.objects
+WHERE type = 'P'
+ORDER BY modify_date DESC
