@@ -3292,9 +3292,9 @@ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1390881'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394638'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1398461,1398479,1398487'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1380543,1401156,1401164'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '726223'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1028961'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1377977,1379753,1379770,1379788'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394654,1394662,1394671,1394689,1394697,1394700'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1098337'
 select m.ItemNumber,m.ShortItemNumber,m.description from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('38.002.001','38.002.002','38.002.003','38.002.004','38.002.005','38.002.006')
 
 
@@ -4031,7 +4031,7 @@ order by pvt.ItemNumber
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-03-01' and '2018-03-09 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
-  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-01-01 13:20' and '2019-10-01 17:39:00'
+  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-01-05' and '2019-01-10 17:00:00'
 
 
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > dateadd(d,-3,getdate()) group by fh.ReportDate order by fh.ReportDate
@@ -4040,7 +4040,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-12-01' and ReportDate <'2018-12-05 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-01-01' and '2019-10-01 17:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-02-01' and '2019-02-10 17:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -4052,7 +4052,7 @@ select count(*) cnt from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate > D
 exec JDE_DB_Alan.sp_Z_FC_Hist_Summary
 
 -- delete one month data --
-select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-10-01'
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2019-02-01' and '2019-02-10'
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30'              -- '2018-09-30' will default to 2018-09-30 00:00:00
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'
 select distinct h.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'
