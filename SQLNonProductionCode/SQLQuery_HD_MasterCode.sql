@@ -251,7 +251,8 @@ CREATE TABLE JDE_DB_Alan.Master_ML345_Jde
 	StockingType		  varchar(100),   
 	GLCat				 varchar(100),   
 	LineType			    varchar(100),   
-	PackQty				   varchar(100),   
+	--PackQty				   varchar(100),   
+	PackQty				   decimal(18,6),  
 	xx					   varchar(100),
 	MfgUnit				      varchar(100),
 	PrimUM				     varchar(100),
@@ -334,6 +335,9 @@ CREATE TABLE JDE_DB_Alan.Master_ML345_Jde
 
 
 drop table JDE_DB_Alan.Master_ML345
+drop index PK_ShortItem_master on JDE_DB_Alan.Master_ML345
+
+select * from JDE_DB_Alan.ml
 CREATE TABLE JDE_DB_Alan.Master_ML345				-- you probably need to allow cost,salesprice to be null since people might not enter these values in JDE in its first place -- 1/3/2018
    ( 
 	 BU					varchar(100)
@@ -343,6 +347,14 @@ CREATE TABLE JDE_DB_Alan.Master_ML345				-- you probably need to allow cost,sale
 	,StockingType		 varchar(100)
 	,GLCat				varchar(100)
 	,LineType			varchar(100)
+	,PackQty				decimal(18,6)						-- added 29/3/2019	
+	,MfgUnit				varchar(100)						-- added 29/3/2019
+	,PrimUM				    varchar(100)						-- added 29/3/2019
+	,PurchUM				varchar(100)						-- added 29/3/2019
+	,PricingUM			    varchar(100)						-- added 29/3/2019
+	,ProdUM				    varchar(100)						-- added 29/3/2019	
+	,CompUM				    varchar(100)						-- added 29/3/2019		
+	,Colour					varchar(100)						-- added 29/3/2019
 	,PlannerNumber		 varchar(100)
 	,PrimarySupplier	 varchar(100)
 	,MaxDisc			decimal(18,6)
@@ -354,6 +366,8 @@ CREATE TABLE JDE_DB_Alan.Master_ML345				-- you probably need to allow cost,sale
 	,NonStk				varchar(100)
 	,WholeSalePrice		decimal(18,6)
 	,UOM				varchar(100)
+	,ConvUOM			  varchar(100)						-- added 29/3/2019
+	,ConversionFactor     decimal(18,6)						-- added 29/3/2019
 	,LeadtimeLevel		 decimal(18,6)
 	,StandardCost		decimal(18,6)
 	,QtyOnHand			decimal(18,6)
@@ -368,6 +382,8 @@ CREATE TABLE JDE_DB_Alan.Master_ML345				-- you probably need to allow cost,sale
 	)
 --go
 create clustered index idx_ShortItem on JDE_DB_Alan.Master_ML345 (ShortItemNumber asc)
+
+select * from JDE_DB_Alan.Master_ML345
 
 
 ALTER TABLE employees ADD CONSTRAINT employees_pk PRIMARY KEY (last_name, first_name);		-- Syntax to add Primary Key
@@ -565,6 +581,19 @@ CREATE TABLE JDE_DB_Alan.MasterSupplier
    )
 ALTER TABLE JDE_DB_Alan.MasterSupplier ADD CONSTRAINT PK_Item_PO PRIMARY KEY (ItemNumber,OrderNumber,QuantityOrdered,DueDate);
 ALTER TABLE JDE_DB_Alan.MasterSupplier ADD OpenPOID int NOT NULL IDENTITY (1,1) PRIMARY KEY	
+
+
+CREATE TABLE JDE_DB_Alan.Master_UOMConversion					--- 27/3/2019
+   ( 
+     BU							varchar(100) NOT NULL, 
+	-- ItemNumber				varchar(1000) NOT NULL, 
+	 ShortItemNumber			varchar(100),     
+	 UOM_From					varchar(100),
+	 UOM_To						varchar(100),
+	 Conv_Factor				decimal(18,6),
+	 Conv_Factor_2ndToPmy		decimal(18,6),
+	-- ReportDate					datetime default(getdate())
+  )  
 
 
 
@@ -1146,6 +1175,23 @@ ALTER TABLE JDE_DB_Alan.OpenPO ADD CONSTRAINT PK_Item_PO PRIMARY KEY (ItemNumber
 ALTER TABLE JDE_DB_Alan.OpenPO ADD OpenPOID int NOT NULL IDENTITY (1,1) PRIMARY KEY	
 
 
+
+drop table JDE_DB_Alan.TestWO
+CREATE TABLE JDE_DB_Alan.TestWO
+   ( 
+		 TestWO_ID		  int not null identity (1,1) primary key			--- seed is 1 by increment1		-- 22/10/2018
+		,ItemNumber					varchar(100)				
+		,OrderQuantity				decimal(18,2)			
+		,UM							varchar(100)
+		,Customer					varchar(100)		
+		,RequestDate				datetime
+		,ComponentBranch			varchar(100)
+		,WONumber					varchar(100) 		
+		,Reportdate			  datetime default(getdate())
+   )
+
+
+
 delete from JDE_DB_Alan.TestCO
 drop table JDE_DB_Alan.TestCO
 CREATE TABLE JDE_DB_Alan.TestCO
@@ -1181,24 +1227,84 @@ CREATE TABLE JDE_DB_Alan.TestCO
 		,StateCode1					varchar(100)
 		,StateCode2					varchar(100)
 		,OrderTakenBy				varchar(5000)
-		,Reportdate			  datetime default(getdate())
+		,Reportdate					datetime default(getdate())
    )
 
 
-
-drop table JDE_DB_Alan.TestWO
-CREATE TABLE JDE_DB_Alan.TestWO
-   ( 
-		 TestWO_ID		  int not null identity (1,1) primary key			--- seed is 1 by increment1		-- 22/10/2018
-		,ItemNumber					varchar(100)				
-		,OrderQuantity				decimal(18,2)			
-		,UM							varchar(100)
-		,Customer					varchar(100)		
-		,RequestDate				datetime
-		,ComponentBranch			varchar(100)
-		,WONumber					varchar(100) 		
-		,Reportdate			  datetime default(getdate())
-   )
+--- 29/3/2019 ---													
+CREATE TABLE [JDE_DB_Alan].[TesTSO]
+(
+	[Order_Number]				[varchar](100) NULL,
+	[Order_Type]				[varchar](100) NULL,
+	[Order_Co]					[varchar](100) NULL,
+	[Line_Number]				[int] NULL,
+	[Hold_Code]					[varchar](100) NULL,
+	[Sold_To]					[varchar](100) NULL,
+	[Sold_To_Name]				[varchar](100) NULL,
+	[Second_Item_Number]		[varchar](100) NULL,
+	[Description_1]				[varchar](100) NULL,
+	[Quantity]					[decimal](18, 2) NULL,
+	[UOM]						[varchar](100) NULL,
+	[Secondary_Quantity]		[decimal](18, 2) NULL,
+	[Secondary_UOM]				[varchar](100) NULL,
+	[Requested_Date]			[datetime] NULL,
+	[Last_Status]				[varchar](100) NULL,
+	[Last_Status_Desc]			[varchar](100) NULL,
+	[Next_Status]				[varchar](100) NULL,
+	[Next_Status_Desc]			[varchar](100) NULL,
+	[Customer_PO]				[varchar](100) NULL,
+	[Ship_To]					[varchar](100) NULL,
+	[Ship_To_Description]		[varchar](100) NULL,
+	[Third_Item_Number]			[varchar](100) NULL,
+	[Parent_Number]				[varchar](100) NULL,
+	[Agreement_Number]			[varchar](100) NULL,
+	[Shipment_Number]			[varchar](100) NULL,
+	[Pick_Number]				[varchar](100) NULL,
+	[Delivery_Number]			[varchar](100) NULL,
+	[Unit_Price]				[decimal](18, 2) NULL,
+	[Extended_Amount]			[decimal](18, 2) NULL,
+	[Pricing_UOM]				[varchar](100) NULL,
+	[Foreign_Unit_Price]		[decimal](18, 2) NULL,
+	[Foreign_Extended_Amount]	[decimal](18, 2) NULL,
+	[Trans_Currency]			[varchar](100) NULL,
+	[Order_Date]				[datetime] NULL,
+	[Short_Item_No]				[varchar](100) NULL,
+	[Ord_Suf]					[varchar](100) NULL,
+	[Document_Number]			[varchar](100) NULL,
+	[Doument_Type]				[varchar](100) NULL,
+	[Document_Company]			[varchar](100) NULL,
+	[Scheduled_Pick_Date]		[datetime] NULL,
+	[Scheduled_Pick_Time]		[datetime] NULL,
+	[Original_Promised_Date]	[datetime] NULL,
+	[Original_Promised_Time]	[datetime] NULL,
+	[Actual_Ship_Date]			[datetime] NULL,
+	[Actual_Ship_Time]			[datetime] NULL,
+	[Invoice_Date]				[datetime] NULL,
+	[Cancel_Date]				[datetime] NULL,
+	[GL_Date]					[datetime] NULL,
+	[Promised_Delivery_Date]	 [datetime] NULL,
+	[Promised_Delivery_Time]	 [datetime] NULL,
+	[Business_Unit]				[varchar](100) NULL,
+	[Line_Type]					[varchar](100) NULL,
+	[Sls_Cd1]					[varchar](100) NULL,
+	[Sls_Cd2]					[varchar](100) NULL,
+	[Sls_Cd3]					[varchar](100) NULL,
+	[Sls_Cd4]					[varchar](100) NULL,
+	[Sls_Cd5]					[varchar](100) NULL,
+	[Exchange_Rate]				[decimal](18, 2) NULL,
+	[Base_Currency]				[varchar](100) NULL,
+	[Quantity_Ordered]			[decimal](18, 2) NULL,
+	[Quantity_Shipped]			[decimal](18, 2) NULL,
+	[Quantity_Backordered]		[decimal](18, 2) NULL,
+	[Quantity_Canceled]			[decimal](18, 2) NULL,
+	[Price_Effective_Date]		[datetime] NULL,
+	[Unit_Cost]					[decimal](18, 2) NULL,
+	[Foreign_Unit_Cost]			[decimal](18, 2) NULL,
+	[Adjustment_Schedule]		[varchar](100) NULL,
+	[Transaction_Originator]	 [varchar](100) NULL,
+	[ReportDate]				[datetime] NULL
+) ON [PRIMARY]
+GO
 
 
 --=============================== Data --==============================================================
@@ -1373,6 +1479,7 @@ select * from JDE_DB_Alan.MasterFamily
 delete from JDE_DB_Alan.StkAvailability
 select * from JDE_DB_Alan.MasterMTLeadingZeroItemList a
 select * from JDE_DB_Alan.Master_ML345 a where a.ShortItemNumber in ('1074571')
+delete from JDE_DB_Alan.Master_ML345
 delete from JDE_DB_Alan.MasterFamily
 delete from JDE_DB_Alan.MasterFamilyGroup
 delete from JDE_DB_Alan.MasterMTLeadingZeroItemList 
@@ -1383,9 +1490,9 @@ delete from JDE_DB_Alan.MasterSupplier
 --BULK INSERT JDE_DB_Alan.MasterSellingGroup
 --BULK INSERT JDE_DB_Alan.MasterFamilyGroup
  --BULK INSERT JDE_DB_Alan.MasterFamily
--- BULK INSERT JDE_DB_Alan.Master_ML345
-BULK INSERT JDE_DB_Alan.MasterSupplier
-
+ BULK INSERT JDE_DB_Alan.Master_ML345
+--BULK INSERT JDE_DB_Alan.MasterSupplier
+--BULK INSERT JDE_DB_Alan.Master_UOMConversion
 -- BULK INSERT JDE_DB_Alan.Master_ML345
 -- BULK INSERT JDE_DB_Alan.MasterPrices
 --  BULK INSERT JDE_DB_Alan.MasterMTSuperssionItemList
@@ -1394,12 +1501,14 @@ BULK INSERT JDE_DB_Alan.MasterSupplier
     -- from 'E:\ImportDataa.txt'
 
  --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_R55ML345_HD_2017_11_CSV.csv'			-- use this one
+     from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_R55ML345.csv'
  -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Description_Hierarchy_SKU_Level_CSV.csv'   
   -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_SellingGroup_CSV.csv'
   --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_FamilyGroup_CSV.csv'
   --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_Family_CSV.csv'
   --  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\Master_Hierarchy_ETC\HierarchyMaster_Family_CSV.csv'
-      from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Supplier_Summary.csv'
+     -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Supplier_Summary.csv'
+	  -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\UOM_Conversion.csv'
 --	 from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Report_HD_Conversions_CSV.csv'
  -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Bricos_MT_SuperssionItems_CSV.csv'
   --from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Bricos_MT_LeadingZeroItems_CSV_.csv'
@@ -3294,7 +3403,7 @@ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1398461,1398479,1398487'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1380543,1401156,1401164'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1028961'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1377977,1379753,1379770,1379788'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1098337'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1348279'
 select m.ItemNumber,m.ShortItemNumber,m.description from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('38.002.001','38.002.002','38.002.003','38.002.004','38.002.005','38.002.006')
 
 
@@ -3494,7 +3603,7 @@ set @DataType = 'Adj_FC,Sales'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394654'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'18.010.035,18.010.036,18.013.089,18.615.007,24.5349.4459,24.7002.0001,24.7102.1858,24.7120.4459,24.7121.4459,24.7122.4459,24.7124.4459,24.7127.4459,24.7146.4459A,24.7163.0000A,24.7168.4459A,24.7169.4459A,24.7207.4459,24.7219.4459,24.7250.4459,24.7251.4459,24.7253.4459,24.7334.4459,2780229000,32.379.200,32.455.155','Adj_FC'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'24.7218.4462,32.501.000,43.211.004,32.379.200,32.380.855,18.607.016,24.7201.0000,24.7102.7052,24.7102.7052,32.455.465,24.7115.0952A,24.7114.0952A,24.7128.0952,709895,24.7353.0000A,24.7136.0155A,709901,24.7120.0952','Adj_FC'
-  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'24.7221.0952','Adj_FC'
+  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'S3000NET5300N001','Adj_FC'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'44.003.102,44.003.104,44.003.113,44.003.114,44.004.102,44.004.104,44.004.113,44.004.114,44.005.102,44.005.104','Adj_FC'	
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null, '44.003.102,44.003.104,44.003.113,44.003.114,44.004.102,44.004.104,44.004.113,44.004.114,44.005.102,44.005.104,44.003.102K,44.003.104K,44.003.113K,44.003.114K,44.004.102K,44.004.104K,44.004.113K,44.004.114K,44.005.102K,44.005.104K','Adj_FC'	
   	
@@ -4031,7 +4140,7 @@ order by pvt.ItemNumber
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-03-01' and '2018-03-09 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
-  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-01-05' and '2019-01-10 17:00:00'
+  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-03-01' and '2019-03-30 17:00:00'
 
 
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > dateadd(d,-3,getdate()) group by fh.ReportDate order by fh.ReportDate
@@ -4040,7 +4149,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-12-01' and ReportDate <'2018-12-05 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-02-01' and '2019-02-10 17:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-03-01' and '2019-03-05 17:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -4117,11 +4226,11 @@ from JDE_DB_Alan.FCPRO_Fcst_History h
 where h.ReportDate between '2018-07-25' and '2018-08-1 13:00:00'
 
 ;update h
-set h.ReportDate = '2018-12-31 15:00:00'
+set h.ReportDate = '2019-03-31 15:00:00'
 --select * 
 from JDE_DB_Alan.FCPRO_Fcst_History h
 --where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
-where h.ReportDate between '2018-12-01' and '2018-12-25 13:00:00'
+where h.ReportDate between '2019-03-01' and '2019-03-30 13:00:00'
 
 
 ---================= Update Records in FC history table ================================================================================================================

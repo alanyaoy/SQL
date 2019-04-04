@@ -12,7 +12,7 @@
 USE [JDE_DB_Alan]
 GO
 
-/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 10/01/2019 9:36:42 AM ******/
+/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 1/04/2019 11:03:06 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -20,9 +20,14 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+--/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 29/03/2019 4:31:16 PM ******/
+--SET ANSI_NULLS ON
+--GO
 
+--SET QUOTED_IDENTIFIER ON
+--GO
 
-
+---/ Updated 1/4/2019 , Add Colour, UOMConv, UOMConvFactor ---/
 
 
 ALTER view [JDE_DB_Alan].[vw_Mast] with schemabinding as
@@ -56,7 +61,7 @@ with fc as (
 				    ,m.StockingType,m.PlannerNumber,m.PrimarySupplier
 					,m.StandardCost,m.WholeSalePrice,m.Description,m.QtyOnHand 	
 					,m.LeadtimeLevel
-					,m.UOM					
+					,m.UOM,m.ConvUOM,m.ConversionFactor						
 					,case when isnull(round(m.LeadtimeLevel/30,0),0) <0.5 then 1
 					      else isnull(cast(round(m.LeadtimeLevel/30,0) as int),0 ) end as Leadtime_Mth
 					,c.LongDescription as SellingGroup_
@@ -80,6 +85,7 @@ with fc as (
 						--when '20071' then 'Domenic Cellucci'
 						else 'Unknown'
 					end as Owner_
+				  ,m.Colour				
 
 			from  JDE_DB_Alan.Master_ML345 m 
 			         left join JDE_DB_Alan.MasterSellingGroup c  on m.SellingGroup = c.Code
@@ -95,25 +101,30 @@ with fc as (
 					,mas.masyr,mas.masmth,mas.masdte
 					,mas.LeadtimeLevel
 					,mas.UOM
+					,mas.ConvUOM
+					,mas.ConversionFactor
 					,mas.Leadtime_Mth
 					,mas.rn 
 					,mas.SellingGroup,mas.FamilyGroup,mas.Family
 					,mas.GLCat,mas.StockValue
 					,mas.Owner_
+					,mas.Colour
+					
 				from mas where rn =1  )
 
      select a.BU,a.ItemNumber,a.ShortItemNumber,a.StockingType,a.PlannerNumber,a.PrimarySupplier
 	             ,a.SellingGroup_,a.FamilyGroup_,a.Family_0
-				,a.StandardCost,a.WholeSalePrice,a.Description,a.QtyOnHand,a.SOHDate,a.SOHDate_
+				,a.StandardCost,a.WholeSalePrice,a.Description,a.Colour,a.QtyOnHand,a.SOHDate,a.SOHDate_
 				,a.masyr,a.masmth,a.masdte
 				,a.LeadtimeLevel
-				,a.UOM
+				,a.UOM,a.ConvUOM,a.ConversionFactor	
 				,a.Leadtime_Mth
 				,a.rn
 				,a.SellingGroup,a.FamilyGroup,a.Family 	
 				,a.GLCat,a.StockValue	
 				,a.Owner_
 				,s.SupplierName
+				
                 from mas_ a left join JDE_DB_Alan.MasterSupplier s on a.PrimarySupplier = s.SupplierNumber
      -- where a.ItemNumber in ('42.210.031')
 GO
