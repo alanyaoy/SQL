@@ -19,7 +19,7 @@ go
 
 use JDE_DB_Alan
 go
-
+ 
  ---=================How to Skip SQL Query --- Method 2  30/7/2018= ========================
 --select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
 --select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
