@@ -35,7 +35,10 @@ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('XQ4PV426HD','XQ
 select * from JDE_DB_Alan.Master_ML345 m where m.PrimarySupplier in ('1239','2037359')
 select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%stealth%')
 select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%screen%')
+select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%elli%') and m.Description like ('%rail%')
 select * from JDE_DB_Alan.vw_Mast m where m.FamilyGroup_ like ('%910%')
+
+
 
 select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h
 
@@ -103,6 +106,10 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '18.017.031,82.336.901,82.336.901',
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5300N904','2019-02-01','2019-09-03'
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2019-03-01','2020-02-03'
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '82.058.901,43.295.532','2019-04-01','2020-03-03'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7122950914,7127940914','2019-04-01','2020-03-03'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '26.528.030,26.519.030','2019-04-01','2020-03-03'
+
+
 
 
  -------------    Sales & FC Discrepancy ------------------------
@@ -246,7 +253,7 @@ select distinct h.DataType1 from JDE_DB_Alan.FCPRO_Fcst h
 select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%petra%') and m.StockingType in ('P','S')
 select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%chester%') and m.StockingType in ('P','S') order by m.ItemNumber
 select * from JDE_DB_Alan.Master_ML345 m where (m.Description like ('%linna%') or m.Description like ('%chester%')) and m.StockingType in ('S')  and m.ManFC in ('M') order by m.ItemNumber
-
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('2780144000','2780143000','2780155000','2780159000')
 
 
 ---  Sales Analysis ------

@@ -500,11 +500,14 @@ CREATE TABLE JDE_DB_Alan.MasterSuperssionItemList
 	 ConversionRate_UOM		decimal(18,6),
 	 Comment				varchar(1000) ,
 	 ValidStatus			varchar(100),						-- if valid then active , for record keeping purpose		-- 8/6/2018
+	 UpdateDate				datetime,
 	 ReportDate				datetime default(getdate()),
-	 constraint PK_ShtItem_Sups primary key (CurrentShortItemNumber)
+	 constraint PK_ShtItem_Sups primary key (CurrentShortItemNumber,ValidStatus)
   )  
 --GO	
 select * from JDE_DB_Alan.MasterSuperssionItemList
+
+
 
 CREATE TABLE JDE_DB_Alan.MasterMTSuperssionItemList
    ( 
@@ -4149,7 +4152,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-12-01' and ReportDate <'2018-12-05 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-03-01' and '2019-03-05 17:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-04-01' and '2019-04-05 17:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -4161,13 +4164,14 @@ select count(*) cnt from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate > D
 exec JDE_DB_Alan.sp_Z_FC_Hist_Summary
 
 -- delete one month data --
-select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2019-02-01' and '2019-02-10'
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2019-04-01' and '2019-04-10'
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30'              -- '2018-09-30' will default to 2018-09-30 00:00:00
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'
 select distinct h.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.Date in ('2018-09-01') and h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'	
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01 00:00:00.000') and h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01') and h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'			-- change h.Date format it yield same result
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('34.081.000') and h.ReportDate between '2019-04-10' and '2019-04-30 17:00:00:00' and h.Date in ('2019-09-01')
 
   delete from JDE_DB_Alan.FCPRO_Fcst_History 
   where  Date in ('2018-09-01') and ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'
@@ -4202,6 +4206,16 @@ FROM (SELECT TOP(@nMonths) n = ROW_NUMBER() OVER (ORDER BY NAME) FROM master.dbo
 select top 12 ROW_NUMBER() OVER (ORDER BY NAME) FROM master.dbo.syscolumns
 select * from master.dbo.syscolumns
 
+
+-----------------------------------------------------------------------------
+;update h
+set h.Value = 20
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+--where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
+ where h.ReportDate between '2019-04-10' and '2019-04-30 17:00:00:00'
+      and h.ItemNumber in ('34.081.000') 
+	  and h.Date in ('2019-09-01')
 
 ;update h
 set h.ReportDate = '2018-04-30 15:00:00'
