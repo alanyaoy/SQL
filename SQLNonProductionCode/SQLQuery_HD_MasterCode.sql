@@ -1,4 +1,4 @@
-
+//
  ---=================How to Skip SQL Query --- Method 3   30/7/2018= ================================================================= 
  --https://stackoverflow.com/questions/659188/sql-server-stop-or-break-execution-of-a-sql-script?noredirect=1&lq=1
 
@@ -915,7 +915,8 @@ CREATE TABLE JDE_DB_Alan.FCPRO_Fcst_Accuracy
 		,FamilyGroup_			varchar(100)
 		,PrimarySupplier		varchar(100)
 		,PlannerNumber			varchar(100)
-		,ReportDate		datetime default(getdate()),
+        ,StockingType		  varchar(100)		
+		,ReportDate		datetime default(getdate())
 		--constraint PK_Item_FC primary key (ItemNumber,date)							--- Need to make your primary key unique,not null,also remember you can hv only one Primary key as well
 		constraint PK_Item_FC_Accuracy primary key (Item,Date_,DataType,ReportDate)			  --- if there is violation of constraint you enforced & you are using RecordSet rather using CSV ( to bulk insert ) you will receive error message which is a very good thing -- 2/3/2018
 																					-- Date_ is forecast period 
@@ -4143,7 +4144,7 @@ order by pvt.ItemNumber
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-03-01' and '2018-03-09 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
-  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-03-01' and '2019-03-30 17:00:00'
+  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-04-01' and '2019-04-15 17:00:00'
 
 
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > dateadd(d,-3,getdate()) group by fh.ReportDate order by fh.ReportDate
@@ -4152,7 +4153,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-12-01' and ReportDate <'2018-12-05 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-04-01' and '2019-04-05 17:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-04-01' and '2019-04-15 17:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
