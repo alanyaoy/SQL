@@ -1,4 +1,4 @@
-
+4
  -- WhiteBoard ---
 
   ---=================How to Skip SQL Query --- Method 3   30/7/2018= ================================================================= 
@@ -23,9 +23,12 @@ select cast(SUBSTRING(REPLACE(CONVERT(char(10),getdate(),126),'-',''),1,6) as in
 
 select m.ItemNumber,m.Description from JDE_DB_Alan.vw_Mast m
 
+
+
+select * from JDE_DB_Alan.TextileFC
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('82.600.902CL','82.600.903CL','82.600.904CL','82.600.905CL','82.600.906CL','82.600.907CL','82.600.908CL','82.601.901CL','82.601.902CL','82.601.903CL','82.601.905CL','82.601.906CL','82.601.907CL','82.601.908CL','82.602.901CL','82.602.902CL','82.602.903CL','82.602.905CL','82.602.906CL','82.602.907CL','82.602.908CL') order by ItemNumber
-select * from JDE_DB_Alan.Master_ML345 m where m.ShortItemNumber in ('42.210.031')
-select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('S3000NET5250N001')
+select * from JDE_DB_Alan.Master_ML345 m where m.ShortItemNumber in ('34.480.000')
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('34.480.000')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('2801462000','2801463000','2780066000','2780067000')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('43.212.001','43.212.002','43.212.003','43.212.004')
 select * from JDE_DB_Alan.Master_ML345 m where m.ShortItemNumber in ('1377977','1379753','1379770','1379788')
@@ -34,15 +37,35 @@ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('34.513.000','34
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('XQ4PV426HD','XQ4PV414HD','XS4PV330HD','XS4PV620HD','XQ4PV914HD','XS5PV530HD','XQ5PV626HD','XQ5PV926HD','XQ5PV1530HD','XQ5PV2017HD','XQ5PV3017HD','XQ5PV4017HD','XQ4PV430HD','XQ4PV334HD','XS4PV624HD','XQ4PV915HD','XS5PV525HD','XQ5PV634HD','XQ5PV934HD','XQ5PV1234HD','XQ5PV2521HD','XQ5PV3521HD','XQ5PV4016HD')
 select * from JDE_DB_Alan.Master_ML345 m where m.PrimarySupplier in ('1239','2037359')
 select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%stealth%')
+select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%Willandra%') and m.Description like ('%linnet%')
 select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%screen%')
 select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%elli%') and m.Description like ('%rail%')
 select * from JDE_DB_Alan.vw_Mast m where m.FamilyGroup_ like ('%910%')
-select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('4199030822')
+select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%Eco%') and m.Description like ('%3[%]%') and m.Description like ('%plan%')
+select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%3[%]%')
+select m.ItemNumber,m.ShortItemNumber,m.PlannerNumber,m.FamilyGroup,m.Description,m.Family_0,m.StandardCost 
+from JDE_DB_Alan.vw_Mast m where m.Description like ('%3[%]%') and m.FamilyGroup in ('986') and m.StockingType not in ('o','u','k')
+
+select m.ItemNumber,m.ShortItemNumber,m.PlannerNumber,m.FamilyGroup,m.Description,m.Family_0,m.StandardCost,m.Colour
+from JDE_DB_Alan.vw_Mast m 
+where m.Family_0 like ('%635%') and m.StockingType not in ('o','u','k')
+
+
+select * from JDE_DB_Alan.Master_ML345 m where m.Description like ('%ellipse%')
+select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('44.010.003','44.010.004','44.010.005','44.010.001','44.010.002','44.010.006','44.010.007','44.011.003','44.011.004','44.011.005','44.011.001','44.011.002','44.011.006','44.011.007','44.012.003','44.012.004','44.012.008','44.012.007')
+
+select * from JDE_DB_Alan.FCPRO_Fcst
+
 
 select * from JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload p where p.ItemNumber in ('1001690')
 
+select * from JDE_DB_Alan.vw_OpenPO p where p.ItemNumber in ('42.210.031')
+select * from JDE_DB_Alan.MasterSuperssionItemList l where l.CurrentItemNumber in ('26.802.659t')
+
 
 select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h
+select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('52.008.850') and f.DataType1 in ('Adj_FC')
 
 
 select * from JDE_DB_Alan.SlsHistoryHD hd where hd.ItemNumber in ('34.417')
@@ -84,7 +107,7 @@ select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('34.218.000','28
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.010.035')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('82.513.902','82.514.901')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
-select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.010.035')
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('32.521.1858','2780115000','34.710.000')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('7460700000','45.128.000','46.508.500','82.696.921')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('S3000NET5300N904')
 select distinct m.StockingType from JDE_DB_Alan.Master_ML345 m 
@@ -101,6 +124,36 @@ select * from JDE_DB_Alan.OpenPO
  select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('s3000net5300n001','82.058.901','43.295.532','82.696.901','82.691.901','6431050000')
  select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('24.7250.0000','24.7250.4459','24.7251.0000','24.7399.0199','24.7399.1858','24.7400.7040','32.503.000','32.504.000','32.505.000','32.506.000','34.425.000','34.426.000','34.427.000','34.428.000','34.429.000','34.431.000','34.433.000','34.434.000','34.480.000','34.481.000','34.482.000')
  select * from JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload p where p.ItemNumber in ('27.161.810')
+  select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('18.010.035','18.010.036','18.615.007','24.7102.0199','24.7127.0155','24.7128.0155','24.7129.0155A','24.7201.0000','24.7206.0000','32.379.200','18.013.089','32.380.002','32.455.155','24.5358.0000','24.7124.0155','24.7203.0000','24.7220.0199','S3000NET5300N001','82.696.901','82.696.930')
+
+
+
+ --- Safety stock calculation --- Exception Reporting that Item has negative sales ( Credits/Returns causing issues for SS calculation ) --- Good it is working --- 6/6/2019
+
+ select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h 
+where h.CYM > 201805 and h.ItemNumber in ('26.058.104')
+
+select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h 
+where h.CYM > 201805 and  h.SalesQty <0  and  h.ItemNumber in ('18.017.117','26.058.104')
+
+-------
+with z as (
+		 select h.ItemNumber,sum(case when h.SalesQty <0 then 1 else 0 end ) as NegSls_Cnt
+		 from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h
+		 where h.CYM > 201805 and  h.SalesQty <0  ---and h.ItemNumber in ('26.058.104')
+		  group by h.ItemNumber
+		)
+	,hist as
+		 ( select h.ItemNumber,h.SalesQty,h.CYM,sum(h.SalesQty) over (partition by h.itemnumber) as ItemSlsTotal,avg(h.SalesQty) over (partition by h.itemnumber) as ItemSlsAvg
+				from  JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h	
+				where h.CYM > 201805		
+		   )  
+select * from z left join hist as h on z.ItemNumber = h.ItemNumber
+where h.CYM > 201805 and  h.SalesQty <0 
+order by z.NegSls_Cnt desc
+
+------------------------------------------------------------------------------
+
 
  select distinct n.ItemNumber from JDE_DB_Alan.FCPRO_NP_tmp n
  --select * from JDE_DB_Alan.FCPRO_NP_tmp n
@@ -112,16 +165,22 @@ exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'LT'
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'Non_LT'
 select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy
 
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'cs100','2019-08-01','2020-07-03'
+
 
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801381661,2801381862,2801381320,2801381276,2801381810,2801381324,2801382661,2801382785,2801382320,2801382810,2801382689,2801382180,2801382862,2801382048,2801382879,2801382580,2801382324,2801382276,2801382609,2801382551,2801382669,2801382496,2801406661,2801406862,2801406072,2801406276,2801406351,2801406324,2801407661,2801407862,2801407072,2801407276,2801407351,2801407324,2801389661,2801389785,2801389072,2801389351,2801389689,2801389167,2801389862,2801389048,2801389354,2801389245,2801389324,2801389276,2801389609,2801389551,2801389669,2801389095,2801390661,2801390785,2801390072,2801390351,2801390689,2801390167,2801390862,2801390048,2801390354,2801390245,2801390324,2801390276,2801390609,2801390551,2801390669,2801390095,2801385661,2801385862,2801385320,2801385276,2801385810,2801385324,2801386661,2801386785,2801386320,2801386810,2801386689,2801386180,2801386862,2801386048,2801386879,2801386580,2801386324,2801386276,2801386609,2801386551,2801386669,2801386496,2801395661,2801395862,2801395072,2801395276,2801395351,2801395324,2801396661,2801396785,2801396072,2801396351,2801396689,2801396167,2801396862,2801396048,2801396354,2801396245,2801396324,2801396276,2801396609,2801396551,2801396669,2801396095,2801404000,2801403661,2801403862,2801403072,2801403276,2801403351,2801403324,2801436661,2801436785,2801436072,2801436351,2801436689,2801436167,2801436862,2801436048,2801436354,2801436245,2801436324,2801436276,2801436609,2801436551,2801436669,2801436095,2801405661,2801405785,2801405072,2801405351,2801405689,2801405167,2801405862,2801405048,2801405354,2801405245,2801405324,2801405276,2801405609,2801405551,2801405669,2801405095,KIT2758,KIT2759,2911529661,2911529862,2911529072,2911529276,2911529351,2911529324,2911530661,2911530862,2911530072,2911530276,2911530351,2911530324,2911531661,2911531785,2911531072,2911531351,2911531689,2911531167,2911531862,2911531048,2911531354,2911531245,2911531324,2911531276,2911531609,2911531551,2911531669,2911531095,2911532661,2911532785,2911532072,2911532351,2911532689,2911532167,2911532862,2911532048,2911532354,2911532245,2911532324,2911532276,2911532609,2911532551,2911532669,2911532095,2801471000,7502000000,7502001000,7501005000,7501001000,7804000000,2801499661,2801499785,2801499072,2801499351,2801499689,2801499167,2801499862,2801499048,2801499354,2801499245,2801499324,2801499276,2801499609,2801499551,2801499669,2801499095,2801999000,2781208000,2801454000,2801350000,2801433661,2801433862,2801433072,2801433276,2801433351,2801433324,2801434661,2801434862,2801434072,2801434276,2801434351,2801434324,2801490661,2801490785,2801490072,2801490351,2801490689,2801490167,2801490862,2801490048,2801490354,2801490245,2801490324,2801490276,2801490609,2801490551,2801490669,2801490095,2801491661,2801491785,2801491072,2801491351,2801491689,2801491167,2801491862,2801491048,2801491354,2801491245,2801491324,2801491276,2801491609,2801491551,2801491669,2801491095,2851512661,2851218661,2851224661,2851230661,2851236661,2851284661,2851512785,2851218785,2851224785,2851230785,2851236785,2851284785,2851512072,2851218072,2851224072,2851230072,2851236072,2851284072,2851512351,2851218351,2851224351,2851230351,2851236351,2851284351,2851218689,2851224689,2851230689,2851236689,2851284689,2851512167,2851218167,2851224167,2851230167,2851236167,2851284167,2851512862,2851218862,2851224862,2851230862,2851236862,2851284862,2851284048,2851218354,2851224354,2851230354,2851236354,2851284354,2851218245,2851224245,2851230245,2851236245,2851284245,2851284324,2851218276,2851224276,2851230276,2851236276,2851284276,2851284609,2851218551,2851224551,2851230551,2851236551,2851284551,2851284669,2851284095','2018-10-01','2019-09-03'
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '18.017.031,82.336.901,82.336.901','2019-03-01','2019-12-03'
-exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5300N904','2019-02-01','2019-09-03'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5300N904,WS03AA-A118118','2019-02-01','2019-09-03'
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2019-04-01','2020-03-03'
-exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '82.058.901,43.295.532','2019-04-01','2020-03-03'
-exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '7122950914,7127940914','2019-04-01','2020-03-03'
-exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '26.528.030,26.519.030','2019-04-01','2020-03-03'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '82.058.901,43.295.532,43.207.637M','2019-04-01','2020-03-03'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2991497000,45.104.000,34.480.000,34.519.000,24.7361.1858,24.7378.1858,34.710.000,34.711.000','2019-06-01','2020-03-03'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '26.528.030,26.519.030,6000130009004H,4199030822','2019-06-01','2020-05-03'
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '24.7250.0000,24.7250.4459,24.7251.0000,24.7399.0199,24.7399.1858,24.7400.7040,32.503.000,32.504.000,32.505.000,32.506.000,34.425.000,34.426.000,34.427.000,34.428.000,34.429.000,34.431.000,34.433.000,34.434.000,34.480.000,34.481.000,34.482.000','2019-05-01','2020-04-03'
 
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '31.001.131,31.001.952,31.002.131,31.002.952,31.003.131,31.003.952,31.004.131,31.004.952,31.005.063,31.006.063,31.034.000,31.035.000,31.008.952,31.009.952,31.010.030,31.010.131,31.011.030,31.011.131,31.012.030,31.012.131,31.013.131,31.013.133,31.014.131,31.014.133,31.015.131,31.015.133,31.016.131,31.016.133,31.017.133,31.018.133,31.019.131,31.019.133,31.020.131,31.020.133,31.021.133,31.022.133,31.023.131,31.023.133,31.024.131,31.024.133,31.025.131,31.025.133,31.026.131,31.026.133,31.027.131,31.027.133,31.028.131,31.028.133,31.029.131,31.029.952,31.030.131,31.030.133,31.031.952,31.032.131,31.032.952,31.033.131,31.033.952','2019-07-01','2020-06-03'
+
+select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('31.010.030','31.005.063')
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('31.010.030','31.005.063')
 
  -------------    Sales & FC Discrepancy ------------------------
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2019-02-01','2020-01-03','rnk'
@@ -132,11 +191,14 @@ select * from JDE_DB_Alan.vw_NP_FC_Analysis a
 
 
 exec JDE_DB_Alan.sp_MI_2_Raw_Combine_Sim_Mismatch_1mOff '6610350000','2019-06-03'
+exec JDE_DB_Alan.sp_MI_2_Raw_Combine_Sim_Mismatch_1mOff '46.005.000,46.012.000,46.011.000,46.606.000,46.607.000,46.608.000','2020-06-03'
 
 
 select * from JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload p where p.Family is null
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('05.980.000')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('7520065000','43.216.001','2780144451','43.216.002','2780145451','43.216.003','4152336450','43.216.004','2780144680','45.133.000','45.134.100','45.133.100','2780145680')
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('24.7129.0155A')
+
 
 select distinct f.ItemNumber
 from JDE_DB_Alan.FCPRO_Fcst f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber=m.ItemNumber
@@ -144,7 +206,7 @@ from JDE_DB_Alan.FCPRO_Fcst f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber=m.
 where m.PrimarySupplier in ('2092128') and f.DataType1 in ('Adj_FC')
 
 
-
+select * from JDE_DB_Alan.FCPRO_Fcst f  where f.ItemNumber in ('18.010.035') and f.DataType1 in ('adj_fc')
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('s3000net5250n001')
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('2801748000','2801749000','2801482000','2801483000')

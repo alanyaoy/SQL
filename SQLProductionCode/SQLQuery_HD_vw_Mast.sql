@@ -12,12 +12,13 @@
 USE [JDE_DB_Alan]
 GO
 
-/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 1/04/2019 11:03:06 AM ******/
+/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 7/08/2019 11:19:20 AM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 --/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 29/03/2019 4:31:16 PM ******/
@@ -82,6 +83,9 @@ with fc as (
 						when '20003' then 'Lee Roise'
 						when '30036' then 'Violet Glodoveza'
 						when '30039' then 'Ben'
+						when '29917' then 'Metals Planner'
+						when '20065' then 'AWF RollForming'
+						when '2519718' then 'CutLength Planner'
 						--when '20071' then 'Domenic Cellucci'
 						else 'Unknown'
 					end as Owner_
