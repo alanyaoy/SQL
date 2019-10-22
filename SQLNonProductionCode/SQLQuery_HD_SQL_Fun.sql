@@ -130,3 +130,31 @@ FROM (SELECT TOP(@nMonths) n = ROW_NUMBER() OVER (ORDER BY NAME) FROM master.dbo
 
 SELECT top 12 ROW_NUMBER() OVER (ORDER BY NAME) FROM master.dbo.syscolumns
 select * from master.dbo.syscolumns
+
+
+---------- How to check for Is not Null And Is not Empty string in SQL server? -------------------------
+------ https://stackoverflow.com/questions/8660203/how-to-check-for-is-not-null-and-is-not-empty-string-in-sql-server -----
+
+--- If you only want to match "" as an empty string
+
+WHERE DATALENGTH(COLUMN) > 0 
+--- If you want to count any string consisting entirely of spaces as empty
+
+WHERE COLUMN <> '' 
+---Both of these will not return NULL values when used in a WHERE clause. As NULL will evaluate as UNKNOWN for these rather than TRUE. ---
+
+
+CREATE TABLE T 
+  ( 
+     C VARCHAR(10) 
+  ); 
+
+INSERT INTO T 
+VALUES      ('A'), 
+            (''),
+            ('    '), 
+            (NULL); 
+
+SELECT * 
+FROM   T 
+WHERE  C <> ''

@@ -20,6 +20,8 @@ go
 use JDE_DB_Alan
 go
  
+
+ 
  ---=================How to Skip SQL Query --- Method 2  30/7/2018= ========================
 --select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
 --select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
@@ -725,12 +727,13 @@ CREATE TABLE JDE_DB_Alan.JDE_Fcst_DL								-- JDE forecast download table			1/5
 )
 
 
-
+drop table JDE_DB_Alan.FCPRO_SafetyStock
 CREATE TABLE JDE_DB_Alan.FCPRO_SafetyStock
 (       
 		ItemNumber			varchar(100)      not null,
 		Sales_12Mth			decimal(18,2),		
 		Pareto				varchar(2),	
+		StockingType       varchar(100),
 		Stdevp_				decimal(18,2),	
 		LeadtimeLevel		decimal(18,12),
 		rn					int,
@@ -797,6 +800,7 @@ drop view [vw_NP_FC_Analysis]
 drop table JDE_DB_Alan.FCPRO_NP_tmp
 drop view JDE_DB_Alan.vw_Mast
 drop view JDE_DB_Alan.vw_FC
+drop view JDE_DB_Alan.vw_NP_FC_Analysis
 
 
 CREATE TABLE JDE_DB_Alan.FCPRO_NP_tmp
@@ -916,14 +920,15 @@ CREATE TABLE JDE_DB_Alan.FCPRO_Fcst_Accuracy
 		,FamilyGroup_			varchar(100)
 		,PrimarySupplier		varchar(100)
 		,PlannerNumber			varchar(100)
-        ,StockingType		  varchar(100)		
+        ,StockingType		  varchar(100)	
+		,Leadtime_Mth			int			
 		,ReportDate		datetime default(getdate())
 		--constraint PK_Item_FC primary key (ItemNumber,date)							--- Need to make your primary key unique,not null,also remember you can hv only one Primary key as well
 		constraint PK_Item_FC_Accuracy primary key (Item,Date_,DataType,ReportDate)			  --- if there is violation of constraint you enforced & you are using RecordSet rather using CSV ( to bulk insert ) you will receive error message which is a very good thing -- 2/3/2018
 																					-- Date_ is forecast period 
   )  
 --GO	
-
+alter table JDE_DB_Alan.FCPRO_Fcst_Accuracy drop constraint DF__FCPRO_Fcs__Repor__4D6A6A69
 
 
 select * from JDE_DB_Alan.FCPRO_Fcst
@@ -967,6 +972,7 @@ CREATE TABLE JDE_DB_Alan.FCPRO_Fcst
 		--constraint PK_Item_FC primary key (ItemNumber,date)							--- Need to make your primary key unique,not null,also remember you can hv only one Primary key as well
 		constraint PK_Item_FC primary key (ItemNumber,date,DataType1)			--- if there is violation of constraint you enforced & you are using RecordSet rather using CSV ( to bulk insert ) you will receive error message which is a very good thing -- 2/3/2018
   )  
+
 --GO	
 
 create index idx_Item on JDE_DB_Alan.FCPRO_Fcst (ItemNumber,date)
@@ -1236,8 +1242,10 @@ CREATE TABLE JDE_DB_Alan.TestCO
    )
 
 
---- 29/3/2019 ---													
-CREATE TABLE [JDE_DB_Alan].[TesTSO]
+--- 29/3/2019 ---		
+
+drop table JDE_DB_Alan.TesTSO											
+CREATE TABLE [JDE_DB_Alan].[SO_Inquiry]
 (
 	[Order_Number]				[varchar](100) NULL,
 	[Order_Type]				[varchar](100) NULL,
@@ -1253,9 +1261,9 @@ CREATE TABLE [JDE_DB_Alan].[TesTSO]
 	[Secondary_Quantity]		[decimal](18, 2) NULL,
 	[Secondary_UOM]				[varchar](100) NULL,
 	[Requested_Date]			[datetime] NULL,
-	[Last_Status]				[varchar](100) NULL,
+	[Last_Status]				[decimal](18, 2) NULL,
 	[Last_Status_Desc]			[varchar](100) NULL,
-	[Next_Status]				[varchar](100) NULL,
+	[Next_Status]				[decimal](18, 2) NULL,
 	[Next_Status_Desc]			[varchar](100) NULL,
 	[Customer_PO]				[varchar](100) NULL,
 	[Ship_To]					[varchar](100) NULL,
@@ -1268,7 +1276,7 @@ CREATE TABLE [JDE_DB_Alan].[TesTSO]
 	[Delivery_Number]			[varchar](100) NULL,
 	[Unit_Price]				[decimal](18, 2) NULL,
 	[Extended_Amount]			[decimal](18, 2) NULL,
-	[Pricing_UOM]				[varchar](100) NULL,
+	[Pricing_UOM]				[decimal](18, 2) NULL,
 	[Foreign_Unit_Price]		[decimal](18, 2) NULL,
 	[Foreign_Extended_Amount]	[decimal](18, 2) NULL,
 	[Trans_Currency]			[varchar](100) NULL,
@@ -1310,6 +1318,48 @@ CREATE TABLE [JDE_DB_Alan].[TesTSO]
 	[ReportDate]				[datetime] NULL
 ) ON [PRIMARY]
 GO
+
+
+drop table JDE_DB_Alan.SO_Inquiry_Super											
+CREATE TABLE [JDE_DB_Alan].[SO_Inquiry_Super]
+(
+	 Order_Number               varchar(100) null
+	,Or_Ty						varchar(100) null
+	,Do_Ty						varchar(100) null
+	,Business_Unit				varchar(100) null
+	,Item_Number				varchar(100) null
+	,Ship_To_Number				varchar(100) null
+	,Address_Number				varchar(100) null
+	,UM_UM						varchar(100) null
+	,PR_UM						varchar(100) null
+	,Qty_Ordered				decimal(18,2) null
+	,Request_Date				datetime null
+	,Order_Date					datetime null
+	,Invoice_Date				datetime null
+	,Qty_Ordered_LowestLvl		decimal(18,2) null
+	,GL_Date					datetime null
+	,Reference					varchar(500) null
+	
+	,LastStatus					decimal(18,2) null
+	,NextStatus					decimal(18,2) null
+	,Cd2_FamilyGroup			varchar(100) null	
+	,Cd3_Family					varchar(100) null
+
+	,Unit_Cost					decimal(18,2) null
+	,Unit_Price					decimal(18,2) null
+	,Extended_Cost				decimal(18,2) null
+	,Extended_Price				decimal(18,2) null
+	,Document_Number			varchar(100) null
+	,Primary_Supplier			varchar(100) null
+	,Buyer_Number				varchar(100) null
+	,Transaction_Originator		varchar(100) null
+	,Unit_List_Price			decimal(18,2) null
+	,ReportDate					[datetime] NULL
+
+) ON [PRIMARY]
+GO
+
+
 
 drop table JDE_DB_Alan.TextileFC
 CREATE TABLE JDE_DB_Alan.TextileFC
@@ -1521,13 +1571,13 @@ delete from JDE_DB_Alan.MasterMTLeadingZeroItemList
 delete from JDE_DB_Alan.MasterSupplier
 
 --bulk insert JDE_DB_Alan.JDE_Fcst
---bulk insert JDE_DB_Alan.Master_ItemCrossRef
+bulk insert JDE_DB_Alan.Master_ItemCrossRef
 --BULK INSERT JDE_DB_Alan.MasterSellingGroup
 --BULK INSERT JDE_DB_Alan.MasterFamilyGroup
  --BULK INSERT JDE_DB_Alan.MasterFamily
  --BULK INSERT JDE_DB_Alan.Master_ML345
  -- BULK INSERT JDE_DB_Alan.Textile_ItemCrossRef
-BULK INSERT JDE_DB_Alan.MasterSupplier
+--BULK INSERT JDE_DB_Alan.MasterSupplier
 --BULK INSERT JDE_DB_Alan.Master_UOMConversion
 -- BULK INSERT JDE_DB_Alan.Master_ML345
 -- BULK INSERT JDE_DB_Alan.MasterPrices
@@ -1539,12 +1589,13 @@ BULK INSERT JDE_DB_Alan.MasterSupplier
  --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_R55ML345_HD_2017_11_CSV.csv'			-- use this one
     -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_R55ML345_z.csv'
 	-- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_DemandPlanning\FC_Change\HD_Market_Intelligence\Market_Intelligence_Raw_Data\Raw_Data\Textile_Export_Forecast\Textile_FC_ProductCode_Cross_Reference_Master.csv'
+    from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_Item_Cross_Ref.csv'
  -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Description_Hierarchy_SKU_Level_CSV.csv'   
   -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_SellingGroup_CSV.csv'
   --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_FamilyGroup_CSV.csv'
   --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_Family_CSV.csv'
   --  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\Master_Hierarchy_ETC\HierarchyMaster_Family_CSV.csv'
-      from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Supplier_Summary.csv'
+  --  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Supplier_Summary.csv'
 	  -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\UOM_Conversion.csv'
 --	 from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Report_HD_Conversions_CSV.csv'
  -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Bricos_MT_SuperssionItems_CSV.csv'
@@ -2488,7 +2539,8 @@ select ss.ItemNumber,ss.SS_ as SS_Qty,isnull(ss.SS_*cte_.StandardCost,0) as SS_D
 	      on ss.ItemNumber = cte_.ItemNumber 
 --where  cte_.PrimarySupplier in ('1454','1281') --and ss.ItemNumber in ('34.486.000')
 --  where ss.ItemNumber in ('42.210.031')
-	where cte_.StockingType not in ('O','U') and cte_.ItemNumber in ('36.241.855')
+    --where cte_.StockingType not in ('O','U') --and cte_.ItemNumber in ('36.241.855')  -- Q is BTO and M is MTO
+	where cte_.StockingType not in ('O','U','Q','M') --and cte_.ItemNumber in ('36.241.855')  -- Q is BTO and M is MTO
 	      and cte_.SellingGroup in ('AD','TM','WC','FI')
  order by  cte_.PrimarySupplier,ss.Pareto
 
@@ -2911,8 +2963,8 @@ select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in (
 			select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy
 
 
-exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'LT'
-exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'Non_LT'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt_New 'LT'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt_New 'Non_LT'
 
 select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy y
 where datepart(year,y.ReportDate) = 2018 and datepart(MONTH,y.ReportDate) = 8
@@ -3438,11 +3490,15 @@ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1390881'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394638'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1398461,1398479,1398487'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1380543,1401156,1401164'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1028961'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1413552'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1377977,1379753,1379770,1379788'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1410546'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1354345,1354353,1354361,1354370,1354388,1354396,1354409,1354417,1354425,1401800,1354257,1412103,1354265,1354273,1354281,1354290,1412111,1354302,1412120,1401826,1354311,1391621,1412138,1412171,1412162,1412146,1412189,1412154,1354329,1412200,1412488,1354337,1391648,1401906,1413982,1401931,1401949,1401957'
+
 select m.ItemNumber,m.ShortItemNumber,m.description from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('38.002.001','38.002.002','38.002.003','38.002.004','38.002.005','38.002.006','26.353.0000')
 
+
+select * from JDE_DB_Alan.vw_Mast m
+where m
 
 
 --- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -3635,7 +3691,7 @@ set @DataType = 'Adj_FC,Sales'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Exl  null,'27.253.000','Adj_FC,Sales'
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde '2140857',null,'Adj_FC'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'34.523.000,34.522.000,34.521.000,34.519.000,34.514.000,34.515.000,34.516.000,34.520.000,34.513.000,34.517.000,34.518.000,18.618.042,18.618.043,18.618.044,18.618.046,18.618.041,4171291133,4171292133,4171291320,4171292320,4171291785,4171292785,4171291862,4171292862,4171291885,4171292885,4171291765,4171292765,4171291180,4171292180,4171291651,4171292651,4171324050,4171324060,4171324070,4171324080,4171324090,4171325050,4171325060,4171325070,4171325080,4171325090,34.530.000,34.531.000,34.528.000,34.529.000,34.532.000,34.533.000,34.534.000,34.527.000','Adj_FC'
-  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'38.002.001','Adj_FC'
+  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'52.029.010,52.030.000,52.017.850,52.017.810,52.017.100,52.017.735,52.017.737,52.017.000,52.017.134','Adj_FC'
     exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'34.531.000','Adj_FC'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394654'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'18.010.035,18.010.036,18.013.089,18.615.007,24.5349.4459,24.7002.0001,24.7102.1858,24.7120.4459,24.7121.4459,24.7122.4459,24.7124.4459,24.7127.4459,24.7146.4459A,24.7163.0000A,24.7168.4459A,24.7169.4459A,24.7207.4459,24.7219.4459,24.7250.4459,24.7251.4459,24.7253.4459,24.7334.4459,2780229000,32.379.200,32.455.155','Adj_FC'
@@ -4177,13 +4233,25 @@ order by pvt.ItemNumber
   select distinct fh.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'
   select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'  select distinct fh.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'
 
+    select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2019-09-01' and '2019-09-25 17:00:00'
 
    select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-04-10' group by fh.ReportDate order by fh.ReportDate
    select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-01-11' and '2018-01-18 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-03-01' and '2018-03-09 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
-  select * from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-07-01' and '2019-07-15 17:00:00'
+  
+  --- last month fc aggregated ---
+  ;with a as (
+		  select * from JDE_DB_Alan.FCPRO_Fcst_History fh 
+		  where  ReportDate between '2019-07-01' and '2019-08-01 17:00:00' 
+				--and fh.Date < '2020-07-01'
+				and fh.Date < DATEADD(mm, DATEDIFF(m,0,GETDATE())+11,0)						--- next 12 month
+				and fh.ItemNumber in ('Ucs801')
+		  )
+	select a.ItemNumber,sum(a.value) as FC_12m 
+	from a 
+	group by a.ItemNumber
 
 
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > dateadd(d,-3,getdate()) group by fh.ReportDate order by fh.ReportDate
@@ -4192,7 +4260,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-12-01' and ReportDate <'2018-12-05 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-07-01' and '2019-07-29 17:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-09-01' and '2019-09-25 17:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -6662,7 +6730,7 @@ select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('24.7220.1858') an
 
 --------------------------------------------------------------------------------
 
-exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt 'LT'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt_New 'LT'
 
 --- Forecast accuracy data are in 'Waterfall' format ---
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Data '38.001.001'
@@ -6779,6 +6847,7 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
   -----------------------------------------------------------
 
   select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h
+
   ;with t as (
     
 		  select distinct h.SellingGroup , h.FamilyGroup,  h.Family
@@ -6803,7 +6872,7 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
 
 
 ---========================================================================
-  -------- Inventory Value --------- 13/12/2018
+  ------------------- Inventory Value ------------------- 13/12/2018
 --------------------------------------------------------------------------
   select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
   select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('05.980.000')
@@ -6812,8 +6881,7 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
  --select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('05.980.000')
  
   
-  with a as 
-			
+  with a as 			
     ----- Use left join --- remove scrap items -- method 1
     (  select m.ItemNumber as myItm ,m.QtyOnHand as mySOH,m.StockValue as mySOHVal
 		  from JDE_DB_Alan.vw_Mast m
@@ -6832,7 +6900,7 @@ exec JDE_DB_Alan.sp_Exp_Test_WO_mast
 
   --select * from _ttb
 
-    ------------- Inventory On SKU level -----------------
+    ------- Inventory On SKU level ------
   ,tb as (select t.BU,t.ItemNumber,t.ShortItemNumber,t.StockingType,t.PlannerNumber,t.PrimarySupplier,t.SellingGroup_,t.FamilyGroup_,t.Family_0
                  ,t.StandardCost,t.WholeSalePrice,t.Description,t.QtyOnHand,t.SOHDate,t.SOHDate_,t.masyr,t.masmth,t.masdte,t.LeadtimeLevel,t.UOM,t.Leadtime_Mth
 				 ,t.rn,t.SellingGroup,t.FamilyGroup,t.Family
@@ -6868,21 +6936,134 @@ set f.ArticleUOM = 'Yard'
 from JDE_DB_Alan.TextileFC f
 --where cast(replace(convert(varchar(10),f.Reportdate,126),'-','') as integer) = '20190628' 
 
+select * from JDE_DB_Alan.TextileFC t where t.Reportdate between '2019-10-01' and '2019-10-30 17:00:00:00' 
+
+  delete from JDE_DB_Alan.TextileFC
+where Reportdate between '2019-10-01' and '2019-10-30 17:00:00:00' 
+
 
 ----------Textile FC in nice format -------------
-with _tfc as
+;with _tfc as
  (
-	select *,cast(replace(convert(varchar(10),t.Reportdate,126),'-','') as integer) Reportdt from JDE_DB_Alan.TextileFC t
+	select *
+	        ,cast(SUBSTRING(REPLACE(CONVERT(char(10),t.Date,126),'-',''),1,6) as integer) as YM_FC_Date
+			,cast(SUBSTRING(REPLACE(CONVERT(char(10),t.Reportdate,126),'-',''),1,6) as integer) YM_Report_Date 
+			,cast(REPLACE(CONVERT(char(10),t.Reportdate,126),'-','') as integer) YMD_Report_Date
+	from JDE_DB_Alan.TextileFC t
 	)
 
  , tfc_ as 
-    ( select a.ArticleNumber,c.HDItemNumber,a.ArticleDescription,a.Quantity,a.ArticleUOM,a.Date,a.Reportdt,a.ReportDate,a.Vendor
+    ( select a.ArticleNumber,c.HDItemNumber,a.ArticleDescription,a.Quantity,a.ArticleUOM,a.YM_FC_Date,a.YM_Report_Date,a.YMD_Report_Date,a.Reportdate,a.Vendor,m.family,m.familygroup,m.Colour,m.Description
 		 from _tfc a left join JDE_DB_Alan.Textile_ItemCrossRef c on a.ArticleNumber = c.SupplierItemNumber
+		             left join JDE_DB_Alan.vw_Mast m on c.HDItemNumber = m.ItemNumber 
 	 )
 
 select * from tfc_
+order by tfc_.Reportdate
+
 
 --where tfc_.Reportdt in ( '20190628')
+
+
+---------- difference between FC file beginning of Month and Middle of Month ( diagnois tool ) --------------------------------
+
+
+select * from (
+
+(
+select distinct fh.ItemNumber
+ from JDE_DB_Alan.FCPRO_Fcst_History fh
+ where fh.ReportDate >'2019-09-01'
+      --and fh.ItemNumber in ('42.210.031')
+          )
+except
+(
+
+select distinct f.ItemNumber
+ from JDE_DB_Alan.FCPRO_Fcst f
+ where f.DataType1 in ('Adj_FC')
+
+       )
+  ) z left join JDE_DB_Alan.vw_Mast m on z.ItemNumber = m.ItemNumber 
+
+
+
+--------   Upload NP forecast into JDE If you miss the month cycle, but you still need to load FC into FC Pro next month 18/9/2019 --------------------		
+		with cte as (
+							select f.ItemNumber,convert(varchar(6),f.Date,112) as Period_YM,f.Value,'Adj_FC' as Typ_
+							 --from JDE_DB_Alan.FCPRO_Fcst f 
+							   from JDE_DB_Alan.FCPRO_NP_tmp f
+							 --where s.ItemNumber in (select ids from @ItemIDs)
+							 --where f.ItemNumber in ('40.033.131')
+							 --  where f.DataType1 in ('Adj_FC')				--- 26/2/2018
+							union all
+							select s.ItemNumber,convert(varchar(6),convert(datetime,concat(s.CYM,'01')),112) Period_YM,s.SalesQty,'Sales' as Typ_
+							from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload s 
+							--where s.ItemNumber in (select ids from @ItemIDs)
+							--where s.ItemNumber in ('40.033.131')
+						 ) 
+						 ,comb_ as ( select cte.ItemNumber,cte.Typ_,cte.Period_YM,cte.Value,m.StandardCost,m.WholeSalePrice,p.Pareto,m.UOM,m.PrimarySupplier 					
+										,m.PlannerNumber
+										,m.SellingGroup,m.FamilyGroup,m.Family
+										,case m.PlannerNumber when '20072' then 'Salmon Saeed'
+															 when '20004' then 'Margaret Dost'	
+															 when '20005' then 'Imelda Chan'
+															 when '20071' then 'Domenic Cellucci'
+															 else 'Unknown'
+											end as Owner_
+									from cte left join JDE_DB_Alan.Master_ML345 m on cte.ItemNumber = m.ItemNumber
+										 left join JDE_DB_Alan.FCPRO_Fcst_Pareto p on cte.Itemnumber = p.ItemNumber
+								 where 
+										--m.PrimarySupplier in ( select data from JDE_DB_Alan.dbo.Split(@Supplier_id,','))
+										-- cte.ItemNumber in ( select splitdata from JDE_DB_Alan.dbo.fnSplitString(@Item_id,','))
+										--cte.ItemNumber in ('38.013.001','43.525.101')
+										cte.ItemNumber in ('43.525.101','43.525.102','43.525.103','43.525.105','43.525.107','43.525.403','43.525.404','43.525.405','43.530.101','43.530.102','43.530.103','43.530.105','43.530.107','43.530.403','43.530.404','43.530.405')
+							)
+							--select * from comb_
+
+					 ,staging as 
+								(select comb_.*
+										,c.LongDescription as SellingGroup_
+										,d.LongDescription as FamilyGroup_
+										,e.LongDescription as Family_0
+										--,tbl.Family as Family_1
+										--,f.StandardCost,f.WholeSalePrice
+								from comb_ left join JDE_DB_Alan.MasterSellingGroup c on comb_.SellingGroup = c.Code
+										 left join JDE_DB_Alan.MasterFamilyGroup d on comb_.FamilyGroup = d.Code
+										 left join JDE_DB_Alan.MasterFamily e on comb_.Family = e.Code
+								 )
+
+					 ,comb as ( select * from staging )
+
+					 ,fl as (	select comb.ItemNumber,'HD' as BranchPlant,comb.UOM,'BF' as ForcastType
+							,comb.Period_YM
+							,convert(date,dateadd(d,-1,dateadd(mm,0,convert(datetime,comb.Period_YM+'01',103))),103) as Period_YMD_1		-- to get 'Jde FC Date' Format ie 31/Month/Year,however when FC loaded into Jde, Jde will automatically add 1 day and push FC to Following month, ie 31/1/2018 FC will be push into Month slot of 1/Feb/2018, so here you need to change date again
+							,convert(date,dateadd(d,-1,dateadd(mm,1,convert(datetime,comb.Period_YM+'01',103))),103) as Period_YMD_2        -- Current month + 1 month minus 1 day to get last day of same month , to get 'Jde FC Date' Format ie 31/Month/Year, get last day of last month 
+							,convert(varchar(10),convert(date,dateadd(d,-1,dateadd(mm,1,convert(datetime,comb.Period_YM+'01',105))),103),103) Period_YMD_3 
+							,comb.Typ_
+							,comb.Value as Qty
+							,comb.Value * comb.WholeSalePrice as Amt_Actual
+							,0 as Amt
+							,0 as CustomerNumber,'N' as BypassForcing,comb.Pareto 			
+							,comb.PlannerNumber,comb.primarysupplier,comb.Owner_
+							,comb.Family_0
+							from comb
+
+						--where comb.Typ_ in ('')
+						
+						--order by Pareto asc,comb.ItemNumber,comb.Typ_,comb.Period_YM
+
+						)
+				
+				   --select * from fl
+					  select fl.ItemNumber,fl.BranchPlant,fl.UOM,fl.ForcastType
+						--	,fl.Period_YM,fl.Period_YMD_1,fl.Period_YMD_2
+							,fl.Period_YMD_3,fl.Qty,fl.Amt,fl.CustomerNumber,fl.BypassForcing
+							--,fl.Amt_Actual,fl.Pareto
+					  from fl
+					  where fl.Typ_ in ('Adj_FC')
+					  order by Pareto asc,fl.ItemNumber,fl.Typ_,fl.Period_YM
+					  option (maxrecursion 0)
 
 
 

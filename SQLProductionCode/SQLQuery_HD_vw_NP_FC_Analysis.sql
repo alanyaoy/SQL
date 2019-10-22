@@ -12,7 +12,7 @@
 USE [JDE_DB_Alan]
 GO
 
-/****** Object:  View [JDE_DB_Alan].[vw_NP_FC_Analysis]    Script Date: 19/02/2019 3:16:57 PM ******/
+/****** Object:  View [JDE_DB_Alan].[vw_NP_FC_Analysis]    Script Date: 13/09/2019 11:46:23 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -36,7 +36,9 @@ with _np as
 				from JDE_DB_Alan.FCPRO_NP_tmp npfc left join JDE_DB_Alan.vw_Mast m on npfc.ItemNumber = m.ItemNumber
 				where npfc.Value > 0
 				      and npfc.ValidStatus = 'Y'               --- add 31/8/2018
-					  and m.StockingType not in ('O','U')
+					  --and m.StockingType not in ('O','U','Q','M')
+					   and m.StockingType not in ('O','U')				--- need to include MTO type   --- 13/9/2019
+
 					  )
 
 	,np_ as ( select _np.ItemNumber,_np.Date,_np.Value,_np.DataType,_np.CN_Number,_np.Comment,_np.Creator,_np.LastUpdated,_np.ReportDate
@@ -50,7 +52,7 @@ with _np as
 			from _np					 				 
 			where 
 					--_np.ItemNumber in ('34.513.000 ')	and	 
-                     _np.Value >0
+                     _np.Value >0									-- pick up all value great than 0 and use this also to determine Birth and Mature date !!
 			)
                  
 		--select * from np_	   
@@ -59,8 +61,10 @@ with _np as
 				from np_
 				--where np_.Mth_Elapsed > 7
 				--where np_.ItemNumber in ('7501001000')
-				where np_.Mth_Birth_Elapsed <=12						-- 25/9/2018 -- how many month has been passed since its birth date
-			          
+				--where np_.Mth_Birth_Elapsed <=12						-- 25/9/2018 -- how many month has been passed since its birth date
+			   -- where np_.Mth_Birth_Elapsed <=10						-- 25/9/2018 -- how many month has been passed since its birth date, reason why choose 10 months rather than 12 months is concern that if it is too long, then safety stock might deviated too much since new product are very unpredictable.
+				
+				  where np_.Mth_Birth_Elapsed <=12					--- 2/9/2019, reintate to 12 months, concerns for safety stock ( too high or too low ) is legitmate, but really should leave decision making to Specific store procedure like sp_Safetystock to choose how many months of NP birth month passed, not here. Here you just defined parameters for General NP table.
 				  and np_.Date >= np_.CurrentMth_					-- 19/2/2019 -- you can pick records which past today's date ( to exclude old data )
 				          
 				  )
@@ -71,6 +75,8 @@ with _np as
          --where z.ItemNumber in ('34.731.001')
 		  --select * from z where z.ItemNumber in ('34.734.001')
 		  --select distinct z.ItemNumber from z
+
+		--  select * from JDE_DB_Alan.FCPRO_NP_tmp
 
 GO
 
