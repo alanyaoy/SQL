@@ -1,38 +1,4 @@
-/*    ==Scripting Parameters==
-
-    Source Server Version : SQL Server 2016 (13.0.4001)
-    Source Database Engine Edition : Microsoft SQL Server Express Edition
-    Source Database Engine Type : Standalone SQL Server
-
-    Target Server Version : SQL Server 2016
-    Target Database Engine Edition : Microsoft SQL Server Express Edition
-    Target Database Engine Type : Standalone SQL Server
-*/
-
-USE [JDE_DB_Alan]
-GO
-
-/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 30/09/2019 11:34:43 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-
-
---/****** Object:  View [JDE_DB_Alan].[vw_Mast]    Script Date: 29/03/2019 4:31:16 PM ******/
---SET ANSI_NULLS ON
---GO
-
---SET QUOTED_IDENTIFIER ON
---GO
-
----/ Updated 1/4/2019 , Add Colour, UOMConv, UOMConvFactor ---/
-
-
-ALTER view [JDE_DB_Alan].[vw_Mast] with schemabinding as
+create view [JDE_DB_Alan].[vw_Mast] with schemabinding as
 --- please note following view for Master only includes Items which is forecastable ---
 with fc as (
 		select f.ItemNumber,f.DataType1,f.Date
@@ -56,7 +22,7 @@ with fc as (
 			--	and p.ItemNumber in ('45.103.000','45.200.100')    
 		 )
 		 --- get your master ---
-	 ,mas as (
+	 ,_mas as (
             select   m.BU
 					,m.ItemNumber
 				   ,m.ShortItemNumber
@@ -101,25 +67,25 @@ with fc as (
 
 			  )  			   
      ,mas_ as (
-				select mas.BU,mas.ItemNumber,mas.ShortItemNumber,mas.StockingType,mas.PlannerNumber,mas.PrimarySupplier
-				     ,mas.SellingGroup_,mas.FamilyGroup_,mas.Family_0
-					,mas.StandardCost,mas.WholeSalePrice,mas.Description,mas.QtyOnHand,mas.SOHDate,mas.SOHDate_
-					,mas.masyr,mas.masmth,mas.masdte
-					,mas.LeadtimeLevel
-					,mas.UOM
-					,mas.ConvUOM
-					,mas.ConversionFactor
-					,mas.Leadtime_Mth
-					,mas.rn 
-					,mas.SellingGroup,mas.FamilyGroup,mas.Family
-					,mas.GLCat,mas.StockValue
-					,mas.Owner_
-					,mas.Colour
-					,mas.OrigMasterDataDate
+				select m.BU,m.ItemNumber,m.ShortItemNumber,m.StockingType,m.PlannerNumber,m.PrimarySupplier
+				     ,m.SellingGroup_,m.FamilyGroup_,m.Family_0
+					,m.StandardCost,m.WholeSalePrice,m.Description,m.QtyOnHand,m.SOHDate,m.SOHDate_
+					,m.masyr,m.masmth,m.masdte
+					,m.LeadtimeLevel
+					,m.UOM
+					,m.ConvUOM
+					,m.ConversionFactor
+					,m.Leadtime_Mth
+					,m.rn 
+					,m.SellingGroup,m.FamilyGroup,m.Family
+					,m.GLCat,m.StockValue
+					,m.Owner_
+					,m.Colour
+					,m.OrigMasterDataDate
 					
-				from mas where rn =1  )
+				from _mas as m where rn =1  )
 
-     select a.BU,a.ItemNumber,a.ShortItemNumber,a.StockingType,a.PlannerNumber,a.PrimarySupplier
+      ,mas as (select a.BU,a.ItemNumber,a.ShortItemNumber,a.StockingType,a.PlannerNumber,a.PrimarySupplier
 	             ,a.SellingGroup_,a.FamilyGroup_,a.Family_0
 				,a.StandardCost,a.WholeSalePrice,a.Description,a.Colour,a.QtyOnHand,a.SOHDate,a.SOHDate_
 				,a.masyr,a.masmth,a.masdte
@@ -130,11 +96,35 @@ with fc as (
 				,a.SellingGroup,a.FamilyGroup,a.Family 	
 				,a.GLCat,a.StockValue	
 				,a.Owner_
-				,s.SupplierName
+				,s.SupplierName				
+				,case 
+					when wc.WorkCenter is not null then wc.WorkCenter
+					--when wc.WorkCenter is null then 'No_WC_Assigned'		
+					  when wc.WorkCenter is null then '0'		
+					end as WC	
 				,a.OrigMasterDataDate
-				
+
                 from mas_ a left join JDE_DB_Alan.MasterSupplier s on a.PrimarySupplier = s.SupplierNumber
+				            left join JDE_DB_Alan.TextileWC wc on a.ShortItemNumber = wc.ShortItemNumber
      -- where a.ItemNumber in ('42.210.031')
-GO
+	 	          )
 
+      select a.BU,a.ItemNumber,a.ShortItemNumber,a.StockingType,a.PlannerNumber,a.PrimarySupplier
+	             ,a.SellingGroup_,a.FamilyGroup_,a.Family_0
+				,a.StandardCost,a.WholeSalePrice,a.Description,a.Colour,a.QtyOnHand,a.SOHDate,a.SOHDate_
+				,a.masyr,a.masmth,a.masdte
+				,a.LeadtimeLevel
+				,a.UOM,a.ConvUOM,a.ConversionFactor	
+				,a.Leadtime_Mth
+				,a.rn
+				,a.SellingGroup,a.FamilyGroup,a.Family 	
+				,a.GLCat,a.StockValue	
+				,a.Owner_
+				,a.SupplierName				
+				,WC	
+				,a.OrigMasterDataDate
 
+                from mas a
+
+	   --select * from mas 
+	   --where z.wc <> '0'

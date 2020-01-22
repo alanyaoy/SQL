@@ -1,8 +1,9 @@
 //
+ ---------------------------------  SQL Query Master -------------------------------------
+
  ---=================How to Skip SQL Query --- Method 3   30/7/2018= ================================================================= 
  --https://stackoverflow.com/questions/659188/sql-server-stop-or-break-execution-of-a-sql-script?noredirect=1&lq=1
-
-
+ 
 print 'hi'
 go
 
@@ -14,15 +15,12 @@ go
 
 --To Reconnect Use --- 2/11/2017
 --> CTRL-F5 
-use DemandPlanning
-go
+--use DemandPlanning
+--go
 
 use JDE_DB_Alan
 go
- 
-
- 
- ---=================How to Skip SQL Query --- Method 2  30/7/2018= ========================
+  ---=================How to Skip SQL Query --- Method 2  30/7/2018= ========================
 --select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
 --select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
 
@@ -40,7 +38,6 @@ go
 --select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('24.7250.4459')
 
 ---END_EXIT:
-
 --======================================================================================
 
 drop table da.test
@@ -52,6 +49,8 @@ union all select 'test,'
 union all select 'tes,t'
 union all select ',test'
 union all select 'ab'
+
+select * from JDE_DB_Alan.Master_ML345
 
 select * from da.test_
 select charindex(',','test')
@@ -68,7 +67,21 @@ name AS FileName,
 size/128.0 AS CurrentSizeMB, 
 size/128.0 - CAST(FILEPROPERTY(name, 'SpaceUsed') AS INT)/128.0 AS FreeSpaceMB 
 FROM sys.database_files; 
---------------------------------------------------
+-------------------------------17/1/2020-------------------
+
+SELECT compatibility_level
+FROM sys.databases
+WHERE name = 'jde_db_alan';
+
+
+alter database [jde_db_alan]
+set compatibility_level = 130
+go
+
+SELECT name, compatibility_level
+FROM sys.databases;
+
+-----------------------------------------------------
 
 CREATE TABLE JDE_DB_Alan.Products  
    (ProductID int PRIMARY KEY NOT NULL,  
@@ -359,7 +372,7 @@ CREATE TABLE JDE_DB_Alan.Master_ML345				-- you probably need to allow cost,sale
 	,Colour					varchar(100)						-- added 29/3/2019
 	,PlannerNumber		 varchar(100)
 	,PrimarySupplier	 varchar(100)
-	,MaxDisc			decimal(18,6)
+	--,MaxDisc			decimal(18,6)							-- deleted this field 30/11/2019 by Dan Ross
 	,ManFC				varchar(100)
 	,FamilyGroup		varchar(100)
 	,Family				varchar(100)
@@ -374,18 +387,21 @@ CREATE TABLE JDE_DB_Alan.Master_ML345				-- you probably need to allow cost,sale
 	,StandardCost		decimal(18,6)
 	,QtyOnHand			decimal(18,6)
 	,StockValue			 decimal(18,6)
-	,SS					decimal(18,6)
-	,MOQ				decimal(18,6)
+	--,SS				decimal(18,6)					    -- deleted this field 30/11/2019 by Dan Ross
+	--,MOQ				decimal(18,6)						-- deleted this field 30/11/2019 by Dan Ross
 	,ECONumber			varchar(100)
-	,ReportDate			datetime default(getdate())				-- added 23/5/2018
+	
+	,ItemCreateDate		varchar(100)						-- added 3/12/2019
+	,WMSItem			varchar(100)						-- added 3/12/2019
+	,ReportDate			datetime default(getdate())			-- added 23/5/2018
 	
 	,constraint PK_ShortItem_master	primary key (ShortItemNumber)
 	,constraint ck_illegal_char check(charindex(',',Description)=0 )
 	)
---go
+go
 create clustered index idx_ShortItem on JDE_DB_Alan.Master_ML345 (ShortItemNumber asc)
 
-select * from JDE_DB_Alan.Master_ML345
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
 
 
 ALTER TABLE employees ADD CONSTRAINT employees_pk PRIMARY KEY (last_name, first_name);		-- Syntax to add Primary Key
@@ -601,7 +617,22 @@ CREATE TABLE JDE_DB_Alan.Master_UOMConversion					--- 27/3/2019
 	-- ReportDate					datetime default(getdate())
   )  
 
-
+drop table JDE_DB_Alan.TextileWC
+CREATE TABLE JDE_DB_Alan.TextileWC
+   ( 
+     BU					varchar(100) NOT NULL, 
+	 ShortItemNumber	varchar(100) NOT NULL, 
+	 ItemNumber			varchar(100) NOT NULL,
+	 EffectiveFrom		datetime,		
+	 EffectiveThru		datetime,
+	 WorkCenter			varchar(1000) ,
+	 WorkCenterName		varchar(100),						
+	 ReportDate			datetime default(getdate()),
+	 constraint PK_WCItem primary key (BU,ShortItemNumber,WorkCenterName)
+  )  
+--GO	
+select * from JDE_DB_Alan.TextileWC wc where wc.WorkCenterName is null or wc.WorkCenterName =''
+select * from JDE_DB_Alan.TextileWC wc where wc.ItemNumber in ('83.529.901')
 
 ----------------- Transaction Data Tabel Below   --------------------------
 
@@ -1571,11 +1602,11 @@ delete from JDE_DB_Alan.MasterMTLeadingZeroItemList
 delete from JDE_DB_Alan.MasterSupplier
 
 --bulk insert JDE_DB_Alan.JDE_Fcst
-bulk insert JDE_DB_Alan.Master_ItemCrossRef
+--bulk insert JDE_DB_Alan.Master_ItemCrossRef
 --BULK INSERT JDE_DB_Alan.MasterSellingGroup
 --BULK INSERT JDE_DB_Alan.MasterFamilyGroup
  --BULK INSERT JDE_DB_Alan.MasterFamily
- --BULK INSERT JDE_DB_Alan.Master_ML345
+ BULK INSERT JDE_DB_Alan.Master_ML345
  -- BULK INSERT JDE_DB_Alan.Textile_ItemCrossRef
 --BULK INSERT JDE_DB_Alan.MasterSupplier
 --BULK INSERT JDE_DB_Alan.Master_UOMConversion
@@ -1586,10 +1617,11 @@ bulk insert JDE_DB_Alan.Master_ItemCrossRef
     --  from 'C:\Alan_GWA_C\Work\ImportData.csv'
     -- from 'E:\ImportDataa.txt'
 
+ from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_R55ML345.csv'
  --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_R55ML345_HD_2017_11_CSV.csv'			-- use this one
     -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_R55ML345_z.csv'
 	-- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_DemandPlanning\FC_Change\HD_Market_Intelligence\Market_Intelligence_Raw_Data\Raw_Data\Textile_Export_Forecast\Textile_FC_ProductCode_Cross_Reference_Master.csv'
-    from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_Item_Cross_Ref.csv'
+   -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_Item_Cross_Ref.csv'
  -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Description_Hierarchy_SKU_Level_CSV.csv'   
   -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_SellingGroup_CSV.csv'
   --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\HierarchyMaster_FamilyGroup_CSV.csv'
@@ -4202,7 +4234,7 @@ order by pvt.ItemNumber
 		
 	--- Version 2 -------
    -- Revised on 16/11/2018 to include aggregated Forecast Quantities & Values
-	  with cte as 
+  with cte as 
 		  (
 			  select convert(varchar(13),fh.ReportDate,120) as Date_Uploaded
 						,count(*)  as Records_Uploaded
@@ -4226,6 +4258,10 @@ order by pvt.ItemNumber
   exec JDE_DB_Alan.sp_Z_FC_Hist_Summary 
 
 
+     select * from JDE_DB_Alan.FCPRO_Fcst_History h where  h.ReportDate > '2019-12-10' and h.ReportDate <'2019-12-15'
+   select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('52.034.000') and h.ReportDate > '2019-12-15' and h.ReportDate <'2019-12-25'
+    select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('52.034.000') and h.ReportDate > '2019-12-10' and h.ReportDate <'2019-12-15'
+
   select distinct h.ReportDate from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031')
   select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.ReportDate > '2018-09-02'
   select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ItemNumber in ('27.176.320')
@@ -4233,7 +4269,7 @@ order by pvt.ItemNumber
   select distinct fh.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'
   select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'  select distinct fh.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'
 
-    select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2019-09-01' and '2019-09-25 17:00:00'
+    select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2019-12-15' and '2019-12-20 17:00:00'
 
    select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-04-10' group by fh.ReportDate order by fh.ReportDate
    select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-01-11' and '2018-01-18 13:00:00' group by fh.ReportDate order by fh.ReportDate
@@ -4259,8 +4295,9 @@ order by pvt.ItemNumber
   delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > dateadd(d,-3,getdate())
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
+   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2019-12-10' and ReportDate <'2019-12-15'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-12-01' and ReportDate <'2018-12-05 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-09-01' and '2019-09-25 17:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-12-15' and '2019-12-20 17:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -4272,7 +4309,7 @@ select count(*) cnt from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate > D
 exec JDE_DB_Alan.sp_Z_FC_Hist_Summary
 
 -- delete one month data --
-select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2019-04-01' and '2019-04-10'
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2019-11-01' and '2019-11-26'
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30'              -- '2018-09-30' will default to 2018-09-30 00:00:00
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'
 select distinct h.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'

@@ -1,28 +1,4 @@
-/*    ==Scripting Parameters==
-
-    Source Server Version : SQL Server 2016 (13.0.4001)
-    Source Database Engine Edition : Microsoft SQL Server Express Edition
-    Source Database Engine Type : Standalone SQL Server
-
-    Target Server Version : SQL Server 2016
-    Target Database Engine Edition : Microsoft SQL Server Express Edition
-    Target Database Engine Type : Standalone SQL Server
-*/
-
-USE [JDE_DB_Alan]
-GO
-
-/****** Object:  View [JDE_DB_Alan].[vw_MI_FC_Analysis]    Script Date: 13/09/2019 11:48:03 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-
-
-ALTER view [JDE_DB_Alan].[vw_MI_FC_Analysis] with schemabinding
+create view [JDE_DB_Alan].[vw_MI_FC_Analysis] with schemabinding
 as
 
   --- Syntax '*' is not allowed in schema-bound objects ! ---   So in your final Select you need to pick up All columns --- 12/3/2018
@@ -84,7 +60,4 @@ with _mi1 as
 		  --select distinct z.ItemNumber from z
 
 		--  select * from JDE_DB_Alan.FCPRO_NP_tmp
-
 GO
-
-

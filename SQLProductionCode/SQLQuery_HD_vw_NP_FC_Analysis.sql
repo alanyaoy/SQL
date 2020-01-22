@@ -1,28 +1,4 @@
-/*    ==Scripting Parameters==
-
-    Source Server Version : SQL Server 2016 (13.0.4001)
-    Source Database Engine Edition : Microsoft SQL Server Express Edition
-    Source Database Engine Type : Standalone SQL Server
-
-    Target Server Version : SQL Server 2016
-    Target Database Engine Edition : Microsoft SQL Server Express Edition
-    Target Database Engine Type : Standalone SQL Server
-*/
-
-USE [JDE_DB_Alan]
-GO
-
-/****** Object:  View [JDE_DB_Alan].[vw_NP_FC_Analysis]    Script Date: 13/09/2019 11:46:23 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-
-
-ALTER view [JDE_DB_Alan].[vw_NP_FC_Analysis] with schemabinding
+create view [JDE_DB_Alan].[vw_NP_FC_Analysis] with schemabinding
 as
 
   --- Syntax '*' is not allowed in schema-bound objects ! ---   So in your final Select you need to pick up All columns --- 12/3/2018
@@ -71,13 +47,12 @@ with _np as
             
 
           select z.ItemNumber,z.Date,z.Value,z.DataType,z.CN_Number,z.Comment,z.Creator,z.LastUpdated,z.ReportDate
-				,z.BirthDate,z.MatureDate,z.CurrentMth_,z.FcTTL_12_Qty,z.FcTTL_12_Qty_MthlyAvg,z.FcMthCount,z.Mth_Birth_Elapsed from tb z 
+				,z.BirthDate,z.MatureDate,z.CurrentMth_,z.FcTTL_12_Qty,z.FcTTL_12_Qty_MthlyAvg,z.FcMthCount,z.Mth_Birth_Elapsed
+				,0 as mockcol
+				from tb z 
          --where z.ItemNumber in ('34.731.001')
 		  --select * from z where z.ItemNumber in ('34.734.001')
 		  --select distinct z.ItemNumber from z
 
 		--  select * from JDE_DB_Alan.FCPRO_NP_tmp
-
 GO
-
-

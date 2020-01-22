@@ -2578,8 +2578,8 @@ select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in (
 			select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy
 
 
-exec JDE_DB_Alan.sp_FCPro_FC_Accuracy 'LT'
-exec JDE_DB_Alan.sp_FCPro_FC_Accuracy 'Non_LT'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt_New 'LT'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rrt_New 'Non_LT'
 
 select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy y
 where datepart(year,y.ReportDate) = 2018 and datepart(MONTH,y.ReportDate) = 7
@@ -3105,7 +3105,7 @@ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394638'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1398461,1398479,1398487'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1380543,1401156,1401164'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '726223'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1385969'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1410976'						-- 52.011.030
 
 
 
@@ -3802,8 +3802,8 @@ order by pvt.ItemNumber
    select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-04-10' group by fh.ReportDate order by fh.ReportDate
    select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-01-11' and '2018-01-18 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-03-01' and '2018-03-09 13:00:00' group by fh.ReportDate order by fh.ReportDate
-  select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
-    select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
+  select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2019-11-01' and '2019-11-23 13:00:00' group by fh.ReportDate order by fh.ReportDate
+    select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2019-11-01' and fh.ReportDate <'2019-11-23 14:59:00' group by fh.ReportDate order by fh.ReportDate
 
 
 
@@ -3813,7 +3813,7 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-03-01' and '2018-03-09 13:00:00'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-07-02' and ReportDate <'2018-07-13 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-07-02' and '2018-07-27 13:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-02' and '2018-07-27 13:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
