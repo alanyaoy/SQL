@@ -20,6 +20,7 @@ go
 
 use JDE_DB_Alan
 go
+
   ---=================How to Skip SQL Query --- Method 2  30/7/2018= ========================
 --select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.210.031')
 --select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('18.013.089')
@@ -39,6 +40,119 @@ go
 
 ---END_EXIT:
 --======================================================================================
+
+
+---========================================================================================---
+select * from JDE_DB_Alan.vw_Mast
+select * from [hd-vm-bi-sql01].HDDW_PRD.star.d_product p
+where p.item_code in ('44.011.007')
+
+---============================*** HD DW data warehouse query *** =================================---
+---------------------------------- HD Data Warehouse Query ------------------------------------------- works !
+---------- remember you have admin right in 'JDE_DB_Alan ' db, so you have control and can link to '[hd-vm-bi-sql01].HDDW_PRD' , however you cannot do reverse because you do not control data warehouse and you do not have control , unless you have admin right to set access to hdd dw. ----
+
+
+select * from HDDW_PRD.star.d_region		-- does not work , need full qualification 
+
+select * from [hd-vm-bi-sql01].HDDW_PRD.star.d_region  --- works !
+
+drop table dbo.test_hddw_prd
+
+-- be careful to use this query as you are writing data to db ----
+select * into test_hddw_prd from [hd-vm-bi-sql01].HDDW_PRD.star.d_region		--- table will be created under 'dbo' schema
+
+drop table JDE_DB_Alan.test_hddw_prd_
+select * into JDE_DB_Alan.test_hddw_prd_ from [hd-vm-bi-sql01].HDDW_PRD.star.d_region     --- --- table will be created under 'JDE_DB_Alan' schema
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ --- works ! Yeah ---- by sending query to linked Server ! ----
+ --- Sun Solution WA --- dummy order SO ( 5623307 ) and WO ( 4709432 ) cancelled but cannot see in DW table --- see email sent to Guru 5/3/2020
+;with so as
+
+  (  select * from [hd-vm-bi-sql01].HDDW_PRD.star.f_so_detail_history h        
+	union all		
+	 select * from [hd-vm-bi-sql01].HDDW_PRD.star.f_so_detail_current c where not ( c.last_line_status_code = '980' and c.next_line_status_code = '999')		--- 13022  -- use this one !!		        
+		)
+  --select top 3 * from  so   
+   select so.order_number as So_num,so.work_order_number as So_wo_num,pr.wo_number as part_wo_num,so.item_code,pr.item_code as part_code,pr.parts_description2,pr.quantity as part_SoldQty,pr.uom as part_uom,c.contact_name as customer,so.order_date           
+   from so left join [hd-vm-bi-sql01].HDDW_PRD.star.f_wo_parts_list pr on so.work_order_number = pr.wo_number
+           left join [hd-vm-bi-sql01].HDDW_PRD.star.d_product p on so.d_product_key = p.d_product_key 
+		   left join [hd-vm-bi-sql01].HDDW_PRD.star.d_customer c on so.d_customer_key = c.d_customer_key
+	where  
+		so.work_order_number = '04685890'     -- works !
+		-- so.order_number in ('5623307')          -- do not yield details --- order has been cancelled though in JDE
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+--- from one table --
+CREATE TABLE suppliers
+  AS (SELECT id, address, city, state, zip
+      FROM companies
+      WHERE id > 1000);
+
+--- from 2 tables ---
+CREATE TABLE suppliers
+  AS (SELECT companies.id, companies.address, categories.cat_type
+      FROM companies, categories
+      WHERE companies.id = categories.id
+      AND companies.id > 1000);
+
+
+ --- This would create a new table called suppliers that included all columns from the companies table, but no data from the companies table --- retain table structure but no data is copied over
+CREATE TABLE suppliers
+  AS (SELECT *
+      FROM companies WHERE 1=2);
+
+
+--------- Create table and insert data multiple rows-----------
+
+CREATE TABLE recipes (
+  recipe_id INT NOT NULL,
+  recipe_name VARCHAR(30) NOT NULL,
+  PRIMARY KEY (recipe_id),
+  UNIQUE (recipe_name)
+);
+
+INSERT INTO recipes (recipe_id, recipe_name) 
+VALUES 
+    (1,"Tacos"),
+    (2,"Tomato Soup"),
+    (3,"Grilled Cheese");
+
+---------- create temp table # ( if need > 1000 records )-----------------
+
+Local Temporary Tables (#temp)  
+Global Temporary Tables (##temp)  
+  
+CREATE TABLE #StudentTemp  
+(  
+    StudentID int,  
+    Name varchar(50),   
+    Address varchar(150)  
+)  
+GO  
+INSERT INTO #StudentTemp VALUES ( 1, 'Dipendra','Pune');  
+GO  
+SELECT * FROM #StudentTemp  
+
+------------Create table variable @ -----------------------------------
+
+ DECLARE @TStudent TABLE  
+ (  
+    RollNo INT IDENTITY(1,1),  
+    StudentID INT,  
+    Name INT  
+ )   
+ --Insert data to Table variable @TStudent   
+ INSERT INTO @TStudent(StudentID,Name)  
+ SELECT DISTINCT StudentID, Name FROM StudentMaster ORDER BY StudentID ASC 
+
+ ----------------------------------------------
+
 
 drop table da.test
 create table da.test (mycol char(20) ,constraint ck_illegal_char check(charindex(',',mycol)=0 ))					  -- do not allow comma	
@@ -933,8 +1047,10 @@ CREATE TABLE JDE_DB_Alan.FCPRO_Fcst_downloaded
   )  
 --GO	
 
-drop table JDE_DB_Alan.FCPRO_Fcst_Accuracy
-CREATE TABLE JDE_DB_Alan.FCPRO_Fcst_Accuracy
+drop table JDE_DB_Alan.FCPRO_Fcst_Accuracy_SKU
+
+drop table JDE_DB_Alan.FCPRO_FC_Accy_SKU
+CREATE TABLE JDE_DB_Alan.FCPRO_FC_Accy_SKU
    ( 
          DataType				varchar(100)    not null
 		,Item					varchar(100)     not null			
@@ -951,15 +1067,53 @@ CREATE TABLE JDE_DB_Alan.FCPRO_Fcst_Accuracy
 		,FamilyGroup_			varchar(100)
 		,PrimarySupplier		varchar(100)
 		,PlannerNumber			varchar(100)
-        ,StockingType		  varchar(100)	
+        ,StockingType		  varchar(100)
+		,FamilyGroup            varchar(100)
+		,Family	            varchar(100)	
 		,Leadtime_Mth			int			
+		,LT_Type			  varchar(100)	
 		,ReportDate		datetime default(getdate())
 		--constraint PK_Item_FC primary key (ItemNumber,date)							--- Need to make your primary key unique,not null,also remember you can hv only one Primary key as well
-		constraint PK_Item_FC_Accuracy primary key (Item,Date_,DataType,ReportDate)			  --- if there is violation of constraint you enforced & you are using RecordSet rather using CSV ( to bulk insert ) you will receive error message which is a very good thing -- 2/3/2018
+		constraint PK_Item_FC_Accy_SKU primary key (Item,Date_,DataType,ReportDate)			  --- if there is violation of constraint yenforced & you are using RecordSet rather using CSV ( to bulk insert ) you will receive error message which is a very good thing -- 2/3/2018
 																					-- Date_ is forecast period 
   )  
 --GO	
 alter table JDE_DB_Alan.FCPRO_Fcst_Accuracy drop constraint DF__FCPRO_Fcs__Repor__4D6A6A69
+
+
+
+drop table JDE_DB_Alan.FCPRO_FC_Accy_Group
+CREATE TABLE JDE_DB_Alan.FCPRO_FC_Accy_Group
+   ( 
+		DataType			varchar(100)    not null	
+		,Hierarchy_0		varchar(100)    not null	
+		,Hierarchy_abb		varchar(100)    not null	
+		,Sls_				decimal(18,2)	
+		,FC_				decimal(18,2)	
+		,Bias_				decimal(18,2)	
+		,Abs_				decimal(18,2)	
+		,Bias_ttl			decimal(18,2)	
+		,Abs_ttl			decimal(18,2)	
+		,Sls_Gnd			decimal(18,2)	
+		,FC_Gnd				decimal(18,2)	
+		,Hierarchy_Cat		varchar	(100) 
+		,Version_Lv			varchar	(100) 
+		,LT_Type			varchar	(100) 
+		,err1				decimal(18,4)	
+		,err2				decimal(18,4)	
+		,err3				decimal(18,4)	
+		,acc1				decimal(18,4)	
+		,acc2				decimal(18,4)	
+		,acc3				decimal(18,4)	
+		,Reportdate			datetime default(getdate())	
+		constraint PK_Item_FC_Accy_Group primary key (DataType,Hierarchy_0,Hierarchy_Cat,ReportDate)	
+   )
+-- Go
+
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Group
+select * from JDE_DB_Alan.FCPRO_FC_Accy_Group
+delete from JDE_DB_Alan.FCPRO_FC_Accy_Group
+
 
 
 select * from JDE_DB_Alan.FCPRO_Fcst
@@ -2581,6 +2735,7 @@ select * from JDE_DB_Alan.FCPRO_SafetyStock ss
 select m.ItemNumber,m.LeadtimeLevel,m.PrimarySupplier from JDE_DB_Alan.Master_ML345 m 
 where m.PlannerNumber in ('20072')
 
+select distinct f.ItemNumber from JDE_DB_Alan.FCPRO_Fcst f
 ---============================== End of Creating Safety Stock ===========================================================================================================================================================
 
 
@@ -2995,12 +3150,25 @@ select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in (
 			select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy
 
 
-exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt_New 'LT'
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt_New 'LT'					--old, changed sp name
 exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt_New 'Non_LT'
+
 
 select * from JDE_DB_Alan.FCPRO_Fcst_Accuracy y
 where datepart(year,y.ReportDate) = 2018 and datepart(MONTH,y.ReportDate) = 8
       and  y.Item in ('42.210.031')  
+
+
+----------------------------------------------------------------------------------------
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_SKU 'LT'
+select * from JDE_DB_Alan.FCPRO_FC_Accy_SKU
+
+
+-------------------------------------------------------------------------------------------
+exec JDE_DB_Alan.sp_FCPro_FC_Accy_Group
+select * from JDE_DB_Alan.FCPRO_FC_Accy_Group
+
+
 
 -- Nice way to get records in Accuracy table ---
  ;with cte as 
@@ -3734,6 +3902,8 @@ set @DataType = 'Adj_FC,Sales'
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'18.010.035,18.010.036,18.615.007,24.7102.0199,24.7127.0155,24.7128.0155,24.7129.0155A,24.7201.0000,24.7206.0000,32.379.200,18.013.089,32.380.002,32.455.155,24.5358.0000,24.7124.0155,24.7203.0000,24.7220.0199,S3000NET5300N001,82.696.901,82.696.930','Adj_FC'
      exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'52.000.000,52.001.000,52.004.000,52.005.000,52.006.000,52.007.000,52.008.850,52.008.134,52.008.810,52.008.100,52.008.734,52.008.737,52.008.000,52.009.000,52-WH-0025,52.012.000,44.132.000,52.028.134,709845,52.013.000,52.014.850,52.014.850,52.014.134,52.014.810,52.014.100,52.014.734,52.014.737,52.014.000,52.015.850,52.015.850,52.015.134,52.015.810,52.015.100,52.015.734,52.015.737,52.015.000,52.016.850,52.016.850,52.016.134,52.016.810,52.016.100,52.016.734,52.016.737,52.016.000,52.017.000,52.018.000,52.003.000,52.020.850,52.020.850,52.020.134,52.020.810,52.020.100,52.020.734,52.020.737,52.020.000,52.021.850,52.021.850,52.021.134,52.021.810,52.021.100,52.021.734,52.021.737,52.021.000,52.002.000,52.022.850,52.022.134,52.022.810,52.022.100,52.022.734,52.022.737,52.022.000','Adj_FC'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'44.010.003,44.010.004,44.010.005,44.010.001,44.010.002,44.010.006,44.010.007,44.011.003,44.011.004,44.011.005,44.011.001,44.011.002,44.011.006,44.011.007,44.012.003,44.012.004,44.012.008,44.012.007','Adj_FC'
+   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'44.015.404,44.015.405,44.016.404,44.016.408,44.016.505,44.016.405,44.016.107,44.016.808,44.017.405','Adj_FC'	
+
 
 
    	
@@ -4232,7 +4402,7 @@ order by pvt.ItemNumber
   order by cte.Date_Uploaded asc
         
 		
-	--- Version 2 -------
+	--- Version 2 ------- better version for validation
    -- Revised on 16/11/2018 to include aggregated Forecast Quantities & Values
   with cte as 
 		  (
@@ -4269,7 +4439,7 @@ order by pvt.ItemNumber
   select distinct fh.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'
   select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'  select distinct fh.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'
 
-    select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2019-12-15' and '2019-12-20 17:00:00'
+    select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2020-03-02' and '2020-03-25 17:00:00'
 
    select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-04-10' group by fh.ReportDate order by fh.ReportDate
    select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-01-11' and '2018-01-18 13:00:00' group by fh.ReportDate order by fh.ReportDate
@@ -4295,9 +4465,9 @@ order by pvt.ItemNumber
   delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > dateadd(d,-3,getdate())
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
-   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2019-12-10' and ReportDate <'2019-12-15'
+   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2020-01-02' and ReportDate <'2020-01-25'
  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2018-12-01' and ReportDate <'2018-12-05 14:59:00'
-    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2019-12-15' and '2019-12-20 17:00:00'
+    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2020-04-01' and '2020-04-03 17:00:00'
   select dateadd(d,-11,getdate())
   select  getdate()+1
 
@@ -4320,6 +4490,32 @@ select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('34.081.00
 
   delete from JDE_DB_Alan.FCPRO_Fcst_History 
   where  Date in ('2018-09-01') and ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'
+
+
+
+ -- https://stackoverflow.com/questions/19094023/sql-server-update-column-from-data-in-the-same-table    --- Update table
+---============= Update FC table =========
+
+   --- update forecast value using same table, replacing one month saved fc value with previous month value --- if something is wrong --- 11/2/2020  --- Yeah works !
+;update f
+ set f.value = f2.value
+   from JDE_DB_Alan.FCPRO_Fcst_History f inner join JDE_DB_Alan.FCPRO_Fcst_History f2 on f.ItemNumber = f2.ItemNumber -- and f.Date = f2.Date    -- No Need ? Need !
+     where f.ItemNumber = '43.205.532M' 
+	       and cast(SUBSTRING(REPLACE(CONVERT(char(10),f.reportdate,126),'-',''),1,6) as integer) =202001
+		   and cast(SUBSTRING(REPLACE(CONVERT(char(10),f2.reportdate,126),'-',''),1,6) as integer) =201912
+
+
+;update f
+set f.Value = 803
+from JDE_DB_Alan.FCPRO_Fcst f
+where f.DataType1 = 'Adj_FC' and f.ItemNumber in ('24.7220.1858')
+
+select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('24.7220.1858') and f.DataType1 in ('Adj_FC')
+
+
+select * from JDE_DB_Alan.vw_FC f where f.ItemNumber in ('18.013.089')
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 ---********************************************************************
@@ -4390,6 +4586,197 @@ set h.ReportDate = '2019-03-31 15:00:00'
 from JDE_DB_Alan.FCPRO_Fcst_History h
 --where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
 where h.ReportDate between '2019-03-01' and '2019-03-30 13:00:00'
+
+
+
+
+------------------------------------------------------------------------------------
+-- Add new table
+CREATE TABLE TOY.BRANDS
+(
+ID INT NOT NULL,
+NAME VARCHAR(20) NULL
+)
+GO
+
+-- Load the table with data
+INSERT INTO TOY.BRANDS (ID, NAME) VALUES
+(1, 'Ford'),
+(2, 'Chevy'),
+(3, 'Dodge'),
+(4, 'Plymouth'),
+(5, 'Oldsmobile'),
+(6, 'Lincoln'),
+(7, 'Mercury');
+GO
+
+--- from one table --
+CREATE TABLE suppliers
+  AS (SELECT id, address, city, state, zip
+      FROM companies
+      WHERE id > 1000);
+
+--- from 2 tables ---
+CREATE TABLE suppliers
+  AS (SELECT companies.id, companies.address, categories.cat_type
+      FROM companies, categories
+      WHERE companies.id = categories.id
+      AND companies.id > 1000);
+
+
+ --- This would create a new table called suppliers that included all columns from the companies table, but no data from the companies table --- retain table structure but no data is copied over
+CREATE TABLE suppliers
+  AS (SELECT *
+      FROM companies WHERE 1=2);
+
+
+
+--------- Create table and insert data multiple rows-----------
+
+CREATE TABLE recipes (
+  recipe_id INT NOT NULL,
+  recipe_name VARCHAR(30) NOT NULL,
+  PRIMARY KEY (recipe_id),
+  UNIQUE (recipe_name)
+);
+
+INSERT INTO recipes (recipe_id, recipe_name) 
+VALUES 
+    (1,"Tacos"),
+    (2,"Tomato Soup"),
+    (3,"Grilled Cheese");
+
+---------- create temp table # ( if need > 1000 records )-----------------
+
+Local Temporary Tables (#temp)  
+Global Temporary Tables (##temp)  
+  
+CREATE TABLE #StudentTemp  
+(  
+    StudentID int,  
+    Name varchar(50),   
+    Address varchar(150)  
+)  
+GO  
+INSERT INTO #StudentTemp VALUES ( 1, 'Dipendra','Pune');  
+GO  
+SELECT * FROM #StudentTemp  
+
+------------Create table variable @ -----------------------------------
+DECLARE @table AS TABLE (id INT, col VARCHAR(20))
+
+ DECLARE @TStudent TABLE  
+ (  
+    RollNo INT IDENTITY(1,1),  
+    StudentID INT,  
+    Name INT  
+ )   
+ --Insert data to Table variable @TStudent   
+ INSERT INTO @TStudent(StudentID,Name)  
+ SELECT DISTINCT StudentID, Name FROM StudentMaster ORDER BY StudentID ASC 
+
+ ----------------- Update FC using temp table  25/2/2020 --------- works ! -------------------------
+
+select * from JDE_DB_Alan.FCPRO_Fcst_History h  where h.ItemNumber in ('38.001.005') and h.ReportDate between '2020-02-01' and '2020-02-25' 
+select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('38.001.005') and f.DataType1 = 'Adj_FC' 
+
+declare @fc table ( item varchar(100),datatype varchar(100),fcdate datetime,fcqty decimal(18,0))
+
+
+----- Creating temporary tables --> SQL Server provided two ways to create temporary tables via SELECT INTO and CREATE TABLE statements. --- https://www.sqlservertutorial.net/sql-server-basics/sql-server-temporary-tables/
+
+--- Make sure that the table is deleted after use --- 25/2/2020
+
+If(OBJECT_ID('tempdb..#temp') Is Not Null)
+Begin
+    Drop Table #Temp
+End
+
+If(OBJECT_ID('tempdb..#fc') Is Not Null)
+Begin
+    Drop Table #fc
+End
+
+
+drop table #fc
+select * from #fc
+select f.ItemNumber,f.DataType1,f.Date,f.Value  into #fc  from JDE_DB_Alan.FCPRO_Fcst f where 1=2 
+
+insert into #fc values
+('38.001.005','Adj_FC','2020/02/01',500 ), 
+('38.001.005','Adj_FC','2020/03/01',811 ),
+('38.001.005','Adj_FC','2020/04/01',1004),
+('38.001.005','Adj_FC','2020/05/01',1123),
+('38.001.005','Adj_FC','2020/06/01',1198),
+('38.001.005','Adj_FC','2020/07/01',1244),
+('38.001.005','Adj_FC','2020/08/01',1273),
+('38.001.005','Adj_FC','2020/09/01',1291),
+('38.001.005','Adj_FC','2020/10/01',1302),
+('38.001.005','Adj_FC','2020/11/01',1308),
+('38.001.005','Adj_FC','2020/12/01',1313),
+('38.001.005','Adj_FC','2021/01/01',1315),
+('38.001.005','Adj_FC','2021/02/01',500 ),
+('38.001.005','Adj_FC','2021/03/01',811 ),
+('38.001.005','Adj_FC','2021/04/01',1004),
+('38.001.005','Adj_FC','2021/05/01',1123),
+('38.001.005','Adj_FC','2021/06/01',1198),
+('38.001.005','Adj_FC','2021/07/01',1244),
+('38.001.005','Adj_FC','2021/08/01',1273),
+('38.001.005','Adj_FC','2021/09/01',1291),
+('38.001.005','Adj_FC','2021/10/01',1302),
+('38.001.005','Adj_FC','2021/11/01',1308),
+('38.001.005','Adj_FC','2021/12/01',1313),
+('38.001.005','Adj_FC','2022/01/01',1315)
+
+  --- update 'Adj_FC' --- fc table
+;update f
+ set f.value = f2.value
+  from JDE_DB_Alan.FCPRO_Fcst f inner join #fc f2 on f.ItemNumber = f2.ItemNumber  and f.Date = f2.Date and f.DataType1 = f2.DataType1     ---N0 Need ? Need !                                                                                
+     where f.ItemNumber = '38.001.005' and f.DataType1 ='Adj_FC'
+
+
+  --- update 'Stat_FC' --- fc table
+  	  
+;update f
+ set f.value = f2.value
+  from JDE_DB_Alan.FCPRO_Fcst f inner join 
+							 ( select * from JDE_DB_Alan.FCPRO_Fcst ff where ff.DataType1 = 'Adj_FC') f2 
+							               on f.ItemNumber = f2.ItemNumber  and f.Date = f2.Date												 ---N0 Need ? Need !                                                                                
+  where f.ItemNumber = '38.001.005' and f.DataType1 ='Stat_FC' and f.Date = '2020-04-01'
+
+
+  --- update 'Adj_FC' --- fc history table -- works !
+;update h
+ set h.value = f2.value
+  from JDE_DB_Alan.FCPRO_Fcst_History h inner join #fc f2 on h.ItemNumber = f2.ItemNumber  and h.Date = f2.Date and h.DataType1 = f2.DataType1     ---N0 Need ? Need !                                                                                
+     where h.ItemNumber = '38.001.005' and h.DataType1 ='Adj_FC' and h.ReportDate between '2020-02-01' and '2020-02-25' 
+
+
+----------------------------------------------------------------------------------
+--- update one month data --- fc table
+;update f
+set f.Value = 205
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst f
+--where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
+ where f.ItemNumber in ('38.001.005') 
+	  and f.Date in ('2020-02-01')
+	  and f.DataType1 = 'Adj_FC'
+
+
+	  
+--- update one month data --- fc history table
+;update h
+set h.Value = 20
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+--where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
+ where h.ReportDate between '2019-04-10' and '2019-04-30 17:00:00:00'
+      and h.ItemNumber in ('34.081.000') 
+	  and h.Date in ('2019-09-01')
+
+------------------------------------------------------------------------------------------------------------
+
 
 
 ---================= Update Records in FC history table ================================================================================================================
@@ -4554,6 +4941,10 @@ select left ( datename (month, DATEADD(mm, DATEDIFF(m,0,GETDATE())-13,0)) ,3)			
 -- Get last 12 Month ---
 select replace(convert(varchar(8), DATEADD(mm, DATEDIFF(m,0,GETDATE())-13,0),126),'-','')		--last 12 months
 select DATEDIFF(m,0,GETDATE())
+
+select  DATEDIFF(m,0,GETDATE()) as startdate	
+select DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) as startdate	
+
 
 select cast(DATEADD(s,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())+6,0)) as datetime) as startdate		-- Set the StartDate for changing FC from Jun/2018 onwards ( + 6 months ),pay attention to 's' --> seconds, that is clever
 select DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) as startdate									--	this  month			2018-02-01 00:00:00.000
@@ -5131,7 +5522,9 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @Item_id = '2851542072,2851548072,2851542167,2851548167,2851542245,2851548245,2851542351,2851548351,2851542661,2851548661,2851542669,2851548669,2851542689,2851548689,2851542785,2851548785,2851542862,2851548862,2801381661,2801381862,2801381320,2801381276,2801381810,2801381324,2801382661,2801382785,2801382320,2801382810,2801382689,2801382180,2801382862,2801382048,2801382879,2801382580,2801382324,2801382276,2801382609,2801382551,2801382669,2801382496,2801406661,2801406862,2801406072,2801406276,2801406351,2801406324,2801407661,2801407862,2801407072,2801407276,2801407351,2801407324,2801389661,2801389785,2801389072,2801389351,2801389689,2801389167,2801389862,2801389048,2801389354,2801389245,2801389324,2801389276,2801389609,2801389551,2801389669,2801389095,2801390661,2801390785,2801390072,2801390351,2801390689,2801390167,2801390862,2801390048,2801390354,2801390245,2801390324,2801390276,2801390609,2801390551,2801390669,2801390095,2801385661,2801385862,2801385320,2801385276,2801385810,2801385324,2801386661,2801386785,2801386320,2801386810,2801386689,2801386180,2801386862,2801386048,2801386879,2801386580,2801386324,2801386276,2801386609,2801386551,2801386669,2801386496,2801395661,2801395862,2801395072,2801395276,2801395351,2801395324,2801396661,2801396785,2801396072,2801396351,2801396689,2801396167,2801396862,2801396048,2801396354,2801396245,2801396324,2801396276,2801396609,2801396551,2801396669,2801396095,2801404000,2801403661,2801403862,2801403072,2801403276,2801403351,2801403324,2801436661,2801436785,2801436072,2801436351,2801436689,2801436167,2801436862,2801436048,2801436354,2801436245,2801436324,2801436276,2801436609,2801436551,2801436669,2801436095,2801405661,2801405785,2801405072,2801405351,2801405689,2801405167,2801405862,2801405048,2801405354,2801405245,2801405324,2801405276,2801405609,2801405551,2801405669,2801405095,KIT2758,KIT2759,2911529661,2911529862,2911529072,2911529276,2911529351,2911529324,2911530661,2911530862,2911530072,2911530276,2911530351,2911530324,2911531661,2911531785,2911531072,2911531351,2911531689,2911531167,2911531862,2911531048,2911531354,2911531245,2911531324,2911531276,2911531609,2911531551,2911531669,2911531095,2911532661,2911532785,2911532072,2911532351,2911532689,2911532167,2911532862,2911532048,2911532354,2911532245,2911532324,2911532276,2911532609,2911532551,2911532669,2911532095,2801471000,7502000000,7502001000,7501005000,7501001000,7804000000,2801499661,2801499785,2801499072,2801499351,2801499689,2801499167,2801499862,2801499048,2801499354,2801499245,2801499324,2801499276,2801499609,2801499551,2801499669,2801499095,2801999000,2781208000,2801454000,2801350000,2801433661,2801433862,2801433072,2801433276,2801433351,2801433324,2801434661,2801434862,2801434072,2801434276,2801434351,2801434324,2801490661,2801490785,2801490072,2801490351,2801490689,2801490167,2801490862,2801490048,2801490354,2801490245,2801490324,2801490276,2801490609,2801490551,2801490669,2801490095,2801491661,2801491785,2801491072,2801491351,2801491689,2801491167,2801491862,2801491048,2801491354,2801491245,2801491324,2801491276,2801491609,2801491551,2801491669,2801491095,2851512661,2851218661,2851224661,2851230661,2851236661,2851284661,2851512785,2851218785,2851224785,2851230785,2851236785,2851284785,2851512072,2851218072,2851224072,2851230072,2851236072,2851284072,2851512351,2851218351,2851224351,2851230351,2851236351,2851284351,2851218689,2851224689,2851230689,2851236689,2851284689,2851512167,2851218167,2851224167,2851230167,2851236167,2851284167,2851512862,2851218862,2851224862,2851230862,2851236862,2851284862,2851284048,2851218354,2851224354,2851230354,2851236354,2851284354,2851218245,2851224245,2851230245,2851236245,2851284245,2851284324,2851218276,2851224276,2851230276,2851236276,2851284276,2851284609,2851218551,2851224551,2851230551,2851236551,2851284551,2851284669,2851284095'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801404000,KIT2758,KIT2759,2801396785,2801386785,2801382785,2801396661,2801386661,2801382661,2801999000,2781208000,2801396862,2801350000,2801454000,2801389785,2801390785,2801396167,2801386862,2801382862,2801389661,2801396072,2801390661,2801396354,2801396669,2801396609,2801396276,2801389167,2801389072,2801386180,2801382180,2801386879,2801382879,2801386669,2801382669,2801386609,2801382609,2801386276,2801382276,2801389862,2801395661,2801386320,2801382320,2801389354,2801389689,2801389276,2801389669,2801389609,2801390862,2801390167,2801395862,2801390072,2801390354,2801390669,2801390609,2801390276,2801389048,2801389351,2801389245,2801390245,2801390689,2801396048,2801396689,2801390351,2801386689,2801382689,7804000000,2801389095,2801389324,2801390048,2801386048,2801382048,2801389551,2801396245,2801390095,2801390324,2801405785,2801396351,2801436785,2851230785,2801499785,7502000000,2801390551,2801386810,2801382810,2801471000,2801490785,2801385661,2801381661,2801405661,2801490661,2801436661,2851230661,2801499661,2801491785,2801386580,2801382580,2801491661,2801405862,2801396095,2801395276,2801436862,2801499862,2851230862,2911531785,2801490072,2801405167,2911532354,2911531661,2911532276,2911532669,2911531862,2911532609,2801405354,2801405669,2801405276,2801436167,2801405609,2801436354,2801436669,2801499167,2801436276,2801436609,2801405072,2801490167,2801499354,2851284609,2801499276,2801499609,2801499669,2851284669,2801385862,2801395324,2801436072,2801386496,2801385320,2801381862,2801382496,2801381320,2801396551,2801491072,2851230072,2801406661,2801499072,2851230354,2851230167,2851230276,2801490354,2801490669,2801490862,2911532661,2801490276,2801490609,2911532862,2801407661,2851224785,2801406072,2801491167,2801490048,2801490689,2801405689,2801395351,2801386551,2801382551,2801406862,2801436689,2801491354,2801491862,2801406276,2801491609,2801491276,2801491669,2911532072,2911531354,2911532785,2801405048,2801499689,2801407862,2801407072,2801407276,2801436048,2851284048,2801499048,2851284661,2851230689,2801406351,2801491048,2801491689,2851224661,2801396324,2801395072,2801407351,2801490351,2851284785,2801405351,7502001000,7501005000,2801386324,2801406324,2801382324,2911531245,2911532095,2911531072,2911531324,2911532167,2911531095,2911531167,2911531276,2911531669,2911532689,2801436351,2911532551,2911531551,2911531609,2801499351,2851236785,2851230351,2801491351,2801490095,2801403661,2851542785,2851548785,2851224862,2801407324,2801405245,2851218785,2801491095,2801499245,2851236661,2801436245,2801385810,2801381810,2801490245,2851230245,2851224354,2801433661,2911531351,2911531689,2911532245,2911532048,2851224072,2851224167,2851542862,2851542661,2851548072,2851542072,2851542167,2851224276,2851548167,2851548862,2851548661,2851284354,2851284072,2851218661,2851284862,2851236862,2851284167,2851284245,2851284551,2851284276,2851284689,2851284351,2851230551,2801491245,2801434661,2801405095,2801433072,2801499095,2851236072,2851218862,2801403072,2801403862,2801436095,2851284095,2801385324,2801385276,2851224689,2801381276,2801381324,2801403324,2801490551,2911529862,2801434072,2911529661,2851236354,2851236167,2851512785,2851224351,2851548351,2851236276,2801436551,2851548669,2911530276,2801405551,2851542689,2851548689,2801499551,2851542245,2851542351,2851542669,2851548245,2801405324,2801491551,7501001000,2801434862,2911530862,2801433276,2911530661,2801434276,2851218354,2851512661,2801436324,2851218167,2851218072,2851218276,2851236689,2801433862,2911529276,2911530072,2801491324,2801434324,2801490324,2911531048,2911532351,2801433324,2911532324,2801499324,2851284324,2851224245,2851512862,2851218689,2851236351,2851224551,2911530324,2801403351,2801433351,2911529072,2911529324,2911530351,2851512072,2801403276,2851218245,2851236245,2851512167,2851512351,2851218351,2851236551,2851218551,2801434351,2911529351','2018-05-01','2018-12-01'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801404000','2018-05-01','2018-12-01'       -- works
- exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2018-05-01','2018-12-01'		-- works
+ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-02-01','2021-01-01','SlsAmt_12'		-- works
+  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-02-01','2021-01-01','ParetoAndFCAmt'		-- works
+    exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-02-01','2021-01-01','ParetoAndFCQty'		-- works
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '6001130009009H','2018-05-01','2018-12-01'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801406324','2018-05-01','2018-12-01'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801406324','2019-07-01','2019-12-01'
@@ -5146,16 +5539,23 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5250N001,S3000NET5300N001,82.336.906','2018-08-01','2019-07-01'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'S3000NET5250N001,S3000NET5300N001,82.336.906','2018-08-01','2019-07-01'
    exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'F16174A949,7501001000','2018-11-01','2019-07-01'
-     exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2018-11-01','2019-10-01'
+  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2018-11-01','2019-10-01'
 
 
- 	 
+ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-02-01','2021-01-02'
+ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-02-01','2021-01-02','rnk'
+  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '31.118.131,31.119.131,31.120.131,31.122.131,31.123.131,31.124.131,31.125.000,31.126.000,31.127.176,31.127.000,31.128.176,31.128.000,31.129.176,31.129.000,31.130.176,31.130.000,31.105.101,31.150.131,31.151.131,31.152.131,31.153.131,31.155.176,31.156.176,31.157.176,31.155.000,31.156.000,31.157.000,31.161.176,31.161.000,31.163.176,31.163.000,31.165.131,31.167.131,31.168.131,31.169.131,31.170.131,31.171.131,31.172.131,31.166.131','2020-02-01','2021-01-02'
+  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '26.812.410,26.812.604,26.812.820,26.812.901,26.812.902,26.812.962,26.813.604,26.813.820,26.813.962,26.814.410,26.814.604,26.814.820,26.814.901,26.814.902,26.814.962,26.815.410,26.815.604,26.815.820,26.815.901,26.815.902,26.815.962','2020-02-01','2021-01-02'
+  
+  	 
    select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in  ('24.7206.0000','2974000000','45.124.000')
   exec JDE_DB_Alan.sp_Cal_SafetyStock
 
   select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload h where h.ItemNumber in ('45.124.000') order by h.CYM
   select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('24.7206.0000','2974000000','45.124.000')
   select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('82.336.906')
+
+  select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('31.122.131','31.123.131','31.124.131','31.125.000','31.127.176','31.129.176','31.129.000','31.130.000')
 
 
   '24.7206.0000','2974000000','45.124.000'

@@ -10,7 +10,7 @@ go
 
 	  ------ First Get your clean/valid Textile item -------
 
-			 --- All Textile SKUs ----
+			 --- All Textile SKUs ---- From Master file
 	with   _txlitm as ( select m.ItemNumber,m.WC,m.StockingType,m.Description
 	                            ,'TBC' as Sls_Status	                            	
 	                            ,count(m.Description )over() as Total_Count_Textile_Items_With_WC
@@ -19,7 +19,7 @@ go
 						 --order by m.WC
 						 )
 			
-			--- Obsolete Items ----	113 item
+			--- Obsolete Items ----	113 item -- this is just for testing purpose,in ' _txlitm ' table it already include 'O','U' items for textile
              ,Obsl_txlitm  as ( select m.ItemNumber,m.Description,m.wc,m.StockingType
 	                                   ,count(m.Description)over() as Item_Count
 								 from JDE_DB_Alan.vw_Mast m 
@@ -37,7 +37,7 @@ go
 			--select * from Obsl_txlitm
 			--select * from Null_txlitm
 
-			  ----- Full Textile SKU list with details -----
+			  ----- Full Textile SKU list with details ----- You can use this list for SKU Analysis, FOR RCCP reporting purose, u might not need this full list, just active item list .
 			,txtitm_ as ( select a.ItemNumber,a.WC,a.StockingType
 								 ,case 
 								     when ni.Nil_Status = 'Nil_Sls_Y' then ni.Nil_Status
@@ -47,7 +47,7 @@ go
                                 ,count(a.Description)over() as Itm_Count
 			               from  _txlitm a left join Null_txlitm ni on a.ItemNumber = ni.ItemNumber )
 			  
-			    select * from txtitm_ t where t.ItemNumber in ('82.201.950') 		   
+			  --  select * from txtitm_ t where t.ItemNumber in ('82.201.950') 		   
 			  --  where t.StockingType not in ('O','U') and t.Sls_Status_ in ('Nil_Sls_Y')
 
 			 
@@ -57,7 +57,7 @@ go
 							where t.StockingType not in ('O','U') and t.Sls_Status_ in ('Nil_Sls_N')
 
 			             )
-              -- select * from txtitm
+             --  select * from txtitm
 				
 			,po as (    --select tb.ItemNumber,tb.DataType1,tb.PODate_,tb.poyr,tb.pomth,tb.BuyerName,tb.BuyerNumber,tb.TransactionOriginator,tb.TransactionOrigName,tb.SupplierName
 						 select tb.ItemNumber,tb.DataType1,tb.PODate_,tb.poyr,tb.pomth,tb.SupplierName
@@ -119,12 +119,12 @@ go
 					                          left join so s on f.ItemNumber = s.Item_Number and f.FCDate_ = s.YM_Req_c					  --19/10/2019			
 											  left join JDE_DB_Alan.vw_Mast m on f.ItemNumber  = m.ItemNumber and f.FCDate_ = m.SOHDate   -- SOHDate is current month name,also note 'vw_Mast' is clearn without duplicated records
 					-- where f.Date< @dt
-					 where f.Date < '2020-12-02'
+					-- where f.Date < '2020-12-02'
+					where f.Date < '2021-01-02'
 						  --and f.ItemNumber in ('46.598.000')
 								 )
 						
-			  -- select * from tb  
-			         
+			  -- select * from tb  			         
 				  ,tb_ as (
 							select tb.ItemNumber,tb.Date,tb.FCDate_,tb.FC_Vol,tb.PO_Vol,tb.SOH_Vol,tb.SO_Vol
 									,case 
@@ -133,7 +133,7 @@ go
 								                     when tb.Diff_FC_SO >=0 then (tb.PO_Vol -tb.FC_Vol)							-- if FC > SO        -- 21/10/2019
 													 when tb.Diff_FC_SO <0 then  (tb.PO_Vol -tb.SO_Vol)							-- if FC < SO       -- need to validate if Fc already include SO  --- 21/10/2019
 													 
-													 end 
+													  end 
 										   when tb.date = DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) then
 										         case
 												     when tb.Diff_FC_SO >=0 then (tb.PO_Vol -tb.FC_Vol + tb.SOH_Begin_M)			-- if FC > SO      -- 21/10/2019
@@ -288,7 +288,7 @@ go
                 -- select * from com
 				,c2 as ( select c.ItemNumber,c.d1,c.d2,c.DataType,c.value,c.Stk_Out_Stauts,c.Owner_,c.PrimarySupplier,c.Leadtime_Mth,c.PlannerNumber,c.Description
 				        ,c.UOM    
-				        ,getdate() as ThisReportDate
+				        
 				  from com_2 as c
 				 --where com.Stk_Out_Stauts in ('Y')
 				-- where com.ItemNumber in ('46.598.000')
@@ -298,7 +298,7 @@ go
 				  --order by c.ItemNumber,c.DataType,c.d2 					 
 				   )
 
-                select distinct c2.ItemNumber from c2
+              --  select distinct c2.ItemNumber from c2
               
 			 , z as (  select c2.*
 					  ,m.WC
@@ -306,10 +306,11 @@ go
 						  when m.wc = '45004' then 'Monfort'
 						  when m.wc ='45005' then 'Babcock'
 					   end as WC_Description 
-			   
+			          ,getdate() as ThisReportDate
 					  from c2 left join JDE_DB_Alan.vw_Mast m on c2.ItemNumber = m.ItemNumber
 					-- where fc.ItemNumber in ('82.201.901','82.109.921','82.011.937')							--- '82.201.901' active WC item 'S'; '82.109.921' WC item but obsolete;'82.011.937' Active WC item 'S' but within '981' Vertical familyGP
                   )
 
-			select * 
+			--select distinct z.ItemNumber 
+			select *
 			from z	   
