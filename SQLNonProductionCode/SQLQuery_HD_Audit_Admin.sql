@@ -1,4 +1,27 @@
 
+
+
+
+print 'hi'
+go
+
+print 'Fatal error, script will not continue!'
+
+set noexec on
+print 'ho'
+go
+
+
+  --- Hot KEy
+
+  -- Fn + end , Fn + home to begining / end of line
+  -- Ctrl + KU , to select whole line, then F5 to execute
+  -- Alt + break to stop run
+ -- CTRL+HOME - Top of the current query window
+ -- CTRL+END - End of the query window
+ --F5, CTRL + E or ALT + X — Execute the currently selected code
+
+
 --- Get Computer and Instance name easily --- 16/12/2017
 select @@version
 select @@servername -- yield -DESKTOP-ANE9ABR\HOME_2016EXPAD'
@@ -80,6 +103,36 @@ from
 dbo.sysfiles a
 
 
+--------------------------------------------------------------------------
+https://social.technet.microsoft.com/wiki/contents/articles/33766.sql-server-troubleshooting-how-to-recover-views-and-procedures-dropped-by-mistake.aspx
+
+----- Recover Accidently deleted View or Store procedure ------ 15/6/2020
+SELECT  Convert(varchar(Max),Substring([RowLog Contents 0],33,LEN([RowLog Contents 0]))) as [Script] 
+FROM fn_dblog(DEFAULT, DEFAULT) 
+Where [Operation]='LOP_DELETE_ROWS' And [Context]='LCX_MARK_AS_GHOST' And [AllocUnitName]='sys.sysobjvalues.clst'
+
+--If you want to try, just:
+
+create view Technet as
+select 1 as one,2 as two,3 as three,4 as fourth
+
+--drop the view:
+drop view technet
+
+--and, let's try also with a procedure:
+
+create procedure forum as
+declare @st int
+set @st=1
+print @st
+drop the procedure:
+
+drop procedure forum
+--Just execute abbove code:
+
+--------------------------------------------------------------------------
+
+
 ---------- Check When SP is runned -------------------
 
 SELECT CASE WHEN database_id = 32767 then 'Resource' ELSE DB_NAME(database_id)END AS DBName
@@ -115,6 +168,16 @@ SELECT
 FROM SYS.DM_EXEC_QUERY_STATS AS qs
     CROSS APPLY SYS.DM_EXEC_SQL_TEXT(qs.SQL_HANDLE) AS txt
 ORDER BY qs.LAST_EXECUTION_TIME DESC
+
+
+---------- check / identify all stored procedures referring a particular table -------------
+
+ SELECT Name
+FROM sys.procedures
+--WHERE OBJECT_DEFINITION(OBJECT_ID) LIKE '%TableNameOrWhatever%'
+  WHERE OBJECT_DEFINITION(OBJECT_ID) LIKE '%Master_Vendor_Item_CrossRef%'
+
+
 
 ---~~~~~~~~~~~~~~~~~~~~~ List All tables its columns and datatype 19/11/2017 use first one------------------------
 declare @tblname varchar(100) = ('%pareto%')
@@ -152,6 +215,47 @@ from sys.tables t inner join sys.sysindexes i on t.object_id = i.id
 where i.rows <>0
 order by SchemaName, TableName
 
+
+
+---~~~~~~~~~~~~~~~~~~~ List Table name / data type / primary key etc Meta data --------  20/1/2021
+SELECT COUNT(*) 
+FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE 
+   TABLE_NAME = 'table_name'
+
+SELECT COUNT(*) 
+FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE 
+   TABLE_NAME = 'Master_V4102A'
+
+--- To Get all the metadata you require For a table except for the Pk information ---
+ select COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, 
+       NUMERIC_PRECISION, DATETIME_PRECISION, 
+       IS_NULLABLE 
+from INFORMATION_SCHEMA.COLUMNS
+where TABLE_NAME='Master_V4102A'
+
+
+SELECT 
+    c.name 'Column Name',
+    t.Name 'Data type',
+    c.max_length 'Max Length',
+    c.precision ,
+    c.scale ,
+    c.is_nullable,
+    ISNULL(i.is_primary_key, 0) 'Primary Key'
+FROM    
+    sys.columns c
+INNER JOIN 
+    sys.types t ON c.user_type_id = t.user_type_id
+LEFT OUTER JOIN 
+    sys.index_columns ic ON ic.object_id = c.object_id AND ic.column_id = c.column_id
+LEFT OUTER JOIN 
+    sys.indexes i ON ic.object_id = i.object_id AND ic.index_id = i.index_id
+WHERE
+    c.object_id = OBJECT_ID('JDE_DB_Alan.Master_V4102A')
+
+	
 --~~~~~~~~~~~~~~~~~~~~~ Check When a table is update ------------- very good
 
 select  DB_NAME(x.database_id) AS [Database],
@@ -166,7 +270,11 @@ WHERE   --   database_id = '5'							-- JDE_DB_Alan
              DB_NAME(x.database_id)='JDE_DB_Alan'
        --AND t.object_id = object_id('dbo.YourTable') 
 	   --AND t.object_id = '1858105660'
-	   --  and t.name like ('SlsHist%')
+	   and t.name like ('%ML345%')
+	     and t.name like ('SlsHist%')
+	   --and t.name like ('%Superss%')
+	    and  t.name like ('%hd%')
+
 order by us.last_user_update desc --,t.modify_date desc
 
 select * from sys.tables t where t.name like ('SalesHist%')
@@ -534,3 +642,19 @@ SELECT name, create_date, modify_date
 FROM sys.objects
 WHERE type = 'P'
 ORDER BY modify_date DESC
+
+
+
+
+
+
+
+----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE -------- ----- ALWAYS ENTER YOUR CODE ABOVE THIS LINE --------
+----- NEVER ENTER YOUR CODE BELOW THIS LINE --------- ----- NEVER ENTER YOUR CODE BELOW THIS LINE --------- ----- NEVER ENTER YOUR CODE BELOW THIS LINE ---------
+
+ ---&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&------------------
+-- END_EXIT:
+
+-- last line of the script
+set noexec off -- Turn execution back on; only needed in SSMS, so as to be able 
+               -- to run this script again in the same session.

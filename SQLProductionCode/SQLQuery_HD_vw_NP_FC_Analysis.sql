@@ -1,3 +1,4 @@
+
 create view [JDE_DB_Alan].[vw_NP_FC_Analysis] with schemabinding
 as
 
@@ -55,4 +56,6 @@ with _np as
 		  --select distinct z.ItemNumber from z
 
 		--  select * from JDE_DB_Alan.FCPRO_NP_tmp
+		
 GO
+

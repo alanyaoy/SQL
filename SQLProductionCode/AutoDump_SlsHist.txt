@@ -8,7 +8,10 @@ SELECT [RowLabel]
       ,[Month]
       ,[PPY]
       ,[PPC]
+      ,CYM
       ,[SalesQty]
-     -- ,[ReportDate]
+      ,[SalesQty_Adj]
+      ,ValidStatus            
+      ,[ReportDate]
   FROM [JDE_DB_Alan].[JDE_DB_Alan].[SlsHist_AWFHDMT_FCPro_upload] h
  --where h.[ItemNumber] like ('%850531003021%')

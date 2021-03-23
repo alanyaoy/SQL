@@ -1,23 +1,3 @@
-/*    ==Scripting Parameters==
-
-    Source Server Version : SQL Server 2016 (13.0.4001)
-    Source Database Engine Edition : Microsoft SQL Server Express Edition
-    Source Database Engine Type : Standalone SQL Server
-
-    Target Server Version : SQL Server 2016
-    Target Database Engine Edition : Microsoft SQL Server Express Edition
-    Target Database Engine Type : Standalone SQL Server
-*/
-
-USE [JDE_DB_Alan]
-GO
-
-/****** Object:  View [dbo].[vw_NP_FC_Override_upload]    Script Date: 15/02/2018 9:55:27 AM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
 
 
 
@@ -29,7 +9,7 @@ GO
 --delete from JDE_DB_Alan.FCPRO_NP_tmp
 --- create view as derived table from 'FCPRO_NP_tmp'
 
-create view [dbo].[vw_NP_FC_Override_upload_] as
+create view [dbo].[vw_NP_FC_Override_upload] as
 
 
 
@@ -55,7 +35,6 @@ create view [dbo].[vw_NP_FC_Override_upload_] as
 
 
 --------------- Create FC Overrides File for FC Pro Uploading Using NP File ( Comptible with FC PRo Format with Date/Hierarchy ) --- 7/2/2018, 15/2/2018-------------------------
-		--- Note The View does not allow Order by clause, so I also created a 'sp_NP_FC_Override_upload' --- 15/2/2018
 --use JDE_DB_Alan
 --go
 
@@ -85,6 +64,8 @@ with cte as (
 						,'2018-06-01' as startdate2
 				 from JDE_DB_Alan.FCPRO_NP_tmp f
 				 where f.Value >0			--- Need to pick up FC Value from launch date,different SKU has different start date and we do not want to pick all the month ( ignore leading 0 ) -- 14/2/2018
+				       and f.ValidStatus = 'Y'		-- 31/8/2018
+
 					 )
 	--select * from fc where fc.ItemNumber in ('2801381661','34.523.000,')
 	,_npfc as (																										-- this is Monthly SKU level data
@@ -158,5 +139,3 @@ with cte as (
 
 
 GO
-
-

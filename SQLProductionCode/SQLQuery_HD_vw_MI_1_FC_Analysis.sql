@@ -1,3 +1,4 @@
+
 create view [JDE_DB_Alan].[vw_MI_FC_Analysis] with schemabinding
 as
 
@@ -61,3 +62,5 @@ with _mi1 as
 
 		--  select * from JDE_DB_Alan.FCPRO_NP_tmp
 GO
+
+

@@ -1,26 +1,5 @@
-/*    ==Scripting Parameters==
 
-    Source Server Version : SQL Server 2016 (13.0.4001)
-    Source Database Engine Edition : Microsoft SQL Server Express Edition
-    Source Database Engine Type : Standalone SQL Server
-
-    Target Server Version : SQL Server 2016
-    Target Database Engine Edition : Microsoft SQL Server Express Edition
-    Target Database Engine Type : Standalone SQL Server
-*/
-
-USE [JDE_DB_Alan]
-GO
-
-/****** Object:  View [JDE_DB_Alan].[vw_FC]    Script Date: 6/12/2019 1:45:03 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-	CREATE view  [JDE_DB_Alan].[vw_HD_Sls_History] with schemabinding as 	
+create view  [JDE_DB_Alan].[vw_Sls_History_HD] with schemabinding as 	
 	 
 	 
 	 ------- Create a Clean Sales History ----- 6/12/2019   
@@ -111,8 +90,5 @@ GO
 		--where h.ItemNumber_ in ('42.210.031','44.011.007')
 		--order by h.SlsVol_TTL_12 desc
 		
-
-
+		
 GO
-
-

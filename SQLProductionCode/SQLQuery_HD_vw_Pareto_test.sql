@@ -1,9 +1,5 @@
-
-use JDE_DB_Alan
-go
-
 --drop view dbo.vw_create_pareto
-create view vw_create_pareto as 		
+create view [dbo].[vw_Create_Pareto] as 		
 
 		with fc as ( select f.ItemNumber,f.DataType1,f.Date,f.Value * px.WholeSalePrice as value,px.SellingGroup,px.FamilyGroup,px.Family
 					 from JDE_DB_Alan.FCPRO_Fcst f left join JDE_DB_Alan.Px_AWF_HD_MT_FCPro_upload px 					 
@@ -56,3 +52,4 @@ create view vw_create_pareto as
 ----------------------------------------------------------------------------------
 
 --bcp " select * from JDE_DB_Alan.dbo.vw_create_pareto p where p.itemnumber in ('24.012.160s') " queryout C:\Users\yaoyu\Documents\Documents_Lenovo_Yoga_710\coutt.txt -S DESKTOP-ANE9ABR\HOME_2016EXPAD -c -t, -T
+GO
