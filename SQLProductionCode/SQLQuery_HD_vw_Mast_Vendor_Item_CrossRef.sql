@@ -1,6 +1,4 @@
 
-
-
 create view  [JDE_DB_Alan].[vw_Mast_Vendor_Item_CrossRef] with schemabinding as 
 
 ----- created on 16/9/2020 ------

@@ -29,6 +29,8 @@ select  h.jde_business_unit
 		 ,p.family_code,p.family_desc
 		 ,p.business_unit_code		-- use code instead
 		 ,p.business_unit_name
+		 ,c.sold_to_account_manager_name									--- 7/6/2021
+		 ,c.channel_name
 		 		 
 		   ,h.order_type,h.last_line_status_code,h.next_line_status_code
 		   ,u.primary_uom_code	as UM_PM	-- use code instead
@@ -61,10 +63,12 @@ where  	   -- h.item_code in ('2770004000B','43.212.001','43.211.001','43.205.63
 		--h.item_code in ('82.696.901')
 		--  h.item_code in ('26.800.820'	)
 		--  h.item_code in ('82336.3000.00.01')
-		--  h.item_code in ('82.336.903')
-		 -- h.item_code in ('27.277.951')
-		 -- h.item_code in ('26.144.0192')
-		   h.item_code in ('34.255.000','34.256.000','34.257.000')
+		  h.item_code in ('52.008.104')
+		-- h.item_code in ('46.507.000')
+		  --h.item_code in ('42.210.031','24.7221.0952','43.207.584M')
+		 --  h.item_code in ('26.800.659','26.800.676','26.800.820','26.800.830','26.800.833','26.800.962','26.800.963','26.800.971','26.801.676','26.801.820','26.801.962','26.801.963','26.803.659','26.803.676','26.803.820','26.803.830','26.803.833','26.803.962','26.803.963','26.803.971','26.802.659','26.802.676','26.802.820','26.802.830','26.802.833','26.802.962','26.802.963','26.802.971')
+		 --  h.item_code in ('34.255.000','34.256.000','34.257.000')
+		--   h.item_code in ('82.374.904','82.374.905','82.390.908','82.390.907','82.390.901','82.390.902','82.390.909','82.390.910','82.390.911','82.374.901')
 		--h.item_code in ('82.435.901')
 		--h.item_code in ('38.005.001','38.005.002','38.005.003','38.005.004','38.005.005','34.005.006')
 		--h.item_code in ('38.010.006')
@@ -75,23 +79,23 @@ where  	   -- h.item_code in ('2770004000B','43.212.001','43.211.001','43.205.63
 		--	  h.item_code in ('40.174.131','40.041.131')		--- Metal Awning parts -- 964
     --where f.order_number in ('5456172')
 	 --   f.order_number in ('5653693')
-   --  and h.invoice_date is not null				--- do you need to include SKUs with no invoice date but possible with Order date ?
-        --and p.business_unit_name = 'Blindmaker'     --- do you need this one ? DOes AWF selling components ?  10/12/2019
+   --  and h.invoice_date is not null					--- do you need to include SKUs with no invoice date but possible with Order date ?
+        --and p.business_unit_name = 'Blindmaker'		--- do you need this one ? DOes AWF selling components ?  10/12/2019
 		-- and p.business_unit_name = 'Components'      --- state expplicitly albeit h.business_unit is in 'select' clause
 		 --  and h.jde_business_unit in ('AWF')
 		 -- and cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,h.invoice_date),0),126),'-',''),1,6) as integer) >201910
 		 ---h.order_number in ('5456172')
 		 -- c.contact_name like ('%Venus%')					--- choose special customer		10/7/2020
 		  --  c.contact_name like ('%dollar%')				--- 500518
-		-- and p.family_group_code in ('982')			--- choose special category ( family group )	-- 	'Roller fabric - Zen'  18/2020
+		-- and p.family_group_code in ('982')				--- choose special category ( family group )	-- 	'Roller fabric - Zen'  18/2020
 		 --   c.customer_number in ('500370','1919459')
 		 -- and p.family_group_code in ('974','982')			--- choose special category		10/7/2020
 		  -- c.customer_number in ('2096938')					--- choose customer named as 'Watson Blinds'
-		 --and  c.customer_number in ('2096850')					-- customer Viewscape
-		  --p.family_group_code in ('910')			--- choose special category ( family group )	-- 	'Contemporary Collection'  18/2020
+		-- and  c.customer_number in ('2096850','2096848')			--- customer Viewscape
+		  --p.family_group_code in ('910')							--- choose special category ( family group )	-- 	'Contemporary Collection'  18/2020
 		 -- c.customer_number in ('2126621')					-- US Mermet
 		--  and p.family_group_code in ('982')			--- choose special category ( family group )	-- 	'Contemporary Collection'  18/2020
-		 -- p.family_group_code in ('910')			--- choose special category ( family group )	-- 	'Veri Shades' for Victory Blinds   1/3/2021
+		 -- p.family_group_code in ('910')				--- choose special category ( family group )	-- 	'Veri Shades' for Victory Blinds   1/3/2021
 
 		 -- and p.family_code in ('633')					--- choose family  -- --- Alpha awning  
 		 --  p.family_code in ('89J','89K')					--- choose family  -- --- Alpha awning  
@@ -113,6 +117,10 @@ group by h.jde_business_unit
 		 ,p.family_code,p.family_desc
 		 ,p.business_unit_code
 		 ,p.business_unit_name
+		 ,c.sold_to_account_manager_name													--- 7/6/2021
+		 ,c.channel_name
+
+		  ,h.order_type,h.last_line_status_code,h.next_line_status_code					   --- 7/6/2021 append for 'Group by' Clause
 		 ,u.primary_uom_code		
 		 ,h.pricing_uom
 		 
@@ -125,5 +133,8 @@ group by h.jde_business_unit
  order by h.item_code
          -- ,cast(substring( cast(f.d_date_key as varchar) , 1, 6) as int)
 		  ,cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,h.invoice_date),0),126),'-',''),1,6) as integer)
+
+
+
 
 

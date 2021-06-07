@@ -2,7 +2,6 @@
 use HDDW_PRD
 go
 
-
       -------- Query for HDDW_AWF_Awning_FASCD2_FAAU_FAOS_FACAS ------
 
 
@@ -14,13 +13,16 @@ select  h.jde_business_unit
 		  ,h.d_customer_key
 		  ,c.customer_number
 		 ,c.contact_name
+		  ,c.sold_to_account_manager_name				--- 2/6/2021 , sho who is looking after this account ( will it duplicate ?? like sales employee left and new sales rep join ? )
 		 
+
 		 ,p.family_group_code,p.family_group_desc
 		 ,p.family_code,p.family_desc
 		 ,u.primary_uom_name 		 
 		 ,substring( cast(h.d_date_key as varchar) , 1, 6) Order_YYMM
 		--  ,cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,h.invoice_date)-37,0),126),'-',''),1,6) as integer) as Inv_YYMM	
 		,sum(h.primary_quantity)   primary_quantity		
+		,sum(h.sales_amount)    primary_Amount		
 		
 --select distinct h.business_unit_code,p.family_group_desc,p.family_group_code,p.family_desc,p.family_code 
 
@@ -36,8 +38,8 @@ where  --  h.item_code = '44.011.007'
 		  --h.item_code in ('RBSC')				--- roller blinds
 		 -- h.item_code in ('FACSD2')			--- Evo /Alpha awning but HDDW use 'SUNSCR' and 'AWF SUNSCReen', 'Fabric awning' and '32F' ( should it be 32E instead ? ) as family group nmae NOT 'Contemprary Collection' as family name 
 		 --  h.item_code in ('FAAU')			--- fabric roll up awning - fabric awning automatic 
-		--   h.item_code in ('FAMT')			--- Magnatrack - 32F again ?! should it be '32E " as in Kamiliata's report ??
-			 h.item_code in ('TUFA20')			--- Tunil/Bricos - Nordic ( Lux ) / Kona ; has to use 'TU' in front of 'FA20' or 'FA58' etc !! otherwise search result is null - how good is name convenetion in Hunter Duglas - everyone is use different name !
+		   h.item_code in ('FAMT')			--- Magnatrack - 32F again ?! should it be '32E " as in Kamiliata's report ??
+		--	 h.item_code in ('TUFA20')			--- Tunil/Bricos - Nordic ( Lux ) / Kona ; has to use 'TU' in front of 'FA20' or 'FA58' etc !! otherwise search result is null - how good is name convenetion in Hunter Duglas - everyone is use different name !
 		--   p.family_code in ('32E')
   --where f.order_number in ('5456172')
 group by h.jde_business_unit 
@@ -48,6 +50,7 @@ group by h.jde_business_unit
 		 ,h.d_customer_key
 		 ,c.customer_number
 		 ,c.contact_name
+		  ,c.sold_to_account_manager_name				
 
 		 ,p.family_group_desc
 		 ,p.family_group_code

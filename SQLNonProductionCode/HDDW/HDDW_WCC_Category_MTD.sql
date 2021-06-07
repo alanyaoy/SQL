@@ -25,6 +25,9 @@ select  h.jde_business_unit
 		 ,p.family_code,p.family_desc		 
 		 ,p.business_unit_code		-- use code instead
 		 ,p.business_unit_name
+	     ,c.sold_to_account_manager_name				--- 2/6/2021 , sho who is looking after this account ( will it duplicate ?? like sales employee left and new sales rep join ? )
+		 ,c.channel_name
+
 		 --  ,u.primary_uom_code	as UM_PM	-- use code instead
 		  -- ,h.pricing_uom   as UM_PX		
 		-- ,substring( cast(f.d_date_key as varchar) , 1, 6) Order_YYMM
@@ -53,12 +56,18 @@ where
 		 --   c.customer_number in ('500370','1919459')
 		 -- and p.family_group_code in ('974','982')			--- choose special category		10/7/2020
 		  -- c.customer_number in ('2096938')					--- choose customer named as 'Watson Blinds'
-		 --  p.family_group_code in ('964')			--- choose special category ( family group )	-- 	'Contemporary Collection'  18/2020
+		  --  c.customer_number in ('500518')					--- choose customer named as 'Dollar Curtain'
+
+		 --  p.family_group_code in ('964')			--- choose special category ( family group )	-- 	'Metal Awning'  18/2020
+		   p.family_group_code in ('966','965','964')			--- choose special category ( family group )	-- 	'Contemporary Collection'  18/2020
 		  --and p.family_code in ('633')					--- choose family  -- --- Alpha awning  
 		 -- p.family_group_code in ('982')			--- choose special category ( family group )	-- 	'Roller fabric'  18/2020
 		-- p.family_group_code in ('964')			--- choose special category ( family group )	-- 	'Metal Awning'		QLD Hail storm damage  9/11/2020		
 		 -- p.family_group_code in ('982')			--- choose special category ( family group )	-- 	'Roller fabric'  18/2020
-		    p.family_group_code in ('965')			--- choose special category ( family group )	-- 	'Awning' - FA series  12/2/2021
+		  -- p.family_group_code in ('983')			--- choose special category ( family group )	-- 	'Canvas'  12/2/2021
+		  --  p.family_group_code in ('977')			--- choose special category ( family group )	-- 	'Timber Venetian - Woodnature'  16/4/2021
+		  --   p.family_group_code in ('972')			--- choose special category ( family group )	-- 	' Vertical'  6/5/2021
+
 		-- and cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,h.invoice_date),0),126),'-',''),1,6) as integer) > 201907	-- narrow your range		10/7/2020
 		and cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,h.invoice_date),0),126),'-',''),1,6) as integer) > 201409	-- narrow your range		10/7/2020
 
@@ -70,6 +79,8 @@ group by h.jde_business_unit
 		 ,p.family_code,family_desc
 		 ,p.business_unit_code
 		 ,p.business_unit_name
+		 ,c.sold_to_account_manager_name
+		 ,c.channel_name
 		-- ,u.primary_uom_code,h.pricing_uom	
 	    --,substring( cast(f.d_date_key as varchar) , 1, 6) Order_YYMM
 		 
@@ -82,3 +93,5 @@ group by h.jde_business_unit
 		  ,cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,h.invoice_date),0),126),'-',''),1,6) as integer)
 
 
+  --- Testing for VBA connection --- 6/5/2021
+ --select top 3 h.*,getdate() as ReportTime  from [hd-vm-bi-sql01].HDDW_PRD.Star.f_so_detail_history h 

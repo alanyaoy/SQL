@@ -1,27 +1,5 @@
-/*    ==Scripting Parameters==
 
-    Source Server Version : SQL Server 2016 (13.0.4001)
-    Source Database Engine Edition : Microsoft SQL Server Express Edition
-    Source Database Engine Type : Standalone SQL Server
-
-    Target Server Version : SQL Server 2016
-    Target Database Engine Edition : Microsoft SQL Server Express Edition
-    Target Database Engine Type : Standalone SQL Server
-*/
-
-USE [JDE_DB_Alan]
-GO
-
-/****** Object:  View [JDE_DB_Alan].[vw_Mast_Planning]    Script Date: 19/03/2021 12:35:24 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-
-
+  --- Updated 21/5/2021 to Remove/Prevent duplicate in HD (Textile) Work Center --------
 
     ------ 7/12/2020 ---------
 
@@ -33,7 +11,7 @@ GO
 
 
 
-ALTER view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
+CREATE view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
 --- please note following view for Master only includes Items which is forecastable ---
 
 
@@ -127,7 +105,7 @@ ALTER view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
 					end as Planning_Code_Description				  
 				  
 				  ,m.T_F as Planning_Fence_Rule
-				  ,case m.T_F
+				  ,case m.T_F												--- Planning time fence rule
 						  when 'S' then 'CO_Then_FC'						---	 S tells the system to plan using customer demand before the time fence and forecast after the time fence
 				          when 'F' then 'FC_Then_FC_Plus_CO'				--- F tells the system to plan using forecast before the time fence and forecast plus customer demand after the time fence
 						  when 'C' then 'CO_Then_Greater_CO_Or_FC'			--- C tells Customer demand before, greater of forecast or customer demand after
@@ -136,11 +114,11 @@ ALTER view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
 						  when '3' then 'Zero_Then_CO_Plus_FC'					--- 3 Zero before, forecast plus customer demand after						
 					 	else 'Unknown'
 					end as Planning_Fence_Rule_Description
-                  ,m.Plan_Time_Fence
+                  ,m.Plan_Time_Fence											--- Planning Time Fence value			---9/3/2021		
 				  				   
 				  ,m.Frz_Time_Fence,m.Msg_Time_Fence
 				  ,m.Time_Fence												--- Not sure what is Time_Fence value stands for
-				  ,m.SS_Adj_Jde								--- Opps ! Change the name of 'Safety_Stock' in JDE download file to 'SS_Adj_Jde' to avoid confusion ! 16/3/2021
+				  ,m.SS_Adj_Jde												--- Opps ! Change the name of 'Safety_Stock' in JDE download file to 'SS_Adj_Jde' to avoid confusion ! 16/3/2021
 				  
 				  ,m.Leadtime_Level,m.Leadtime_MFG
 				  ,m.ECO_Number,m.Cyc_Cnt	
@@ -218,16 +196,29 @@ ALTER view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
 				,ss.SS_Adj					
 				,ss.Stdevp_,ss.SS_Latest_upd_date,ss.ValidStatus_Adj_Flag		
 				,case 
-					when wc.WorkCenter is not null then wc.WorkCenter
+					when wc.WorkCenterCode_f is not null then wc.WorkCenterCode_f
 					--when wc.WorkCenter is null then 'No_WC_Assigned'		
-					  when wc.WorkCenter is null then '0'		
-					end as WC	
+					  when wc.WorkCenterCode_f is null then '0'		
+					end as WCCode_fl
+               ,case 
+					when wc.WorkCenterGroupCode_f is not null then wc.WorkCenterGroupCode_f
+					--when wc.WorkCenter is null then 'No_WC_Assigned'		
+					  when wc.WorkCenterGroupCode_f is null then '0'		
+					end as WCGroupCode_fl
+                 ,case 
+					when wc.WorkCenterGroupName_f is not null then wc.WorkCenterGroupName_f
+					--when wc.WorkCenter is null then 'No_WC_Assigned'		
+					  when wc.WorkCenterGroupName_f is null then '0'		
+					end as WCGroupName_fl
 			   	 
 			     ,a.Cyc_Cnt	
 				,a.ReportDate
 
                 from ms_ a left join JDE_DB_Alan.MasterSupplier s on a.Primary_Supplier = s.SupplierNumber
-				            left join JDE_DB_Alan.TextileWC wc on a.Short_Item_Number = wc.ShortItemNumber
+				           -- left join JDE_DB_Alan.TextileWC wc on a.Short_Item_Number = wc.ShortItemNumber							
+							--left join JDE_DB_Alan.vw_HD_WorkCenter wc on a.Short_Item_Number = wc.ShortItemNumber				--- You have choice of NOT using view table for HD_Workcenter and instead, use CTE to get data from original 'HD_WorkCenter' table, but be careful because you do not want to have duplicate records as 'HD_WorkCenter' will have 1 SKU point to 2 work centers, and when you join this table you will have duplications  --- 21/5/2021
+
+							left join JDE_DB_Alan.HD_WorkCenter wc on a.Short_Item_Number = wc.ShortItemNumber					--- HD_WorkCenter is created using sp, convert 'HD_WorkCenter_Staging' table data --- 24/5/2021, this will boost performance, otherwise using vw_HD_WorkCenter, there is no Index and too much String manupilations cause issues.
 							left join JDE_DB_Alan.FCPRO_Fcst_Pareto p on a.Item_Number = p.ItemNumber
 							--left join JDE_DB_Alan.FCPRO_SafetyStock ss on a.Item_Number = ss.ItemNumber
 							left join ss on a.Item_Number = ss.ItemNumber
@@ -263,7 +254,9 @@ ALTER view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
 				,a.SS_Adj													--- SS_Adj is alway new safety stock value from '.Fcst_SafetyStock' table using 'Cal_Safety_Stock 'store procedure
 				
 				,a.Stdevp_,a.SS_Latest_upd_date,a.ValidStatus_Adj_Flag		
-				, WC	
+				,WCCode_fl	
+				,WCGroupCode_fl
+				,WCGroupName_fl
 			   	 
 			     ,a.Cyc_Cnt	
 				,a.ReportDate as OrigMasterDataDate
@@ -292,5 +285,3 @@ ALTER view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
 
 
 GO
-
-

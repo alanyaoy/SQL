@@ -12,12 +12,13 @@
 USE [JDE_DB_Alan]
 GO
 
-/****** Object:  View [JDE_DB_Alan].[vw_SafetyStock]    Script Date: 22/03/2021 10:36:50 AM ******/
+/****** Object:  View [JDE_DB_Alan].[vw_SafetyStock]    Script Date: 30/03/2021 12:27:26 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 
 
@@ -50,19 +51,27 @@ ALTER view [JDE_DB_Alan].[vw_SafetyStock] with schemabinding as
 	--					  ,m.StockingType,m.SellingGroup,m.FamilyGroup,m.Family
 	--				from JDE_DB_Alan.vw_Mast m )
         
-	 with _tb as (  select a.ItemNumber,a.Sales_12Mth,a.SS_,a.SS_Adj,a.Stdevp_,a.ValidStatus_Adj_Flag,a.Pareto,a.LeadtimeLevel,a.StockingType
+	--- select * from JDE_DB_Alan.FCPRO_SafetyStock a where a.ItemNumber in ('42.210.031','604023820')
+	
+	 with 	 	
+	 
+		 _tb as (  select a.ItemNumber,a.Sales_12Mth,a.SS_,a.SS_Adj,a.Stdevp_,a.ValidStatus_Adj_Flag,a.Pareto,a.LeadtimeLevel,a.StockingType
 						,a.StandardCost,a.SS_Adj * a.StandardCost as SS_Adj_Dollars
 	                    ,a.Order_Policy,a.Order_Policy_Description
 						,a.Planning_Code,a.Planning_Code_Description
 						,a.Planning_Fence_Rule,a.Planning_Fence_Rule_Description
-						,max(a.ReportDate) over(partition by a.itemNumber) as SS_Latest_upd_date	
-						,min(a.ReportDate) over(partition by a.itemNumber) as SS_Oldest_upd_date
+
+						
+						,max(a.ReportDate) over(partition by a.itemNumber) as Itm_SS_Latest_upd_date	
+						,min(a.ReportDate) over(partition by a.itemNumber) as Itm_SS_Oldest_upd_date
 						,rank() over ( partition by a.itemNumber order by a.reportdate Desc) rk_0
 						,rank() over ( partition by a.itemNumber order by a.reportdate desc) rk_1
 						,dense_rank() over ( partition by a.itemNumber order by a.reportdate desc ) rk_2_dense	
 						,a.ReportDate
-
+						,max(a.reportdate)over() as Latest_SS_Analysis_Run_date
+						
 				  from JDE_DB_Alan.FCPRO_SafetyStock a
+				-- where a.ItemNumber in ('42.210.031','604023820')
 
 					)
 
@@ -70,7 +79,7 @@ ALTER view [JDE_DB_Alan].[vw_SafetyStock] with schemabinding as
 				  select a.ItemNumber,a.Sales_12Mth,a.SS_
 						,a.SS_Adj,a.Stdevp_
 						 ,a.rk_0,a.rk_1,a.rk_2_dense   
-						 ,a.SS_Latest_upd_date,a.SS_Oldest_upd_date,a.ValidStatus_Adj_Flag
+						 ,a.Itm_SS_Latest_upd_date,a.Itm_SS_Oldest_upd_date,a.ValidStatus_Adj_Flag
 						,a.LeadtimeLevel					
 						,a.Pareto					
 						,a.ReportDate
@@ -79,10 +88,14 @@ ALTER view [JDE_DB_Alan].[vw_SafetyStock] with schemabinding as
 						,a.Order_Policy,a.Order_Policy_Description
 						,a.Planning_Code,a.Planning_Code_Description
 						,a.Planning_Fence_Rule,a.Planning_Fence_Rule_Description
+						,convert(varchar(19), dateadd(d, datediff(d,0, a.Latest_SS_Analysis_Run_date), 0), 120) as latest_Analyis_Dt_2
+						,convert(varchar(10), a.Latest_SS_Analysis_Run_date,120) as latest_Analysis_Dt_3
+						,cast(SUBSTRING(REPLACE(CONVERT(char(10),a.Latest_SS_Analysis_Run_date,120),'-',''),1,6) as integer) latest_Analysis_Dt_4
+
 					from _tb as a 
 					where a.rk_2_dense = 1									--- Important !!!   Pick up the latest updated Safetly stock records !!  8/3/2021
 
-				  )
+				  )  
 
 		,tb as ( 		    
 				   select a.ItemNumber,a.Sales_12Mth,a.SS_,a.SS_Adj,a.Stdevp_,a.LeadtimeLevel,a.StockingType
@@ -90,21 +103,23 @@ ALTER view [JDE_DB_Alan].[vw_SafetyStock] with schemabinding as
 				        ,a.Order_Policy,a.Order_Policy_Description
 						,a.Planning_Code,a.Planning_Code_Description
 						,a.Planning_Fence_Rule,a.Planning_Fence_Rule_Description
-						  ,a.Pareto,a.SS_Latest_upd_date,a.SS_Oldest_upd_date,a.ValidStatus_Adj_Flag
+						  ,a.Pareto,a.Itm_SS_Latest_upd_date,a.Itm_SS_Oldest_upd_date,a.ValidStatus_Adj_Flag
 						  ,a.rk_0,a.rk_1,a.rk_2_dense,a.ReportDate
 				   from tb_ a
+				   where a.Itm_SS_Latest_upd_date > a.latest_Analyis_Dt_2						-- pick latest record, another layer if 1 SKU was not updated in latest Analysis run ( so you do not want to pick up SS result from previous/last Analysis ) 	30/3/2021
 				   )
 
-         
+       --  select * from tb a where a.ItemNumber in ('42.210.031','604023820')
+
+		
+		 --- Re arrange the sequence of the columns ---
 		-- select a.ItemNumber,a.SS_Adj,a.Stdevp_,a.LeadtimeLevel,a.StockingType,a.StandardCost,a.SS_Adj_Dollars,a.Order_Policy,a.Order_Policy_Description,a.Planning_Code,a.Planning_Code_Description,a.Planning_Fence_Rule,a.Planning_Fence_Rule_Description,a.Pareto,a.SS_Latest_upd_date,a.SS_Oldest_upd_date,a.ValidStatus_Adj_Flag,a.rk_0,a.rk_1,a.rk_2_dense,a.ReportDate			'--- Old Column sequence    18/3/2021
-		
-		
 		 select a.ItemNumber,a.Sales_12Mth,a.Pareto,a.StockingType,a.SS_,a.SS_Adj,a.SS_Adj_Dollars,a.ValidStatus_Adj_Flag,a.Stdevp_,a.LeadtimeLevel
 				,a.rk_0,a.rk_1,a.rk_2_dense,a.StandardCost
 				,a.Order_Policy,a.Order_Policy_Description
 				,a.Planning_Code,a.Planning_Code_Description
 				,a.Planning_Fence_Rule,a.Planning_Fence_Rule_Description
-				,a.SS_Latest_upd_date,a.SS_Oldest_upd_date
+				,a.Itm_SS_Latest_upd_date,a.Itm_SS_Oldest_upd_date
 				,a.ReportDate
 				   
 		 from tb a

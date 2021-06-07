@@ -46,7 +46,7 @@ select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber like ('38.%')
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber like ('34.7%')
 
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber like ('44.013.00%')
-
+select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber like ('42.210.031%')
 
 
 select distinct f.ItemNumber from  JDE_DB_Alan.FCPRO_Fcst f 
@@ -56,6 +56,12 @@ select distinct f.ItemNumber from  JDE_DB_Alan.FCPRO_Fcst f
   where f.ItemNumber in ( select m.ItemNumber from JDE_DB_Alan.vw_Mast m where m.FamilyGroup in ('965') )
 
 
+exec JDE_DB_Alan.sp_Mismatch_HD_RCCP 'GRP_1','2022-03-01',null			--43,830 records
+exec JDE_DB_Alan.sp_Mismatch_HD_RCCP 'GRP_1','2022-03-02',null			--48,213 records 
+exec JDE_DB_Alan.sp_Mismatch_HD_RCCP 'GRP_1','2022-04-02',null			--52,596 records 
+
+
+exec JDE_DB_Alan.sp_Mismatch_HD_RCCP 'GRP_2','2022-03-02',null			-- fc up to Mar 2022, 30,591 records
 
 
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber like ('42.361.%')
@@ -258,9 +264,18 @@ where m.StockingType in ('P','Q','S','M')
 
 select * from JDE_DB_Alan.vw_Mast_Vendor_Item_CrossRef m where m.ItemNumber in ('26.108.000')
 
-select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('26.805.000')
+select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('40.260.433','40.260.131','40.153.804','40.260.804','40.260.378','42.180.131','40.153.433','40.153.131','40.153.805','40.153.228','40.260.228','40.153.280','40.260.430','40.153.378','40.153.430','40.260.805','40.260.341','40.153.297','40.153.081','40.042.228','40.158.131','40.042.280','40.132.804','40.042.378GB','40.153.209','40.042.430','40.041.228','40.042.433','40.041.433','40.042.433GB','40.042.131GB','40.042.804','40.152.131','40.042.805','40.153.083','40.129.131','40.041.131','40.129.131GB','40.153.341','40.129.228','40.041.378','40.129.228GB','40.260.082','40.129.280','40.260.297','40.129.280GB','40.041.805','40.129.378','40.132.433','40.129.378GB','40.132.805','40.129.430','40.153.080','40.129.430GB','40.153.082','40.129.433','40.026.131','40.129.433GB','40.026.378','40.129.804','40.153.286','40.129.804GB','40.153.322','40.129.805','40.041.131GB','40.129.805GB','40.041.280','40.024.131','40.041.378GB','40.262.131','40.260.080','40.346.131','40.041.430','40.025.131','40.260.286','42.185.049','40.260.322','40.132.228','40.041.804','40.132.280','40.042.131','40.132.378','40.132.430','40.131.131','40.263.131','40.131.131GB','42.180.049','40.131.378','42.184.049','40.131.378GB','40.132.131','40.042.378','42.647.804','24.7134.0952A','82.068.904','24.7197.0000A','24.7195.0199A','24.7210.0199','60.719.407','24.7210.0952','24.7196.7060A','24.7210.1858','24.7168.0952A','24.7210.4459','42.361.104','24.7224.0155A','46.556.000','24.7224.0952A','82.028.910','24.7224.1858A','82.068.935','24.7224.4459A','24.7129.4459A','24.7254.0000','40.170.173','24.7254.0199','24.7192.7060A','24.7254.0952','42.357.273','24.7254.1858','42.361.805','24.7254.4459','46.521.500','24.7302.0199A','58.225.277','24.7302.1858A','82.028.901','24.7304.0155A','82.028.932','24.7304.1858A','82.068.926','24.7306.0155A','F16174A977','24.7306.1858A','24.7128.4459A','24.7311.0155A','24.7133.0952A','24.7311.1858A','24.7136.1858A','24.7316.0155A','24.7146.1858A','24.7316.1858A','24.7169.0952A','24.7323.0155A','40.415.173','24.7323.1858A','42.357.000','24.7344.7060A','42.357.804','24.7353.0000A','42.361.413','24.7355.0952A','42.647.185','24.7371.0005A','43.205.565M','24.7398.0155A','46.549.000','24.7398.1858A','46.569.000','26.118.102','60.709.407','26.118.144','64.804.235','26.118.307','82.028.905','26.118.347','82.028.927','26.118.456','82.028.936','26.121.347','82.068.909','26.121.711','82.068.931','26.133.309','E40174A689','26.264.002','F8174A908','26.350.820','24.7128.0952A','26.354.0204','24.7129.0952A','26.354.0952','24.7131.0000A','26.354.1650','24.7133.4459A','26.354.1858','24.7134.4459A','26.354.4451','24.7138.1858A','26.354.4459','40.175.002','26.804.000','24.7163.0000A','26.805.000','24.7168.4459A','26.806.000','24.7169.4459A','26.836.000A','40.345.131','26.837.000A','24.7194.0199A','26.838.000A','42.333.000','26.842.000A','42.357.131','26.844.000A','42.357.481','26.846.000A','42.357.810','26.847.000A','42.361.252','26.848.000A','42.361.493','26.849.030A','42.647.104','26.850.000A','42.647.481','26.852.000A','42.647.810','26.853.000A','43.205.571M','26.854.000A','46.522.500','26.856.000A','46.553.030','26.857.000A','46.559.030','26.858.000A','46.597.000','26.860.000A','60.708.407','27.241.580','60.718.407','27.241.581','64.764.182','27.241.862','64.809.235','27.244.614','82.028.903','27.244.622','82.028.907','2780143890B','82.028.912','28.644.000','82.028.930','28.644.858','82.028.934','28.645.000','82.068.902','28.645.858','82.068.906','28.646.000','82.068.911','28.646.858','82.068.928','28.647.000','82.068.933','28.647.858','D8174A700','28.680.000','F16174A949','32.507.000','F17174A952','32.508.000','F8174A949','32.509.000','24.7128.0155A','32.510.000','24.7128.1858A','32.511.000','24.7129.0155A','32.512.000','24.7129.1858A','32.513.000','24.7130.0000A','32.514.000','24.7133.0155A','34.020.000','24.7133.1858A','2950010785','24.7134.0155A','2950020785','24.7134.1858A','2970061000','24.7136.0155A','2980037000','24.7138.0155A','40.041.080','24.7146.0155A','40.041.081','40.171.173','40.041.082','24.7146.0952A','40.041.083','24.7146.4459A','7441500001','24.7168.0155A','7441500182','24.7168.1858A','40.041.209','24.7169.0155A','7441500914','24.7169.1858A','7441700001','24.7190.7060A','40.041.286','24.7193.0199A','40.041.297','24.7193.1858A','40.041.322','42.106.015','40.041.341','24.7194.1858A','7441700182','24.7195.1858A','7441700914','42.334.000','7543000000','42.357.104','22.144.091','42.357.252','22.291.091','42.357.286','22.296.091','42.357.493','40.042.080','42.357.805','40.042.081','42.359.286','40.042.082','42.361.173','40.042.083','42.361.273','22.327.091','42.361.481','22.337.091','42.361.804','40.042.209','42.361.810','22.364.091','42.647.173','22.415.091','42.647.252','40.042.286','42.647.493','40.042.297','42.647.805','40.042.322','43.205.534M','40.042.341','43.205.570M','2930561000','46.410.063','22.996.239','46.521.700','22.996.286','46.522.700','24.7110.0952A','46.550.000','24.7110.4459A','46.553.063','24.7111.0155A','46.557.000','24.7111.0952A','46.567.000','40.129.080','46.578.063','24.7111.1858A','52.027.000','24.7111.4459A','58.228.277','40.129.209','60.708.677','24.7114.0952A','60.709.677','24.7114.4459A','60.718.677','40.129.252','60.719.677','24.7115.0155A','64.804.182','24.7115.0952A','64.809.182','40.129.286','64.815.000','40.129.297','82.028.902','40.129.322','82.028.904','40.129.341','82.028.906','24.7115.1858A','82.028.909','24.7115.4459A','82.028.911','24.7117.0952A','82.028.926','24.7117.1858A','82.028.928','24.7120.0952A','82.028.931','24.7120.4459A','82.028.933','24.7121.0952A','82.028.935','24.7121.4459A','82.068.901','24.7122.0952A','82.068.903','24.7122.4459A','82.068.905','24.7123.0155A','82.068.907','24.7123.0952A','82.068.910','24.7123.1858A','82.068.912','24.7123.4459A','82.068.927','40.132.080','82.068.930','40.132.081','82.068.932','40.132.082','82.068.934','40.132.083','82.068.936','24.7124.0952A','D8174A916','40.132.209','F16174A948','24.7124.4459A','F16174A951','24.7125.0952A','F17174A951','40.132.286','F17174A955','40.132.297','F8174A948','40.132.322','F8174A951','40.132.341','24.7125.4459A')
+select * from JDE_DB_Alan.vw_Mast m where m.FamilyGroup in ('910') and m.StockingType not in ('O','U')
+select * from JDE_DB_Alan.Master_Vendor_Item_CrossRef a
+select * from JDE_DB_Alan.FCPRO_MI_tmp a where a.ItemNumber in ('24.7221.0952')
+select * from JDE_DB_Alan.FCPRO_MI_2_tmp a  where a.ItemNumber in ('40.260.805')
+
+
+
 
 --------------------------------------------------------------------------------
+
+select * from JDE_DB_Alan.SlsHistoryHD
 
 
 
@@ -286,7 +301,10 @@ select * from JDE_DB_Alan.FCPRO_Fcst_History h  where h.ItemNumber in ('60011300
 select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('38.001.005') and f.DataType1 = 'Adj_FC' 
 select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('6001130009010H') and f.DataType1 = 'Adj_FC' 
 
-
+select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload a left join JDE_DB_Alan.vw_Mast m 
+          on a.ItemNumber = m.ItemNumber 
+where  m.FamilyGroup in ('965') and a.
+--a. ('560') and a.cym > 202101 and a.CYM < 202104 
 
 declare @fc table ( item varchar(100),datatype varchar(100),fcdate datetime,fcqty decimal(18,0))
 
@@ -415,14 +433,29 @@ select * from JDE_DB_Alan.FCPRO_NP_tmp p where p.ItemNumber in ('38.013.001')
 
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('26.812.410','26.812.901','26.812.604','26.812.820','26.812.902','26.812.962','26.815.410','26.815.901','26.815.604','26.815.820','26.815.902','26.815.962','26.814.410','26.814.901','26.814.604','26.814.820','26.814.902','26.814.962')
 
+select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('25.078.1858','25.078.0155','25.078.0952','25.120.1858','25.120.0155','25.120.0952','25.124.0155','25.124.0952')
+select * from JDE_DB_Alan.FCPRO_NP_tmp a where a.ItemNumber in ('25.312.432')
+select * from JDE_DB_Alan.MasterFamily a where a.code like ('70%')
+
+
+
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in  ('18.010.035','18.010.036','18.607.016','18.615.007','24.5418.0000','24.7102.7052A','24.7120.0952','24.7121.0952','24.7122.0952','24.7124.0952','24.7127.0952','24.7200.0001','24.7220.0952','24.7334.0952','32.379.200','32.380.002','32.455.155','32.501.000','43.525.105','82.696.931')
 select * from JDE_DB_Alan.Master_ML345
+select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in  ('52.020.737')
 
 select * from JDE_DB_Alan.OpenPO
 select * from JDE_DB_Alan.FCPRO_Fcst f
 
 
-select * f
+select * from JDE_DB_Alan.vw_Mast_Planning a where a.Item_Number in ('52.016.810','52.020.737')
+select * from JDE_DB_Alan.vw_Mast_Planning a where a.Family in ('635')
+
+
+exec JDE_DB_Alan.sp_FCPro_ROP_Analysis '7456500182','2021-04-01','2022-03-01'
+
+
+select distinct m.FamilyGroup from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('0751031000202H','0751031000202HCL','0751031000207H','0751031000207HCL','0751031003001H','0751031003001HCL','0751031003030H','0751031003030HCL','0751031003061H','0751031003061HCL','0770531003531H','0770531003531HCL','0770531003532H','0770531003532HCL','0770531003535H','0770531003535HCL','0850520000202H','0850520000202HCL','0850520000221H','0850520000221HCL','0850520003001H','0850520003001HCL','0850520003010HCL','0850520003030','0850520003030CL','0850520003030HCL','0850525000202','0850525000202H','0850525000202HCL','0850525000207H','0850525000207HCL','0850525000220H','0850525000220HCL','0850525000221H','0850525000221HCL','0850525000222H','0850525000222HCL','0850525000707H','0850525000707HCL','0850525000710HCL','0850525000720H','0850525000720HCL','0850525002022H','0850525002022HCL','0850525003001H','0850525003001HCL','0850525003010H','0850525003010HCL','0850525003020H','0850525003020HCL','0850525003021H','0850525003021HCL','0850525003030','0850525003030H','0850525003030HCL','0850525003061H','0850525003061HCL','085052500M178H','085052500M178HCL','0850531000202H','0850531000202HCL','0850531000207H','0850531000207HCL','0850531000220H','0850531000220HCL','0850531000221H','0850531000221HCL','0850531000222H','0850531000222HCL','0850531000707H','0850531000707HCL','0850531000710H','0850531000710HCL','0850531000720H','0850531000720HCL','0850531002022H','0850531002022HCL','0850531003001H','0850531003001HCL','0850531003010H','0850531003010HCL','0850531003020H','0850531003020HCL','0850531003021H','0850531003021HCL','0850531003030H','0850531003030HCL','0850531003061H','0850531003061HCL','085053100M178H','085053100M178HCL','085552500D064','085552500D064CL','085552500D088','085552500D088CL','085552500D137','085552500D137CL','085552500D212','085552500D212CL','085552500D249','085552500D249CL','085552500D337','085552500D337CL','22.747.091','43.205.532M','43.205.532MCL','43.205.534','43.205.534CL','43.205.534M','43.205.534MCL','43.205.535M','43.205.535MCL','43.205.536M','43.205.536MCL','43.205.537M','43.205.537MCL','43.205.563M','43.205.563MCL','43.205.565CL','43.205.568M','43.205.568MCL','43.205.569M','43.205.569MCL','43.205.570MCL','43.205.571','43.205.574M','43.205.574MCL','43.205.582M','43.205.582MCL','43.205.583MCL','43.205.584M','43.205.584MCL','43.205.635M','43.205.635MCL','43.205.637M','43.205.637MCL','43.205.663M','43.205.663MCL','43.207.532M','43.207.532MCL','43.207.535M','43.207.535MCL','43.207.536M','43.207.536MCL','43.207.537M','43.207.537MCL','43.207.565M','43.207.565MCL','43.207.582M','43.207.582MCL','43.207.584M','43.207.584MCL','43.207.635M','43.207.635MCL','43.207.637M','43.207.637MCL','43.211.001','43.211.001CL','43.211.002','43.211.002CL','43.211.003','43.211.003CL','43.211.004','43.211.004CL','43.211.005','43.211.005CL','43.211.006','43.211.006CL','43.212.001','43.212.002','43.212.002CL','43.212.003','43.212.003CL','43.212.004','43.212.004CL','43.213.001','43.213.003','43.214.001','43.214.002','43.215.001','43.215.002','43.295.530','43.295.530CL','43.295.532','43.295.532CL','43.295.535','43.295.535CL','43.295.536','43.295.536CL','43.295.537','43.295.537CL','43.471.535','43.477.536','43.477.537','43.477.540','43.479.532','43.525.102','43.525.102CL','43.530.101','43.530.102','43.530.105','43.530.107','43.530.403','43.530.403CL','S3000NET5250N001','S3000NET5250N001CL','S3000NET5250N002','S3000NET5250N002CL','S3000NET5250N003','S3000NET5250N003CL','S3000NET5250N010','S3000NET5250N010CL','S3000NET5250N012','S3000NET5250N012CL','S3000NET5250N025','S3000NET5250N025CL','S3000NET5250N071','S3000NET5250N201','S3000NET5250N201CL','S3000NET5250N301','S3000NET5250N301CL','S3000NET5250N901','S3000NET5250N901CL','S3000NET5250N903','S3000NET5250N903CL','S3000NET5250N904','S3000NET5250N904CL','S3000NET5300N001','S3000NET5300N001CL','S3000NET5300N002','S3000NET5300N002CL','S3000NET5300N003','S3000NET5300N003CL','S3000NET5300N010','S3000NET5300N010CL','S3000NET5300N012','S3000NET5300N012CL','S3000NET5300N025','S3000NET5300N025CL','S3000NET5300N071','S3000NET5300N071CL','S3000NET5300N0AL','S3000NET5300N0ALCL','S3000NET5300N0PW','S3000NET5300N0PWCL','S3000NET5300N0SS','S3000NET5300N0SSCL','S3000NET5300N201','S3000NET5300N201CL','S3000NET5300N301','S3000NET5300N301CL','S3000NET5300N901','S3000NET5300N901CL','S3000NET5300N902','S3000NET5300N902CL','S3000NET5300N903','S3000NET5300N903CL','S3000NET5300N904','S3000NET5300N904CL','S3000NET5300NAMB','S3000NET5300NAMBCL','S3000NET5300NMMS','S3000NET5300NMMSCL','S3000NET5300NMTS','S3000NET5300NMTSCL','S3000NET5300NPMB','S3000NET5300NPMBCL','S3000NET5300NSAP','S3000NET5300NSAPCL','S3000NET5300NWWP','S3000NET5300NWWPCL','S3000RR3250RR10','S3000RR3250RR10CL','S3000RR3250RR12','S3000RR3250RR12CL','S3000RR3250RR13','S3000RR3250RR13CL','S3000RR3250RR23','S3000RR3250RR23CL','S3000RR3250RR28','S3000RR3250RR28CL','S3000RR3250RR44','S3000RR3250RR44CL','S3000RR3250RR46','S3000RR3250RR46CL','S3000RR3250RR71','S3000RR3250RR71CL','S3000RR3250RR72','S3000RR3250RR72CL','S3000RR3250RR84','S3000RR3250RR84CL','S3000RR3250RR90','S3000RR3250RR90CL','S3000RR3250RR94','S3000RR3250RR94CL','S3000RR3250RR98','S3000RR3250RR98CL','S3000RR3250RRE3','S3000RR3250RRE3CL','S3000RR3250RRE4','S3000RR3250RRE4CL','S3000RR3300RR10','S3000RR3300RR10CL','S3000RR3300RR12','S3000RR3300RR12CL','S3000RR3300RR71','S3000RR3300RR71CL','S3000RR3300RR72','S3000RR3300RR72CL','S3000RR3300RR84','S3000RR3300RR84CL','S3000RR3300RR90','S3000RR3300RR90CL','S3000RR3300RR94','S3000RR3300RR94CL','S3000RR3300RRE4','S3000RR3300RRE4CL','SSDLS5300ATSCL','SSDLS5300MMB','SSDLS5300PS','SSDLS5300PSCL','SSDLS5300SDCL','SSDLS5300SMBCL')
+
 select distinct f.DataType1 from JDE_DB_Alan.vw_FC f
 select f.ItemNumber,f.DataType1,f.FCDate_,f.fcyr,f.fcmth,f.fcdte,f.FC_Vol from JDE_DB_Alan.vw_FC f 
 where f.ItemNumber in ('42.210.031','1019884')
@@ -433,6 +466,8 @@ select * from JDE_DB_Alan.vw_FC
 
 -------- 04/03/2020 ------------
 select * from JDE_DB_Alan.OpenPO p where p.ItemNumber in ('24.7209.1858')
+
+
 
 
 -------- 06/03/2020 ------------
@@ -480,14 +515,52 @@ from JDE_DB_Alan.vw_Mast m
  --where m.ItemNumber like ('44.010.007')
 --where m.FamilyGroup in ('964') and m.StockingType not in ('O','U')
 
-select *
+
+
+---------- FC for Duette/Silhouette ----------- 14/5/2021
+
+select m.FamilyGroup_,f.DataType1,f.FCDate2_,sum(f.FC_Vol) as Fcvol
 from JDE_DB_Alan.vw_FC f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
-where m.FamilyGroup in ('964')
+where m.FamilyGroup in ('973','979')     
+group by m.FamilyGroup_,f.DataType1,f.FCDate2_
+
+
+select m.FamilyGroup_,f.DataType1,f.myDate2,sum(f.FC_Vol) as Fcvol
+from JDE_DB_Alan.vw_FC_Hist f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
+where m.FamilyGroup in ('973','979')     
+      and f.ReportDate > ('2021-04-01') and f.ReportDate < ('2021-05-01')
+group by m.FamilyGroup_,f.DataType1,f.myDate2
+
+
+
+select distinct a.DataType1 from JDE_DB_Alan.FCPRO_Fcst a
+select distinct a.DataType1 from JDE_DB_Alan.FCPRO_Fcst_History a
 
 select distinct f.ItemNumber
 from JDE_DB_Alan.vw_FC f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
-where m.FamilyGroup in ('964')
+where m.FamilyGroup in ('979')
 
+
+select * from JDE_DB_Alan.vw_Mast m
+where m.ItemNumber in ('4600289661')
+where m.Description like ('%tia')						------- 4600289661 4.9m bottom rail in Silhouette 979 category
+        and m.familygroup in ('979')
+
+
+
+   --- Forecast for Fabric Awning 965 ------- 14/5/2021
+
+select m.FamilyGroup_,f.DataType1,f.FCDate2_,sum(f.FC_Vol) as Fcvol
+from JDE_DB_Alan.vw_FC f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
+where m.FamilyGroup in ('965')     
+group by m.FamilyGroup_,f.DataType1,f.FCDate2_
+
+select distinct f.ItemNumber
+from JDE_DB_Alan.vw_FC f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
+where m.FamilyGroup in ('965')     
+
+
+-----------------------------------------------------------------------------------------------------
 
 select *
 from JDE_DB_Alan.vw_Mast m
@@ -580,7 +653,7 @@ select * from JDE_DB_Alan.vw_Mast_Vendor_Item_CrossRef v
 select distinct m.SellingGroup_,m.FamilyGroup_,m.FamilyGroup,m.Sls_Cd1 from JDE_DB_Alan.vw_Mast_Planning m
 order by m.SellingGroup_,m.FamilyGroup_,m.FamilyGroup,m.Sls_Cd1
 
-select * from JDE_DB_Alan.vw_Mast_Planning m where m.Item_Number in ('52.008.104','42.210.031')
+select * from JDE_DB_Alan.vw_Mast_Planning m where m.Item_Number in ('52.008.104','42.210.031','')
 
 select * from JDE_DB_Alan.vw_Mast m
 where m.ItemNumber in ('82.691.903')
@@ -656,6 +729,23 @@ where
 	  and fh.Date between '2020-05-01' and '2020-10-01'
       and fh.ItemNumber not in  ('25.020.0155','25.020.1858','25.021.0155','25.021.1858','25.022.0155','25.022.1858','25.023.0155','25.023.1858','25.024.0155','25.024.1858','25.025.0155','25.025.1858','25.026.0155','25.026.1858','25.027.0155','25.027.1858','25.028.0155','25.028.1858','25.029.000','25.030.0155','25.031.0155','25.030.1858','25.031.1858','25.032.000','25.033.000','25.034.000','25.035.000','25.036.000','25.037.030','25.038.0155','25.039.0155','25.038.1858','25.039.1858','25.040.0155','25.040.1858','25.041.0155','25.041.1858','25.013.0155 ','25.013.1858 ','24.7257.0952','32.379.200','32.455.155','24.7121.0155','24.7100.0199','32.340.000','24.7122.0155','24.7127.0155','24.7120.0155','24.7200.0001','24.7125.0155','24.7002.0001','24.7121.1858','24.7110.0155','24.7100.1858','32.455.855','24.7122.1858','24.7120.1858','24.7127.1858','24.7124.0155','24.7102.0199','24.7201.0000','24.7100.7052A','24.7125.1858','24.7121.0952A','24.5411.0000','24.5398.0000','24.5404.0000','24.7127.0952','24.7100.4459A','24.5358.0000','32.455.460','24.7102.1858','24.7334.0199','24.5403.0000','24.7128.0155','24.7121.4459A','24.7121.0952','24.7002.0001T','24.7127.4459','32.455.462','24.7219.0952','24.7120.0952A','24.7002.0000T','24.5399.0000','24.5426.0204','24.7122.0952A','24.7200.0001T','32.341.155','24.7110.1858','24.7201.0000T','24.7125.0952A','24.7121.4459','24.5353.0204','32.455.461','24.5427.0204','24.7120.4459A','24.7128.0155A','24.7122.4459A','24.7364.0199','24.7333.0199','24.7124.1858','24.7120.0952','24.7200.0000','24.7125.4459A','24.7219.0199','24.7002.0000','24.5414.0000','24.7122.0952','24.5415.0000','24.5397.0000','24.7202.0000','24.5425.0204','24.7120.4459','24.7122.4459','24.5416.0000','24.7128.1858A','24.7219.1858','24.7124.0952','24.7202.0001','24.5418.0000','24.7334.1858','24.5349.0204','24.7124.4459','24.7334.0952','24.7219.4459','24.5417.0000','24.5405.0000','24.7110.0952','24.7334.4459','32.341.855','24.7333.1858','24.7102.7052A','24.7114.0155','24.7110.0952A','24.7128.0952A','24.7333.0952','24.7128.1858','24.5396.0000','24.5426.1858','24.7114.1858','24.5353.1858','24.5427.1858','24.7110.4459','24.5427.4459','24.5424.0204','24.5426.4459','24.5349.1858','24.5413.0000','24.7364.1858','24.7363.0199','32.455.465','24.7110.4459A','24.7333.4459','24.7128.0952','24.7124.0952A','24.7200.0000T','24.7125.0952','24.5353.4459','24.7219.4464','24.5425.1858','24.7363.1858','24.5425.4459','32.341.176','24.7364.0952','24.7102.4459A','24.5354.1858','24.5427.0952','24.5354.0204','24.5426.0952','24.7114.0952A','24.7219.4460','24.5412.0000','24.5353.0952','24.7125.4459','24.7219.4462','24.7364.4459','24.5349.4459','24.7128.4459A','24.7124.4459A','24.5425.0952','24.7128.4459','24.5360.1858','24.5424.1858','24.7114.4459A','24.5349.0952','24.7307.1858','24.7201.0002','24.5424.4459','24.5354.0952','24.5424.0952','24.5354.4459','24.7219.4465','24.5361.1858','24.5360.0204','24.7363.0952','24.7300.7060','24.7196.7060A','24.7363.4459','24.7116.0155','24.7193.0199A','24.7195.0199A','24.7195.1858A','24.5362.0204','24.5110.7178','24.5362.1858','24.5361.0204','24.5363.1858','24.5363.0204','24.7102.7052','24.7192.7060A','82.691.901','82.696.901','82.696.903','82.691.909','82.691.903','82.696.930','82.696.910','82.696.909','82.696.921','82.696.926','82.691.906','82.691.910','82.696.933','82.696.906','82.696.904','82.691.926','82.696.932','82.691.933','82.696.922','82.696.928','82.691.930','82.696.927','82.696.931','82.691.904','82.696.913','82.691.932','82.696.924','82.696.920','82.696.912','82.696.902','82.696.911','82.691.911','82.691.928','82.696.923','82.691.931','82.696.918','82.696.907','82.696.919','82.696.915','22.748.091','82.691.907','82.696.905','82.691.902','82.696.914','82.691.927','82.691.919','82.696.929','82.691.912','82.691.905','82.696.908','82.696.941','82.691.929','82.696.925','82.691.908','82.696.934','22.749.091','43.525.101','43.525.102','43.525.103','43.525.105','43.525.107','43.525.403','43.525.404','43.525.405','43.530.101','43.530.102','43.530.103','43.530.105','43.530.107','43.530.403','43.530.404','43.530.405','40.199.850','40.196.850','40.197.850','40.191.000','40.174.131','40.129.131','40.280.120','40.152.131','40.129.433','40.169.173','40.129.378','40.368.173','40.129.804','40.173.850','40.345.131','40.367.173','40.153.131','40.260.131','40.041.131','40.042.131','40.129.430','40.132.131','40.024.131','40.153.378','40.263.131','40.176.850','40.262.131','40.200.850','40.132.378','40.041.378','40.132.430','40.189.002','40.129.805','40.198.850','40.153.433','40.042.433','40.270.131','40.170.173','40.260.378','40.132.433','40.041.433','40.163.131','40.162.131','40.153.804','40.025.131','40.042.804','40.187.850','40.260.804','40.129.280','40.026.131','40.132.804','40.153.430','40.467.850','40.023.000','40.129.228','40.042.228','40.153.228','40.042.378','40.381.000','40.041.804','40.260.430','40.034.000','40.271.850','40.041.430','40.042.430','40.260.433','40.041.228','40.264.131','40.175.002','40.153.805','40.346.131','40.132.280','40.340.173','40.260.805','40.042.805','40.131.131','40.041.805','40.171.173','40.188.850','40.158.131','40.132.805','40.172.850','40.046.850','40.041.280','40.371.173','40.132.228','40.260.228','40.379.000','40.131.378','40.042.280','40.026.378','40.415.173','40.035.120','40.030.131','40.048.131','40.047.856','40.380.002','40.029.131','40.377.000','40.031.131','40.001.850','40.051.048','40.032.131','40.033.131','34.274.0155','34.263.0155','34.264.0155','34.265.0155','34.266.0000','34.267.0155','34.268.0000','34.269.0155','34.270.0155','34.271.0155','34.272.0155','34.273.0155','34.276.0000')
 	   and fh.DataType1 = 'Adj_FC'
+
+ ---******************************************************************
+ --- Update forecast history for Duette & Silhouette --- 11/5/2021 , 973 Duette +15%, 979 +40%
+  ---******************************************************************
+
+;update h
+set h.Value = h.Value *1.15
+--select distinct h.itemnumber 
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h left join JDE_DB_Alan.vw_Mast a on h.ItemNumber = a.ItemNumber
+ where h.ReportDate between '2021-04-29' and '2021-04-30 17:00:00:00'
+      and a.FamilyGroup in ('973')
+      --and h.ItemNumber in ('27.587.201','27.587.208') 
+	  and h.Date between '2021-05-01' and '2022-04-01 17:00:00:00'
+	  and h.DataType1 in ('Adj_FC')
+
+
 
 ----------------------------------------------------------------------------------
 --- update one month data --- fc table
@@ -769,6 +859,7 @@ select distinct f.ItemNumber
 from JDE_DB_Alan.FCPRO_Fcst f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
 where m.FamilyGroup in ('966')  --and m.Family in ('635')
       and f.DataType1 = 'Adj_FC'
+	  and m.Family in ('635')
 	  --and f.Date between '2020-04-01' and '2020-07-01'
 	  and m.Colour like ('nocturnal%')
 
@@ -786,7 +877,10 @@ where m.ItemNumber like ('XUR%') or  m.ItemNumber like ('XUEC%') or  m.ItemNumbe
 order by m.ItemNumber
 
 
-
+select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('40.260.228')            --- Metal Awning part
+select * from JDE_DB_Alan.HD_WorkCenter a where a.ItemNumber in ('40.260.228')
+select * from JDE_DB_Alan.vw_FC a where a.ItemNumber in ('40.260.228','40.024.131')
+ 
 
 select * from JDE_DB_Alan.vw_Mast m where m.Description like ('%chain loop%') and m.Family in ('374') and m.StockingType in ('P','s')
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('24.7100.0199','24.7220.0199','32.455.155','24.7295.0952','34.480.000','34.540.000')
@@ -801,7 +895,7 @@ select * from  [JDE_DB_Alan].[FCPRO_MI_2_Raw_Data_tmp] i where i.ItemID in ('24.
 
 select * from JDE_DB_Alan.MasterFamily m where m.Code in ('E26')
 
-select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in('26.144.0204','26.144.0192')
+select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in('26.144.0204','26.144.0192','26.045.1803','26.144.0192')
 
 select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('34.306.000','34.513.000') and f.DataType1 in ('adj_fc')
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('34.263.0155')
@@ -1063,6 +1157,8 @@ where w.ShortItemNumber not in ( select m.ShortItemNumber from JDE_DB_Alan.vw_Ma
 
 select distinct f.ItemNumber from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber like ('%46.614.%')
 
+select * from JDE_DB_Alan.Master_ML345 m
+
 ---- Blue Pacific --- Sales query --- 2/3/2020
 select * from JDE_DB_Alan.vw_Mast m 
 where 
@@ -1116,6 +1212,15 @@ from JDE_DB_Alan.vw_Mast m where m.Description like ('%3[%]%') and m.FamilyGroup
 select m.ItemNumber,m.ShortItemNumber,m.PlannerNumber,m.FamilyGroup,m.Description,m.Family_0,m.StandardCost,m.Colour
 from JDE_DB_Alan.vw_Mast m 
 where m.Family_0 like ('%635%') and m.StockingType not in ('o','u','k')
+
+
+select m.ItemNumber,m.ShortItemNumber,m.PlannerNumber,m.FamilyGroup,m.Description,m.Family_0,m.StandardCost,m.Colour,m
+from JDE_DB_Alan.vw_Mast m 
+where m.FamilyGroup in ('983') and m.StockingType not in ('o','u')
+order by m.family_0
+
+
+
 
 select * from JDE_DB_Alan.MasterFamily m
 
@@ -1202,11 +1307,13 @@ order by f.Reportdate desc
 exec JDE_DB_Alan.sp_Z_Vendor_FC_Report'1102','M-1'
 exec JDE_DB_Alan.sp_Z_Vendor_FC_Report'1102','M+0'
 
+exec JDE_DB_Alan.sp_Z_Vendor_FC_Report'20037','M-1'
+
 
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber like ('28.%') and m.StockingType in ('P')
 
 
-select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber like ('6610930000')
+select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('18.607.016','24.7060.0000','24.7102.1858','24.7114.1858','24.7128.1858','24.7129.1858A','24.7136.1858A','24.7201.0000','24.7220.1858','24.7302.1858A','24.7306.1858A','24.7311.1858A','24.7326.0000','24.7327.0000','24.7355.0952A','24.7371.0005A','24.7398.1858A','32.379.200','32.380.855','32.455.855','32.501.000','34.080.000','82.201.935','82.301.935','FT.01391.000.00')
 
 select * from JDE_DB_Alan.
 
@@ -1264,8 +1371,10 @@ SELECT t.ItemNumber
 
 select f.ItemNumber,f.FC_Vol,f.FCDate2_,m.Description,m.StandardCost,UOM,m.SupplierName,m.Owner_
 from JDE_DB_Alan.vw_FC f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
-where m.FamilyGroup in ('992')
-where m.PrimarySupplier in ('1102') and f.FCDate2_ <'202107'
+where f.ItemNumber in ('52.008.104')
+
+--where m.FamilyGroup in ('992')
+--where m.PrimarySupplier in ('1102') and f.FCDate2_ <'202107'
 
 
 
@@ -1508,17 +1617,208 @@ select * from z left join hist as h on z.ItemNumber = h.ItemNumber
 where h.CYM > 201805 and  h.SalesQty <0 
 order by z.NegSls_Cnt desc
 
-
-exec JDE_DB_Alan.sp_FCPro_ROP_Analysis  null,'2021-03-01','2022-02-01'
-exec JDE_DB_Alan.sp_FCPro_ROP_Analysis '26.529.000', '2021-03-01','2022-02-01'			--- has to be C item and under 'ROP' category
+select * from JDE_DB_Alan.vw_Mast_Planning a where a.Item_Number in ('42.210.031','26.529.000','7124170001','27.587.213')
 
 
-select * from JDE_DB_Alan.vw_SafetyStock a where a.ItemNumber in ('42.129.856')						--- SS 1378, x 1.1 for 'B' ; LT extended ( 5 months,with Stdevp of 327 )
+select * from JDE_DB_Alan.SlsHistoryHD a where a.ItemNumber in ('82.028.901')
+select * from JDE_DB_Alan.Master_V4102A a where a.Item_Number in ('82.028.901')
+select * from JDE_DB_Alan.vw_Mast_Planning a where a.Item_Number in ('82.028.901')
+select * from JDE_DB_Alan.vw_Mast a where a.ItemNumber in ('82.028.901')
+select * from JDE_DB_Alan.TextileWC a where a.ItemNumber in ('82.028.901')
+select * from JDE_DB_Alan.HD_WorkCenter a where a.ItemNumber in ('82.028.901')
+
+
+select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload
+
+---------- Textile and Metal Work center ------
+--- 20/5/2021 ---
+ --- Create a code to get distinct ItemNumber with WC name, note some Item might have multiple ( 2 or 3 work center associated with them ) so 
+ --- need to get unique item number from 'Textile_Metal_WC' ( at the moment it is called 'Textile_WC'  table , otherwise you will have issue of geting duplicated records when you join 
+ --- this table with Master_Planning table or ML_345 table or any other tables
+
+ --- thinking of create another column to differentiate 'Textile' or 'Metal' column ?
+
+    -- select * from JDE_DB_Alan.HD_WorkCenter a
+
+;with t as 
+    ( --select a.ItemNumber,count(a.workcenter) as WC_count from JDE_DB_Alan.TextileWC a
+	    select a.ItemNumber,a.ShortItemNumber,count(a.WorkCenterCode) as WC_count from JDE_DB_Alan.HD_WorkCenter a
+	  --where a.ItemNumber in ('82.028.901')
+	  group by a.ItemNumber,a.ShortItemNumber
+
+	  )
+    , tb as
+	(
+		select a1.ItemNumber,a1.ShortItemNumber
+		  ,WC_Code = STUFF
+			(
+			  (select '-' + cast (WorkCenterCode as varchar(100))
+			       --  ,'-' + cast (WorkCenterGroup as varchar(100))
+			   from JDE_DB_Alan.HD_WorkCenter a2
+			   where a1.Itemnumber = a2.Itemnumber
+			   for xml path('')
+			   ),1,1,''
+
+			 )
+          ,WC_Group = STUFF
+			(
+			  (select '-' + cast (WorkCenterGroup as varchar(100))
+			   from JDE_DB_Alan.HD_WorkCenter a2
+			   where a1.Itemnumber = a2.Itemnumber
+			   for xml path('')
+			   ),1,1,''
+
+			 )
+
+		--from JDE_DB_Alan.TextileWC a1
+		  from JDE_DB_Alan.HD_WorkCenter a1
+		--where a1.ItemNumber  in ('82.028.901')
+		group by a1.ItemNumber,a1.ShortItemNumber
+	)
+
+	select tb.ShortItemNumber,tb.ItemNumber,tb.WC_Code,tb.WC_Group,t.ItemNumber as Itm,t.WC_count
+	       ,row_number() over(order by t.WC_count desc ) rownumber 
+	from tb left join t on tb.ItemNumber = t.ItemNumber 
+	--order by WC_count desc
+
+	
+SELECT Name
+FROM sys.procedures
+WHERE OBJECT_DEFINITION(OBJECT_ID) LIKE '%TableNameOrWhatever%'
+
+SELECT * 
+FROM   INFORMATION_SCHEMA.VIEWS 
+WHERE  VIEW_DEFINITION like '%YourTableName%'
+
+------------------------------------------------------------
+SELECT Name
+FROM sys.procedures
+WHERE OBJECT_DEFINITION(OBJECT_ID) LIKE '%TextileWC%'
+
+SELECT * 
+FROM   INFORMATION_SCHEMA.VIEWS 
+WHERE  VIEW_DEFINITION like '%TextileWC%'
+
+
+----------Find where specific table or view is used in SQL Server database---------------
+
+select schema_name(o.schema_id) + '.' + o.name as [table],
+       'is used by' as ref,
+       schema_name(ref_o.schema_id) + '.' + ref_o.name as [object],
+       ref_o.type_desc as object_type
+from sys.objects o
+join sys.sql_expression_dependencies dep
+     on o.object_id = dep.referenced_id
+join sys.objects ref_o
+     on dep.referencing_id = ref_o.object_id
+where o.type in ('V', 'U')
+      and schema_name(o.schema_id) = 'JDE_DB_Alan'  -- put schema name here
+      and o.name = 'TextileWC'   -- put table/view name here
+order by [object]
+
+--------------------------------------------------------------------------------------------------
+
+--- create Trigger to update Textile_Metal_WC table ---
+  CREATE TRIGGER tr_sales ON sales
+    AFTER INSERT
+    AS
+    BEGIN
+      UPDATE sales
+      SET created = GETDATE()
+      FROM inserted
+      WHERE sales.id = inserted.id;
+    END
+   GO
+
+
+
+--------------------------------------------------------------------------------------------------
+
+select * from JDE_DB_Alan.Master_ML345 a
+
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2021-04-01','2022-03-01'													 --- does not work when you run first query in the morning, but it works late ?!  --- 13/4/2021
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,null,null																		 --- works
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '42.210.031,26.529.000,7124170001,27.587.213','2021-04-01','2022-03-01' 			 --- works
+
+
+exec JDE_DB_Alan.sp_FCPro_ROP_Analysis  null,null,null
+exec JDE_DB_Alan.sp_FCPro_ROP_Analysis  null,'2021-04-01','2022-03-01'
+exec JDE_DB_Alan.sp_FCPro_ROP_Analysis '26.529.000,42.210.031,27.587.213', '2021-04-01','2022-03-01'			--- has to be C item and under 'ROP' category
+
+
+select * from JDE_DB_Alan.vw_SafetyStock a where a.ItemNumber in ('42.129.856','27.587.213','27.587.201')						--- SS 1378, x 1.1 for 'B' ; LT extended ( 5 months,with Stdevp of 327 )
  
-select * from JDE_DB_Alan.FCPRO_SafetyStock a where a.ItemNumber in ('26.805.000','42.129.856')				--- changed original Jde parameters in Addl System Info        22/3/2021
+select * from JDE_DB_Alan.FCPRO_SafetyStock a where a.ItemNumber in ('26.529.000','26.805.000','42.129.856')				--- changed original Jde parameters in Addl System Info        22/3/2021
 select * from JDE_DB_Alan.vw_SafetyStock a where a.ItemNumber in ('26.805.000') 
+select * from JDE_DB_Alan.FCPRO_SafetyStock a where a.ItemNumber in ('604023820','42.210.031')	
+
+--- get last month SS --
+select * from JDE_DB_Alan.FCPRO_SafetyStock a where a.ItemNumber in ('26.529.000','42.210.031')
+select * from JDE_DB_Alan.FCPRO_SafetyStock a where a.ReportDate > '2021-05-01'
+delete from JDE_DB_Alan.FCPRO_SafetyStock where ReportDate > '2021-05-01'
+
 
 select a.ItemNumber,a.StockingType,a.Pareto from JDE_DB_Alan.vw_Mast a where a.ItemNumber in ('7441500001','7441500182','7441500914','7441700001','7441700182','7441700914','7442700001','7442700182','7442700914','7456500182','7457500001','7457500182','7457500914','7460500000','7460700000','7468500001','7468500182','7468500914','7468700001','7468700182','7468700914','7477500001','7477500182','7477500914','7477700001','7477700182','7477700914','7478500001','7478500182','7478500914','7478700001','7478700182','7478700914','7479500001','7479500182','7479500914','7479700001','7479700182','7479700914','7485700000','7488500001','7488500182','7488500914','7488700001','7488700182','7488700914','7489500001','7489500182','7489500914','7489700001','7489700182','7489700914','7491500001','7491500182','7491500914','7491700001','7491700182','7491700914','7493500001','7493500182','7493500914','7493700001','7493700182','7493700914','7494500001','7494500182','7494500914','7494700001','7494700182','7494700914','7497700001','7497700182','7497700914','7498700001','7498700182','7498700914','7499700001','7499700182','7499700914','7766050000','7766070000','7766250000','46.508.500','46.508.700','46.531.500','46.531.700')	
+select * from JDE_DB_Alan.vw_SafetyStock a where a.ItemNumber in ('28.627.462','2950020785')	
+select count(a.ItemNumber),a.ReportDate from JDE_DB_Alan.vw_SafetyStock a group by a.ReportDate
+select distinct a.ReportDate from JDE_DB_Alan.FCPRO_SafetyStock a
+select * from JDE_DB_Alan.FCPRO_SafetyStock a  where a.ItemNumber in ('52.008.104')
+
+
+
+------===========================================================================================
+
+--=========================================================
+ --- Update Order Policy Or Planning Code in JDE ---
+------ ROP Reset ------ 29/3/2021
+
+--=========================================================
+
+
+select a.Business_Unit,a.Stocking_Type,a.Short_Item_Number,a.Item_Number
+       ,a.Order_Policy,a.Order_Policy_Description,a.Order_Policy_Value
+	   ,a.Planning_Code,a.Planning_Code_Description,a.Planning_Fence_Rule,a.Planning_Fence_Rule_Description,a.Plan_Time_Fence,a.Jde_ABC_1_Sls
+
+ from JDE_DB_Alan.vw_Mast_Planning a
+ where a.FamilyGroup in ('966')
+      and a.Order_Policy in ('4')	  
+
+--where a.Item_Number in ('6610200000','6610220000','6610300000','6610940000','6611530000','6611550000','7020080000','7122950001','7122950914','7124100049','7126070914','7127620182','7127710182','7127910001','7129200001','7350250182','7370200182','7370250914','7390950914','7460500000','7460700000','7468500182','7468500914','7468700001','7468700914','7477500001','7477500182','7477500914','7477700001','7477700182','7477700914','7478500001','7478500182','7478500914','7478700001','7478700182','7478700914','7479500001','7479500182','7479500914','7479700001','7479700182','7479700914','7488500001','7488500182','7488500914','7488700001','7488700914','7489500001','7489500182','7489500914','7489700001','7493500001','7493500182','7493500914','7493700001','7493700182','7493700914','7494500001','7494500182','7494500914','7494700001','7494700914','7497700001','7497700182','7497700914','7498700001','7498700182','7498700914','7499700001','7499700182','7499700914','7766050000','7766070000','7766270000','14.640.000','40.510.000','45.117.000','45.123.000','45.123.100','45.129.000','46.414.000','46.421.000','46.508.500','6610420000','6610520000','6610580000','6610660000','7122570001','7122570049','7122570182','7122720001','7122720049','7122720182','7122930001','7122930049','7122930182','7123070001','7123070049','7123070182','7123080001','7123080914','7124010001','7124100001','7124100182','7124170001','7126070001','7127600001','7127600182','7127600914','7127710914','7127800001','7127800182','7127800914','7127850001','7127850182','7127850914','7127860001','7127860182','7127860914','7127890001','7127890182','7127890914','7134230001','7151030001','7151030182','7151030914','7231160000','7232080001','7232080049','7232087035','7232147035','7232160001','7232187035','7232247035','7233020000','7236040000','7236080001','7236087035','7350150001','7350150182','7350150914','7350200182','7350200914','7350250914','7350300001','7370200001','7370200914','7390030182','7390030914','7390950001','7390950182','7394160182','7394160914','7394200001','7394200182','7394200914','7394250182','7394250914','7394300914','7394400914','7456500182','7457500182','7457500914','7483500182','7483700914','7488700182','7489700182','7489700914','7491500001','7491500182','7491500914','7491700001','7491700182','7491700914','7494700182','7495500001','7495500182','7495500914','7495700001','7495700182','7495700914','7742140001','7742140182','7742140914','7766030000','14.565.000','14.566.000','14.567.000','26.478.000','34.404.000','34.405.000','34.410.000','34.411.000','34.414.000','34.419.000','34.420.000','34.421.000','34.422.000','34.436.000','34.437.000','34.438.000','34.443.000','34.444.000','34.445.000','34.447.000','34.466.000','34.477.000','34.544.000','34.547.000','40.499.000','40.500.000','40.501.000','40.503.062','42.496.000','42.520.000','42.652.000','42.655.850','45.007.034','45.008.000','45.009.000','45.011.038','45.026.063','45.053.063','45.057.063','45.058.063','45.066.063','45.068.063','45.069.063','45.071.063','45.073.063','45.075.063','45.101.000','45.102.000','45.103.000','45.103.100','45.105.000','45.110.000','45.111.000','45.115.100','45.116.000','45.116.100','45.117.100','45.118.000','45.119.100','45.120.000','45.120.100','45.121.000','45.121.100','45.122.100','45.126.000','45.126.100','45.127.000','45.127.100','45.128.000','45.128.100','45.129.100','45.132.100','45.135.000','45.135.100','45.136.000','45.136.100','45.137.000','45.137.100','45.138.000','45.138.100','45.140.000','45.141.000','45.141.100','45.144.000','45.145.000','45.146.000','45.146.100','45.148.100','45.203.100','45.206.100','45.207.100','45.224.100','45.243.100','45.249.100','45.250.100','45.251.000','45.251.100','45.252.000','45.253.100','45.254.100','45.255.100','45.256.100','45.257.100','45.259.000','45.259.100','45.260.000','45.260.100','45.261.100','45.262.000','45.262.100','45.268.000','45.269.000','45.269.100','45.270.100','45.271.100','45.272.000','45.272.100','45.272.850','45.273.000','45.273.100','45.273.850','45.278.000','45.283.000','45.284.000','45.285.000','45.285.100','45.286.100','45.294.100','45.298.000','45.298.100','45.308.100','45.310.000','45.310.100','45.311.100','45.312.000','45.312.100','45.400.104','45.401.100','45.517.000','45.612.134','45.618.100','45.621.000','45.626.000','45.626.100','45.627.000','45.629.000','45.634.000','45.640.100','45.642.100','45.645.000','45.645.100','45.650.100','45.655.000','45.656.000','45.659.000','45.663.100','45.665.063','45.670.820','45.681.100','45.683.100','46.559.030')
+
+
+
+     --- Use below for Uploaded friendly version --- Use this one ! 
+select a.Business_Unit,a.Short_Item_Number,a.Item_Number
+       ,a.Order_Policy,a.Order_Policy_Value
+	   ,a.Planning_Code,a.Planning_Fence_Rule,a.Plan_Time_Fence
+	    ,a.Jde_ABC_1_Sls 
+	   ,case  when a.Jde_ABC_1_Sls is not null then a.Jde_ABC_1_Sls
+		     -- else 'D'
+			 -- when len(a.Jde_ABC_1_Sls) = 1  then 'D'
+      		  	when len(a.Jde_ABC_1_Sls) = 0 then 'D'       
+       end as Jde_ABC_1_Sls_1
+
+	   ,len(a.Jde_ABC_1_Sls) as Charlength
+	  
+	   --,a.Stocking_Type,a.Order_Policy_Description,a.Planning_Code_Description,a.Planning_Fence_Rule_Description
+ from JDE_DB_Alan.vw_Mast_Planning a inner join j
+ --where a.Item_Number in ('82.058.906','82.058.901','24.7121.0952A','26.528.030','82.038.901','82.058.909','82.038.906','82.058.904','26.804.000','82.691.901','24.7218.4462','46.610.000','82.058.903','82.058.928','52.003.032','82.058.926','82.038.903','82.038.926','24.7120.0952A','24.7121.4459A','82.058.902','24.7122.0952A','82.050.906','82.058.931','24.7128.0155','82.696.926','82.696.910','82.058.927','82.038.909','82.050.901','82.058.930','24.7125.0952A','52.018.000','82.038.927','82.058.905','82.696.933','24.7136.0155A','34.358.000','24.7128.0155A','82.058.907','24.7364.0199','52.012.000','24.7136.1858A','26.169.037','82.633.902','24.7120.4459A','82.038.928','82.696.903','82.038.931','82.696.928','82.058.932','82.696.932','24.7122.4459A','82.696.930','82.696.931','82.696.909','24.7353.0000A','82.058.911','52.002.000','82.696.906','82.050.926','82.050.928','24.7128.1858A','24.7120.0952','24.7125.4459A','82.038.932','82.038.905','82.038.904','82.038.930','82.691.910','52.013.000','82.691.903','82.058.933','82.050.903','82.050.909','82.050.910','82.696.927','1001690','24.7129.1858A','6610660000','82.050.931','82.050.905','82.058.929','82.696.904','82.038.902','82.050.907','18.019.010','82.038.907','24.7129.0155A','24.7163.0000A','46.508.700','52.010.032','82.050.902','82.038.933','4140126000','82.696.902','52.004.000','82.691.926','82.633.908','82.050.932','82.050.933','82.058.910','82.050.904','82.038.910','82.696.911','82.696.912','45.067.063','KIT9125','82.696.907','82.058.912','18.019.005','24.7128.0952A','46.508.500','82.050.927','82.050.930','46.421.000','82.691.928','18.000.003','24.7133.0155A','82.691.907','24.7123.0155A','52.000.063','46.108.063','82.038.929','82.691.931','24.7110.4459A','24.7224.0155A','82.633.909','82.038.911','24.7124.0952A','KIT9126','27.285.178','82.691.912','82.050.929','32.508.000','0850531003021H','82.696.905','52.005.000','82.691.904','4170950885','24.7398.1858A','26.741.603','82.058.908','82.633.901','82.691.933','82.050.911','82.691.911','82.633.904','14.640.000','26.154.030','82.038.908','52.014.000','82.691.927','46.521.500','34.248.000','4150951885','52.016.000','82.633.903','82.691.902','7460700000','7460500000','24.7123.1858A','52.014.104','82.050.912','24.7129.0952A','34.095.000','52.016.134','52.008.134','52.014.134','45.035.000','82.696.929','52.008.000','4170950785','52.016.850','24.7133.1858A','24.7114.0952A','27.251.985','52.021.000','52.020.000','24.7128.4459A','52.006.000','52.020.134','0770531003531H','52.009.000','52.021.134','52.029.010','82.050.908','24.7302.1858A','52.027.000','82.691.905','4150083651','82.633.906','34.247.000','52.008.104','32.507.000','4150951785','6611550000','82.691.932','52.021.104','52.016.104','82.691.909','82.691.929','52.020.104','6610220000','46.550.000','2801490785','52.007.063','4170417000','24.7124.4459A','4151334000','24.7306.1858A','4170439000','4170418000','82.633.907','7441700914','52.014.810','52.021.850','1001715','45.047.063','24.7123.0952A','6610940000','24.7355.0952A','4170440000','52.014.850','26.806.000','82.037.918','24.7371.0005A','82.696.908','6610200000','4170950651','7493700000','24.7111.0155A','82.633.905','7441500914','24.7114.4459A','6611530000','52.020.850','24.7146.0155A','24.7224.0952A','46.522.500','24.7311.1858A','18.618.049','7127910000','7441700001','7441500182','24.7129.4459A','0850531003020H','52.008.850','34.221.000','4178581000','4150951180','24.7169.0155A','7123070182','24.7168.0155A','52.016.100','6610420000','52.008.810','52.021.810','52.008.100','7124100049','2920002520','6610580000','7493500001','7441500001','6610300000','7124010001','7493500914','45.073.063','52.020.810','26.555.821','7124170001','7497700182','7493700001','52.017.850','24.7224.1858A','4152336879','1001693','7493500182','4150951651','82.691.906','52.017.000','7493700914','45.075.063','24.7133.0952A','52.017.104','7766050000','32.509.000','7499700914','52.017.134','52.014.100','7497700914','52.016.810','7766070000','7498700914','7124100182','74486','7020080000','24.7224.4459A','52.031.030','27.165.862','7493700182','24.7210.0199','7124100001','52.020.100','40.033.131','45.068.063','24.7146.1858A','40.501.000','7127950000','82.038.912','45.046.063','34.468.000','24.7115.0155A','24.7134.0155A','7478700914','7766030000','7478700001','7494500182','7766270000','31.132.176','52.014.737','45.007.034','52.022.134','7457500914','7477700001','SC.07119.000.37','7488700000','7489700000','7494700000','52.022.000','52.032.030','7499700182','7127990000','7127960000','7478700182','7122930001','45.009.000','52.022.104','7497700001','24.7210.1858','7499700001','40.503.062','52.016.737','7488500182','7499700000','7498700000','7497700000','24.7169.0952A','7488700914','24.7311.0155A','7477700914','46.410.063','24.7168.0952A','7122930049','7498700182','24.7168.1858A','26.836.000A','7494700914','7489500182','7489700914','7498700001','24.7146.0952A','52.021.737','52.021.100','82.691.930','7489500914','7127600914','46.522.700','7488500914','7477700182','52.008.737','46.414.000','7479700001','7478700000','7479700000','7477700000','4150951133','26.478.000','14.565.000','24.7115.1858A','7489500001','52.016.734','52.008.734','24.7111.1858A','24.7196.7060A','14.566.000','7488700001','82.691.908','7494500914','7468700000','7457500182','7479500182','4171325050','82.501.902','7488500001','7494500001','52.020.734','7494700001','40.510.000','52.021.734','7127900000','45.066.063','46.601.734','82.501.905','40.500.000','24.7254.1858','52.017.810','52.017.100','52.014.734','40.499.000','4171324050','24.7134.0952A','4171324060','4171325060','45.248.000','45.685.034','24.7304.1858A','46.553.063','7122930182','4171325070','52.022.850','7478500914','7390950914','31.133.838','24.7302.0199A','18.320.014','7494700182','7488700182','7442700000','7127620182','52.022.100','7127620000','7127690000','7127970000','7127910001','7477500914','6610520000','24.7254.0199','24.7133.4459A','7489700182','7478500001','7479500914','7468700001','7489700001','7479700182','7477500182','7602209491','45.110.000','31.133.176','24.7123.4459A','42.652.000','4171324070','7602209492','24.7168.4459A','7468700914','7479500001','52.022.810','52.030.000','7479700914','7478500182','7129200001','7232160001','45.058.063','45.026.063','46.556.000','34.437.000','26.854.000A','7146500000','7468500182','7390020000','7127890001','45.268.100','26.837.000A','24.7323.1858A','42.655.850','7477500001','7491700000','7491700914','32.510.000','7127800001','7468500914','45.259.100','45.655.000','24.7398.0155A','32.513.000','34.443.000','34.444.000','7127600001','7127600182','7742140182','24.7134.1858A','7127600000','7491500182','45.269.100','45.284.000','45.111.000','82.297.952','32.514.000','26.838.000A','24.7197.0000A','24.7195.0199A','24.7169.1858A','24.7316.1858A','24.7210.0952','45.011.038','7390950000','46.553.030','45.645.000','7491500914','7127850001','7456500182','7602209490','7390950182','4199150000','7127940000','7129200000','7127710000','7127700000','7126070000','7127150000','82.501.907','45.650.000','45.273.000','4150951862','4199050840','24.7304.0155A','34.471.000','34.245.000','34.421.000','7390950001','7122720001','7127800914','7127850914','52.022.737','7122720049','34.404.000','24.7193.0199A','24.7131.0000A','24.7111.4459A','24.7210.4459','24.7254.0952','45.272.000','45.285.000','4199050360','4199040840','7300137001','7742140000','7742140001','7491700182','7232187035','7742140914','7122720182','45.272.100','45.273.100','7491500001','7127860914','7236087035','24.7169.4459A','18.016.059','52.015.000','7122570001','7122570049','7122570182','7126070914','7127860182','45.243.100','45.286.100','45.260.000','45.253.100','45.018.000','4199050331','4199030331','18.016.074','24.7316.0155A','24.7344.7060A','24.7146.4459A','34.237.000','45.310.000','7233020000','34.477.000','7127850182','7127660000','7127510000','7127650000','7390930000','45.259.000','4171325080','34.365.000','7127890914','45.285.100','45.207.100','18.013.037','52.015.134','45.621.000','46.424.850','46.560.000','45.135.000','45.135.100','45.271.100','45.255.000','45.255.100','45.256.000','45.310.100','45.294.100','7127890182','34.410.000','34.411.000','34.445.000','34.099.000','18.014.008','18.016.046','14.567.000','24.7130.0000A','24.7193.1858A','24.7115.0952A','24.7254.4459','7127800182','45.298.000','7127860001','7232147035','45.203.100','34.438.000','34.547.000','7151030914','7126070001','7127710182','7134230001','7370250914','34.405.000','26.844.000A','26.846.000A','24.7134.4459A','24.7323.0155A','18.016.073','18.019.012','7232080001','45.102.000','45.308.100','45.311.100','45.298.100','45.257.100','45.254.100','45.261.100','45.262.000','45.262.100','45.270.100','45.279.000','45.141.100','45.206.100','45.251.000','45.252.000','45.137.000','45.138.000','45.140.000','45.117.000','45.128.000','45.128.100','45.129.000','45.618.100','45.620.000','45.627.000','45.612.134','45.626.000','45.401.100','7134230000','7232087035','45.205.100','45.101.000','7232080049','34.447.000','7390030000','45.136.000','7390030914','7350250182','7350250914','7350200914','7370200182','7370200914','7127710914','7370200001','45.283.000','45.278.000','45.136.100','45.138.100','45.137.100','45.141.000','45.129.100','45.123.000','45.123.100','45.126.100','45.127.000','45.127.100','45.117.100','45.120.000','45.120.100','45.251.100','45.250.100','45.249.100','45.103.000','45.116.000','45.656.000','19.009.005','19.050.503','24.7138.0155A','18.016.042','18.016.048','18.013.012','18.016.061','18.016.062','18.319.005','45.119.000','7232247035','18.016.064','7350300001','7390030182','18.016.063','7350150001','7151030182','18.013.193','18.016.051','7394250914','7394200182','7394400914','7483500182','7350150182','7350150914','7236080001','7236040000','7151030001','7231160000','7123080001','7123080914','99.999.150','SC.07119.PA510','7123070001','7123070049','52.022.734','52.017.734','52.015.734','52.015.737','52.015.810','52.015.850','52.015.100','7483700914','7394200914','7394250182','7394160182','7394160914','7394200001','7394300914','7350200182','7491700001','42.520.000','40.129.228GB','40.129.131GB','4150951320','46.559.030','45.659.000','45.626.100','45.645.100','45.665.063','45.670.820','45.640.100','45.642.100','45.517.000','45.522.000','45.681.100','45.312.000','45.312.100','45.144.000','45.121.000','45.121.100','45.122.100','45.118.000','45.132.100','45.146.000','45.146.100','45.148.100','45.103.100','45.071.063','45.057.063','45.008.000','18.616.030','24.7138.1858A','24.7192.7060A','24.7195.1858A','18.301.924','18.020.015','18.016.052','18.016.060','18.016.049','18.016.050','18.016.045','18.012.042','18.012.043','1001696','1001717','34.216.000','34.544.000','34.466.000','26.848.000A','26.849.030A','26.856.000A','26.857.000A')
+   where a.FamilyGroup in ('900','910','913','943','964','965','966','971','972','973','974','975')  and a.Stocking_Type in ('P','S')
+	    --and len(a.Jde_ABC_1_Sls) = 0
+		and a.Planning_Fence_Rule in ('S')
+		 
+
+
+ --where a.Item_Number in ('42.210.031','34.514.000','46.419.000')
+
+ --where a.FamilyGroup in ('966')
+   --   and a.Order_Policy in ('4')
+
+
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2021-05-01','2022-04-01'
+
+------======== End of Update Order Policy Or Planning Code in JDE ============================================================================
+
 
 
 
@@ -1589,7 +1889,7 @@ exec JDE_DB_Alan.sp_FCPro_FC_Accy_Rpt_New 'Non_LT'
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis 'cs100','2019-08-01','2020-07-03'
 
 exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '28.670.000','2020-10-01','2021-09-03'
-exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-10-01','2021-09-03'
+exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2021-03-01','2022-02-03'
 
 
 exec JDE_DB_Alan.sp_Mismatch_Textile_RCCP '82.036.915,82.011.908',null,'2020-08-03'
@@ -1634,6 +1934,8 @@ select * from JDE_DB_Alan.vw_NP_FC_Analysis a
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('24.7363.0199','24.7364.0199','24.7363.1858','24.7364.1858')
 select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('82.691.930','43.525.101')
 select * from JDE_DB_Alan.Master_ML345
+
+select * from JDE_DB_Alan.MasterFamily a
 
 
 exec JDE_DB_Alan.sp_MI_2_Raw_Combine_Sim_Mismatch_1mOff '6610350000','2019-06-03'
@@ -1688,6 +1990,8 @@ select * from p
 
 
 select * from JDE_DB_Alan.vw_Mast_Planning m where m.Item_Number in ( '7457500182','7456500182','42.210.031')
+
+select * from JDE_DB_Alan.vw_Mast a where a.ItemNumber like ('25%') order by a.FamilyGroup_
 
 select * from JDE_DB_Alan.FCPRO_SafetyStock a where a.ItemNumber in ('42.210.031')
 select * from JDE_DB_Alan.vw_SafetyStock a where a.ItemNumber in ('42.210.031')
@@ -1837,7 +2141,11 @@ select h.*,m.Colour,m.Description from JDE_DB_Alan.SlsHistoryHD h
 
 select * from JDE_DB_Alan.FCPRO_MI_2_Raw_Data_tmp t where t.ItemID in ('18.010.035')
 
-select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('24.7220.1858')
+select * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('34.247.000')
+
+select * from JDE_DB_Alan.MasterFamily a 
+
+select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload a
 
 select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('38.001.001','38.003.001','38.004.000','38.001.002','38.001.003','38.001.004','38.001.005','38.001.006','38.002.001','38.002.002','38.002.003','38.002.004','38.002.005','38.002.006','38.003.002','38.003.003','38.003.004','38.003.005','38.003.006')
  order by m.ItemNumber
@@ -1954,7 +2262,21 @@ where m.FamilyGroup in ('982')
 order by m.FamilyGroup,m.family
 
 
+select distinct f.ItemNumber,FamilyGroup,m.Family 
+from JDE_DB_Alan.vw_FC f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
+where m.FamilyGroup in ('973','979')
+      -- and m.Family in ('H47','H48')								--- Zen only
+order by m.FamilyGroup,m.family
 
+
+select f.ItemNumber,f.DataType1,f.FC_Vol,f.FCDate_
+from JDE_DB_Alan.vw_FC f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
+where m.FamilyGroup in ('973','979')
+      -- and m.Family in ('H47','H48')								--- Zen only
+order by m.FamilyGroup,m.family
+
+
+select * from JDE_DB_Alan.vw_FC a where a.ItemNumber in ('4171325080')
 
 select distinct f.ItemNumber,m.StockingType,m.PlannerNumber,m.Owner_,f.ReportDate 
 from JDE_DB_Alan.FCPRO_Fcst_History f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
@@ -1975,6 +2297,15 @@ select distinct f.ItemNumber,m.Description, m.Family from JDE_DB_Alan.vw_FC f le
 							--order by h.FamilyGroup,h.ItemNumber,h.CYM
 							)
 order by m.Family
+
+
+select f.ItemNumber,m.Description,f.FCDate_,f.FC_Vol,m.UOM,m.StockingType,m.PlannerNumber,m.Owner_,m.FamilyGroup,m.Family,v.Customer_Supplier_ItemNumber
+from JDE_DB_Alan.vw_FC f left join JDE_DB_Alan.vw_Mast m on f.ItemNumber = m.ItemNumber
+                         left join JDE_DB_Alan.vw_Mast_Vendor_Item_CrossRef v on f.ItemNumber = v.ItemNumber
+where f.ItemNumber in ('44.013.001','44.014.001')
+--where m.FamilyGroup in ('982')
+
+select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload
 
 ------------- Sales by different UOM -----------------
 
@@ -2314,6 +2645,10 @@ select
 
  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'34.523.000,34.522.000,34.521.000,34.519.000,34.514.000,34.515.000,34.516.000,34.520.000,34.513.000,34.517.000,34.518.000','Adj_FC'
  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'38.004.000S','Adj_FC'
+
+
+  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'82.448.901,82.448.903,82.448.926','Adj_FC'
+
 
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'25.010.0155,25.010.1858,25.012.0155,25.012.1858,25.020.0155,25.020.1858,25.021.0155,25.021.1858,25.022.0155,25.022.1858,25.023.0155,25.023.1858,25.024.0155,25.024.1858,25.025.0155,25.025.1858,25.026.0155,25.026.1858,25.027.0155,25.027.1858,25.028.0155,25.028.1858,25.029.000,25.030.0155,25.030.1858,25.031.0155,25.031.1858,25.032.000,25.033.000,25.034.000,25.035.000,25.036.000,25.037.030,25.038.0155,25.038.1858,25.039.0155,25.039.1858,25.040.0155,25.040.1858','Adj_FC'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'25.010.0155,25.010.1858,25.012.0155,25.012.1858,25.020.0155,25.020.1858,25.021.0155,25.021.1858,25.022.0155,25.022.1858,25.023.0155,25.023.1858,25.024.0155,25.024.1858,25.025.0155,25.025.1858,25.026.0155,25.026.1858,25.027.0155,25.027.1858,25.028.0155,25.028.1858,25.029.000,25.030.0155,25.030.1858,25.031.0155,25.031.1858,25.032.000,25.033.000,25.034.000,25.035.000,25.036.000,25.037.030,25.038.0155,25.038.1858,25.039.0155,25.039.1858,25.040.0155,25.040.1858','Adj_FC'

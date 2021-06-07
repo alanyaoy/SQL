@@ -1,5 +1,4 @@
-
-          --- 10/4/2020,  --- For Family Group Level --- Level 2
+      --- 10/4/2020,  --- For Family Group Level --- Level 2
 		  --- This code will use Family level accuracy data as nput to feed in accuracy for Family Group accuracy, therefore Level 2. Rather than use Family Group Accury data on itw own for Input.
 
 	    --- Better to use view to extract modified data from  'JDE_DB_Alan.FCPRO_FC_Accy_Group'  table ----
@@ -119,5 +118,3 @@ CREATE view  [JDE_DB_Alan].[vw_FC_Accy_Family_Group_Lv2_Rpt] with schemabinding 
 		        ,a.Reportdate
 		 from fl as a
 GO
-
-

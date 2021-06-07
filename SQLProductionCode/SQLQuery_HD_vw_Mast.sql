@@ -1,6 +1,8 @@
 
     --- Updated 4/6/2020 to include Pareto, Safety stock details ---------
 	--- Updated 8/3/2021 to include Pareto, Safety stock details ---------
+	--- Updated 21/5/2021 to Remove/Prevent duplicate in HD (Textile) Work Center --------
+
 
  --- below is comments for 'vw_Safetystock' table but it is also appropriate to 'view_Mast' table, need to try to aovid crosss referencing, try to use raw SQL table as much as you can...
 	
@@ -147,16 +149,30 @@ with fc as (
 				,ss.SS_Adj
 				,ss.Stdevp_,ss.SS_Latest_upd_date,ss.ValidStatus_Adj_Flag	
 				,case 
-					when wc.WorkCenter is not null then wc.WorkCenter
+					when wc.WorkCenterCode_f is not null then wc.WorkCenterCode_f
 					--when wc.WorkCenter is null then 'No_WC_Assigned'		
-					  when wc.WorkCenter is null then '0'		
-					end as WC	
+					  when wc.WorkCenterCode_f is null then '0'		
+					end as WCCode_fl
+               ,case 
+					when wc.WorkCenterGroupCode_f is not null then wc.WorkCenterGroupCode_f
+					--when wc.WorkCenter is null then 'No_WC_Assigned'		
+					  when wc.WorkCenterGroupCode_f is null then '0'		
+					end as WCGroupCode_fl
+                 ,case 
+					when wc.WorkCenterGroupName_f is not null then wc.WorkCenterGroupName_f
+					--when wc.WorkCenter is null then 'No_WC_Assigned'		
+					  when wc.WorkCenterGroupName_f is null then '0'		
+					end as WCGroupName_fl
+
 			   	 ,a.localImport
 			     ,a.CycleCount		
 				,a.OrigMasterDataDate
 
                 from mas_ a left join JDE_DB_Alan.MasterSupplier s on a.PrimarySupplier = s.SupplierNumber
-				            left join JDE_DB_Alan.TextileWC wc on a.ShortItemNumber = wc.ShortItemNumber
+				            --left join JDE_DB_Alan.TextileWC wc on a.ShortItemNumber = wc.ShortItemNumber								
+							--left join JDE_DB_Alan.vw_HD_WorkCenter wc on a.ShortItemNumber = wc.ShortItemNumber				--- You have choice of NOT using view table for HD_Workcenter and instead, use CTE to get data from original 'HD_WorkCenter' table, but be careful because you do not want to have duplicate records as 'HD_WorkCenter' will have 1 SKU point to 2 work centers, and when you join this table you will have duplications  --- 21/5/2021
+														
+							left join JDE_DB_Alan.HD_WorkCenter wc on a.ShortItemNumber = wc.ShortItemNumber					--- HD_WorkCenter is created using sp, convert 'HD_WorkCenter_Staging' table data --- 24/5/2021, this will boost performance, otherwise using vw_HD_WorkCenter, there is no Index and too much String manupilations cause issues.
 							left join JDE_DB_Alan.FCPRO_Fcst_Pareto p on a.ItemNumber = p.ItemNumber
 							--left join JDE_DB_Alan.FCPRO_SafetyStock ss on a.ItemNumber = ss.ItemNumber
 							left join ss on a.ItemNumber = ss.ItemNumber
@@ -309,7 +325,9 @@ with fc as (
 				,a.GLCat,a.StockValue	
 				,a.Owner_
 				,a.SupplierName				
-				,WC	
+				,WCCode_fl	
+				,WCGroupCode_fl
+				,WCGroupName_fl
 				,a.localImport
 				,a.CycleCount
 				,a.OrigMasterDataDate
@@ -329,3 +347,8 @@ with fc as (
 	   --select * from mas 
 	   --where z.wc <> '0'
 GO
+
+
+
+---
+
