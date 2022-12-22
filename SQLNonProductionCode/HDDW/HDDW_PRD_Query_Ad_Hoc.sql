@@ -14,7 +14,7 @@ select * from HDDW_PRD.Star.f_so_detail_history c
 where c.order_number in ('5623307')
 
 
---- 980 ( cancelled  ) , 999 ( completed - ready to Purge ), 902 ( back order in commitment ), 620 ( ready for sales update)
+--- 980 ( cancelled in order entry ) , 999 ( completed ), 902 ( back order in commitment ), 620 ( ready for sales update)
 
 
 ;with so as
@@ -25,7 +25,7 @@ where c.order_number in ('5623307')
 	union all
 		 --select * from HDDW_PRD.star.f_so_detail_current c where c.last_line_status_code + c.next_line_status_code <> '980999' and c.item_code in ('FAMT')  --- 12196
 		-- select * from HDDW_PRD.star.f_so_detail_current c where c.last_line_status_code <> '980' and c.next_line_status_code <> '999' and c.item_code in ('FAMT')  --- 11810
-	 select * from HDDW_PRD.star.f_so_detail_current c where not ( c.last_line_status_code = '980' and c.next_line_status_code = '999')		--- 13022  -- use this one !!		-- 980 cancelled in order entry, 999 completed
+	 select * from HDDW_PRD.star.f_so_detail_current c where not ( c.last_line_status_code = '980' and c.next_line_status_code = '999')		--- 13022  -- use this one !!		-- 980 cancelled in order entry, 999 completed - ready to Purge 
 		-- select * from HDDW_PRD.star.f_so_detail_current c where (not c.last_line_status_code = '980')  or ( not c.next_line_status_code = '999')  --- 13022
 		-- select * from HDDW_PRD.star.f_so_detail_current c where ( c.last_line_status_code <> '980')  or (  c.next_line_status_code <> '999')  --- 13022
 		        

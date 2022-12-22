@@ -1,0 +1,432 @@
+select * from trac_dates
+
+select * from trac_forecasts limit 10
+
+select a.ForecastId,x.itemid4,a.Abs_Period,d.Description,a.FC_Statistical,a.FC_Adjusted,b.FC_Model,b.FC_Error,b.FC_StdDev,b.FC_MAPE,a.FC_Lower,a.FC_Upper,r.convfactor
+        , (a.FC_statistical*r.convfactor) as FC_Val
+from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+        inner join trac_items x on x.itemid = b.itemid) 
+     
+    inner join trac_dates d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+--where x.itemid4 in ('2851218661')
+  where x.itemid4 in ('40.033.131') 
+order by x.itemid4,a.abs_period asc
+
+
+--- simplified version ------
+select x.itemid4,d.Description as FC_Period,a.FC_Statistical
+from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+        inner join trac_items x on x.itemid = b.itemid) 
+     
+    inner join trac_dates d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+--where x.itemid4 in ('2851218661')
+  where x.itemid4 in ('40.033.131') 
+order by x.itemid4,a.abs_period asc
+
+
+select * from trac_forecasts limit 10
+
+----- Good version ----------------
+    with cte as 
+    (
+        select *, cast(substr(d.Description,1,4) as int) as YYYY,
+        case substr(d.Description,6,3)
+        WHEN 'Jan' then '01'
+        WHEN 'Feb' then '02'
+        WHEN 'Mar' then '03'
+        WHEN 'Apr' then '04'
+        WHEN 'May' then '05'
+        WHEN 'Jun' then '06'
+        WHEN 'Jul' then '07'
+        WHEN 'Aug' then '08'
+        WHEN 'Sep' then '09'
+        WHEN 'Oct' then '10'
+        WHEN 'Nov' then '11'
+        WHEN 'Dec' then '12' 
+        end as MM
+        from TRAC_Dates d 
+    ),
+    cte_ as ( select *,(cte.YYYY||'-'||cte.MM||'-'||'01') as YYYYMM 
+    from cte )
+    
+    select a.Abs_Period,x.itemid4,'Default' as DataType1,strftime(d.YYYYMM) as FC_Period,a.FC_Statistical
+            ,datetime('now','localtime') as ReportDate
+            ,date('now')            
+            ,strftime('%H','now','localtime')  'Hour:00-24'
+            ,strftime('%j','now') DayofYear
+            ,strftime('%w','now') 'DayofWK-0-6Sunday==0'
+            ,strftime('%W','now') 'WKofYear: 00-53'
+    from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+            inner join trac_items x on x.itemid = b.itemid) 
+            inner join cte_ d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+    --where x.itemid4 in ('2851218661')
+      where x.itemid4 in ('40.033.131')
+    order by x.itemid4,a.abs_period asc
+    
+
+   select date('2012/10/00','+2 days')            -- does not work, because there is NO ZERO day IN A MONTH or ANY MONTH !!!!!!
+    select date('2012/10/01','+1 day')              --does not work
+    select date('2012-10-01','+1 day')              -- work looks like you need to change '/' to '-', and keep YYYY-MM-DD format
+    
+    select date('2012-10-01', '+1 day')             -- works
+    
+     select date('2014-10-16','+2 days')           -- works
+     SELECT date('2014-10-16', '-15 days');         -- works
+      
+    select date('now','+2 days')                    -- works
+   
+  SELECT julianday('2008-07-03')
+  SELECT date('07-03-2008', '+90days');         -- does not work
+   SELECT date('07-03-2008', '+90 days');         -- does not work
+   SELECT date('2008-03-07', '+90 days');       -- works
+  
+  select strftime('2008-07-03')
+  select date('2014-10-16')
+  
+   
+  SELECT date('now','start of year','+9 months','weekday 2');    
+  SELECT date('2017-10-01')
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+   
+   select * from trac_forecasts a limit 5   
+   
+    with cte as 
+    (
+        select *, cast(substr(d.Description,1,4) as int) as YYYY,
+        case substr(d.Description,6,3)
+        WHEN 'Jan' then '01'
+        WHEN 'Feb' then '02'
+        WHEN 'Mar' then '03'
+        WHEN 'Apr' then '04'
+        WHEN 'May' then '05'
+        WHEN 'Jun' then '06'
+        WHEN 'Jul' then '07'
+        WHEN 'Aug' then '08'
+        WHEN 'Sep' then '09'
+        WHEN 'Oct' then '10'
+        WHEN 'Nov' then '11'
+        WHEN 'Dec' then '12' 
+        end as MM
+        from TRAC_Dates d 
+    ),
+    cte_ as ( select *,(cte.YYYY||'-'||cte.MM||'-'||'01') as YYYYMM 
+    from cte )
+    
+    select x.itemid4,'Default' as DataType1,strftime(d.YYYYMM) as FC_Period,a.FC_Statistical,a.FC_Adjusted
+            ,datetime('now','localtime') as ReportDate
+           -- ,date('now')            
+           -- ,strftime('%H','now','localtime')  'Hour:00-24'
+           -- ,strftime('%j','now') DayofYear
+           -- ,strftime('%w','now') 'DayofWK-0-6Sunday==0'
+           -- ,strftime('%W','now') 'WKofYear: 00-53'
+           ,a.Abs_Period
+           ,a.forecastid	
+           ,b.itemid	
+    from ((((trac_forecasts a inner join trac_stats b on a.forecastid = b.forecastid) 
+            inner join trac_items x on x.itemid = b.itemid) 
+            inner join cte_ d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+     where x.itemid4 in ('42.522.000','2781094000')       
+    --where x.itemid4 in ('2851218661')
+    --  where x.itemid4 in ('40.033.131')
+    order by x.itemid4,a.abs_period asc
+   
+ 
+    
+    --------- Override table information 18/1/2018 ---------------------------------------------------------------------------
+   
+   
+   select * 
+   from trac_IPOverrides 
+   order by override_created desc
+   limit 10 
+   
+   select * from trac_overrides o where o.itemid = '4507'
+   
+   select * from trac_stats limit 10
+   
+   select * from trac_conversions rr where rr.unitsid =3
+   
+   with cte as 
+    (
+        select *, cast(substr(d.Description,1,4) as int) as YYYY,
+        case substr(d.Description,6,3)
+        WHEN 'Jan' then '01'
+        WHEN 'Feb' then '02'
+        WHEN 'Mar' then '03'
+        WHEN 'Apr' then '04'
+        WHEN 'May' then '05'
+        WHEN 'Jun' then '06'
+        WHEN 'Jul' then '07'
+        WHEN 'Aug' then '08'
+        WHEN 'Sep' then '09'
+        WHEN 'Oct' then '10'
+        WHEN 'Nov' then '11'
+        WHEN 'Dec' then '12' 
+        end as MM
+        from TRAC_Dates d 
+    ),
+    cte_ as ( select *
+                    ,(cte.YYYY||'-'||cte.MM||'-'||'01') as YYYYMM 
+                    ,(cte.YYYY||cte.MM||'01') as YYYYMM 
+            from cte )
+    
+    select x.itemid4,'Default' as DataType1,strftime(d.YYYYMM) as FC_Period,a.override_base,a.override_value,a.override_comment,a.override_created
+            ,datetime('now','localtime') as ReportDate
+           -- ,date('now')            
+           -- ,strftime('%H','now','localtime')  'Hour:00-24'
+           -- ,strftime('%j','now') DayofYear
+           -- ,strftime('%w','now') 'DayofWK-0-6Sunday==0'
+           -- ,strftime('%W','now') 'WKofYear: 00-53'
+            ,a.Abs_Period	
+           ,a.itemid         	
+    from ((((trac_overrides a inner join trac_stats b on a.itemid = b.itemid) 
+            inner join trac_items x on x.itemid = b.itemid) 
+            inner join cte_ d on a.Abs_Period = d.Abs_Period) inner join (select * from trac_conversions rr where rr.unitsid =3) r on x.itemid = r.itemid )
+    -- where x.itemid4 in ('42.522.000','2781094000')       
+    --where x.itemid4 in ('2851218661')
+    --  where x.itemid4 in ('40.033.131')
+       where x.itemid4 in ('46.505.000')
+    order by x.itemid4,a.abs_period asc
+    
+    
+    ---========================================================================================================================================
+    ----- Note : in SQLite db, when 'update', you should not use 'from' clause 22/1/2018 ----------------------------------------
+   select sqlite_version();
+   
+     select * from trac_overrides o where o.abs_period = '24219'
+    select * from trac_overrides o where o.itemid = '4507'
+    select * from trac_items a where a.Itemid4 = '46.505.000'
+    select * from trac_dates 
+    
+   ------------------ Update with 2 CTE tbl  does not work ------------------------------------------------------------------------- 
+    ;with cte as 
+    (
+        select *, cast(substr(d.Description,1,4) as int) as YYYY,
+        case substr(d.Description,6,3)
+        WHEN 'Jan' then '01'
+        WHEN 'Feb' then '02'
+        WHEN 'Mar' then '03'
+        WHEN 'Apr' then '04'
+        WHEN 'May' then '05'
+        WHEN 'Jun' then '06'
+        WHEN 'Jul' then '07'
+        WHEN 'Aug' then '08'
+        WHEN 'Sep' then '09'
+        WHEN 'Oct' then '10'
+        WHEN 'Nov' then '11'
+        WHEN 'Dec' then '12' 
+        end as MM
+        from TRAC_Dates d 
+    ),    
+   t as ( select *,(cte.YYYY||cte.MM||'01') as YMD   from cte )   
+  -- select * from cte_  
+  ----------------------Update with 1 CTE tbl does not work  ----------------------------------------------------------------             
+    ;with t as (
+                      select *, cast(substr(d.Description,1,4) as int) as YYYY,
+                                                case substr(d.Description,6,3)
+                                                WHEN 'Jan' then  cast(substr(d.Description,1,4) as int)||'01'||'01'
+                                                WHEN 'Feb' then cast(substr(d.Description,1,4) as int)||'02'||'01'
+                                                WHEN 'Mar' then cast(substr(d.Description,1,4) as int)||'03'||'01'
+                                                WHEN 'Apr' then cast(substr(d.Description,1,4) as int)||'04'||'01'
+                                                WHEN 'May' then cast(substr(d.Description,1,4) as int)||'05'||'01'
+                                                WHEN 'Jun' then cast(substr(d.Description,1,4) as int)||'06'||'01'
+                                                WHEN 'Jul' then cast(substr(d.Description,1,4) as int)||'07'||'01'
+                                                WHEN 'Aug' then cast(substr(d.Description,1,4) as int)||'08'||'01'
+                                                WHEN 'Sep' then cast(substr(d.Description,1,4) as int)||'09'||'01'
+                                                WHEN 'Oct' then cast(substr(d.Description,1,4) as int)||'10'||'01'
+                                                WHEN 'Nov' then cast(substr(d.Description,1,4) as int)||'11'||'01'
+                                                WHEN 'Dec' then cast(substr(d.Description,1,4) as int)||'12'||'01' 
+                                                end as YMD
+                       from TRAC_Dates d
+                 )   
+                                             
+    ---------------------------------------------------------------------------------------------                                            
+    update trac_overrides 
+    set Override_Value = 405
+    where trac_overrides.itemid = ( select a.itemid
+                                    from ((trac_overrides a inner join trac_stats b on a.itemid = b.itemid) 
+                                    inner join trac_items c on c.itemid = b.itemid)                          
+                                    where c.itemid4 = '46.505.000'                                      
+                                )                           
+            
+--           and Abs_Period = ( select cte_.Abs_Period  
+--                           from trac_overrides a inner join cte_  on a.Abs_Period =cte_.Abs_Period  
+--                           where  cte_.YMD between '20180101' and '20180301'                                             
+--                                        )
+
+             and Abs_Period = ( select t.Abs_Period from t where t.YMD between '20180101' and '20180301' )          -- does not work
+                                     
+                                        
+   --=======================================================================================================
+     --------------- Below works 22/1/2018 For multiple months ----------------     
+    update trac_overrides 
+    set Override_Value = 404.2,
+        Override_Formula = "=405.2",
+        Override_Comment = 'TBC',
+        Override_Created = datetime('now','localtime') 
+    -- from trac_overrides
+    where trac_overrides.itemid in ( select distinct a.itemid
+                                    from ((trac_overrides a inner join trac_stats b on a.itemid = b.itemid) 
+                                    inner join trac_items c on c.itemid = b.itemid) 
+                                    --  inner join cte_ d on a.Abs_Period = d.Abs_Period)
+                                    where c.itemid4 in ('46.505.000','22.741.091')
+                                     
+                                    ) 
+           and trac_overrides.Abs_Period between 24217 and 24218                                                            
+                                                           
+   
+   --------------- Below works 23/1/2018 For Multiple Month -- Works Yeah !!! ----------------     
+    update trac_overrides 
+    set Override_Value = 0,
+        Override_Formula = "=0",
+        Override_Comment = 'new',
+        Override_Created = datetime('now','localtime') 
+    -- from trac_overrides
+    where trac_overrides.itemid in ( select distinct a.itemid
+                                    from ((trac_overrides a inner join trac_stats b 
+                                            on a.itemid = b.itemid) 
+                                    inner join trac_items c on c.itemid = b.itemid) 
+                                    --  inner join cte_ d on a.Abs_Period = d.Abs_Period)
+                                    where c.itemid4 in ('46.505.000','22.741.091')            --works
+                                   --   where c.itemid4 in ('22.741.091')
+                                    )                                
+                                    
+        and  trac_overrides.Abs_Period 
+        between 
+        ( select  distinct e.Abs_Period
+              from (trac_overrides a inner join   
+                     ( select *, cast(substr(d.Description,1,4) as int) as YYYY,
+                        case substr(d.Description,6,3)
+                        WHEN 'Jan' then  cast(substr(d.Description,1,4) as int)||'01'||'01'
+                        WHEN 'Feb' then cast(substr(d.Description,1,4) as int)||'02'||'01'
+                        WHEN 'Mar' then cast(substr(d.Description,1,4) as int)||'03'||'01'
+                        WHEN 'Apr' then cast(substr(d.Description,1,4) as int)||'04'||'01'
+                        WHEN 'May' then cast(substr(d.Description,1,4) as int)||'05'||'01'
+                        WHEN 'Jun' then cast(substr(d.Description,1,4) as int)||'06'||'01'
+                        WHEN 'Jul' then cast(substr(d.Description,1,4) as int)||'07'||'01'
+                        WHEN 'Aug' then cast(substr(d.Description,1,4) as int)||'08'||'01'
+                        WHEN 'Sep' then cast(substr(d.Description,1,4) as int)||'09'||'01'
+                        WHEN 'Oct' then cast(substr(d.Description,1,4) as int)||'10'||'01'
+                        WHEN 'Nov' then cast(substr(d.Description,1,4) as int)||'11'||'01'
+                        WHEN 'Dec' then cast(substr(d.Description,1,4) as int)||'12'||'01' 
+                        end as YMD
+                      from TRAC_Dates d ) e
+                  on a.Abs_Period = e.Abs_Period )
+
+                 where --c.itemid4 = '46.505.000' 
+                       -- d.YMD in ( '2018-03-01','2018-04-01')  -- does not work
+                          e.YMD in ( '20180101')  --- works
+                        --  e.YMD between '20180101' and '20180301'   -- does not work
+                        --  d.description = '2018-Mar'
+                                ) 
+                                                                                                  
+          and  ( select  e.Abs_Period
+                  from 
+                      ( select *, cast(substr(d.Description,1,4) as int) as YYYY,
+                        case substr(d.Description,6,3)
+                        WHEN 'Jan' then  cast(substr(d.Description,1,4) as int)||'01'||'01'
+                        WHEN 'Feb' then cast(substr(d.Description,1,4) as int)||'02'||'01'
+                        WHEN 'Mar' then cast(substr(d.Description,1,4) as int)||'03'||'01'
+                        WHEN 'Apr' then cast(substr(d.Description,1,4) as int)||'04'||'01'
+                        WHEN 'May' then cast(substr(d.Description,1,4) as int)||'05'||'01'
+                        WHEN 'Jun' then cast(substr(d.Description,1,4) as int)||'06'||'01'
+                        WHEN 'Jul' then cast(substr(d.Description,1,4) as int)||'07'||'01'
+                        WHEN 'Aug' then cast(substr(d.Description,1,4) as int)||'08'||'01'
+                        WHEN 'Sep' then cast(substr(d.Description,1,4) as int)||'09'||'01'
+                        WHEN 'Oct' then cast(substr(d.Description,1,4) as int)||'10'||'01'
+                        WHEN 'Nov' then cast(substr(d.Description,1,4) as int)||'11'||'01'
+                        WHEN 'Dec' then cast(substr(d.Description,1,4) as int)||'12'||'01' 
+                        end as YMD
+                       from TRAC_Dates d ) e
+                 
+                         
+                    where --c.itemid4 = '46.505.000' 
+                   -- d.YMD in ( '2018-03-01','2018-04-01')  -- does not work
+                      e.YMD in ( '20180301')  --- works
+                    --  e.YMD between '20180101' and '20180301'   -- does not work
+                    --  d.description = '2018-Mar'
+                            ) 
+                            
+
+ ----------  Insert new records ----Works -------
+ insert into trac_overrides values (3,1,1,24219,3,260,0,"=2",'TBC','2018-01-23 00:00:00')
+ 
+  ----------  Delete records --- works -----------
+  
+  delete from trac_overrides where Itemid in ('3') and Abs_period in ('24217','24219')
+  
+ 
+  
+  select * from trac_overrides o where o.itemid in ('4507')
+   select * from trac_overrides o where o.itemid in ('4507','3')
+   select distinct o.abs_period from trac_overrides o 
+    
+   select * from trac_dates                                                                                                                
+ 
+ ----------------------------------------------------
+     update trac_overrides 
+    set Override_Value = 405
+    -- from trac_overrides
+    where trac_overrides.itemid = ( select a.itemid
+                                    from ((trac_overrides a inner join trac_stats b on a.itemid = b.itemid) 
+                                    inner join trac_items c on c.itemid = b.itemid) 
+                                    --  inner join cte_ d on a.Abs_Period = d.Abs_Period)
+                                    where c.itemid4 = '46.505.000' 
+                                    -- and d.YYYYMM = '2018-03-01'   
+                                    ) 
+        and  trac_overrides.Abs_Period = ( select a.Abs_Period
+                                        from ((trac_overrides a inner join trac_stats b on a.itemid = b.itemid)                                     
+                                        inner join trac_dates d on a.Abs_Period = d.Abs_Period)
+                                        where --c.itemid4 = '46.505.000' 
+                                            ---d.YYYYMM = '2018-03-01'
+                                              d.description = '2018-Mar'
+                     )  
+                     
+                                                     
+                          
+---------------------------------------------------
+      
+    update trac_overrides 
+    set override_value = 400
+     ((((trac_overrides  inner join trac_stats  on trac_overrides.itemid = trac_stats.itemid) 
+            inner join trac_items  on trac_items.itemid = trac_stats.itemid) 
+            inner join cte_ d on a.Abs_Period = d.Abs_Period)
+    
+    where x.itemid4 in ('46.505.000') and  cte_.YYYYMM = '2018-03-01'
+    
+        
+    
+    select * from trac_overrides o where o.itemid = '4507'
+    select distinct o.abs_period from trac_overrides o 
+    
+    select * from trac_dates
+     
+     update trac_overrides 
+    set Override_Value = 400
+   -- from trac_overrides 
+    where itemid = '4507' and Abs_Period = 24219
+    
+    
+----------- SQlite Tutorial 23/1/2018 ---------------------------------------------------------
+--- https://stackoverflow.com/questions/21819183/how-to-use-ctes-with-update-delete-on-sqlite ---
+
+CTEs can be used in subqueries:
+
+WITH NewNames(ID, Name) AS (...)
+UPDATE MyTable
+SET Name = (SELECT Name
+            FROM NewNames
+            WHERE ID = MyTable.ID);
+
+
+WITH IDsToDelete AS (...)
+DELETE FROM MyTable
+WHERE ID IN IDsToDelete;    
+    
+    
+    
+    

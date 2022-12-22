@@ -1,7 +1,9 @@
 
-    --- Updated 4/6/2020 to include Pareto, Safety stock details ---------
+
+ --- Updated 4/6/2020 to include Pareto, Safety stock details ---------
 	--- Updated 8/3/2021 to include Pareto, Safety stock details ---------
 	--- Updated 21/5/2021 to Remove/Prevent duplicate in HD (Textile) Work Center --------
+	--- Updated 2/11/2021 to add Work center description ----
 
 
  --- below is comments for 'vw_Safetystock' table but it is also appropriate to 'view_Mast' table, need to try to aovid crosss referencing, try to use raw SQL table as much as you can...
@@ -153,6 +155,11 @@ with fc as (
 					--when wc.WorkCenter is null then 'No_WC_Assigned'		
 					  when wc.WorkCenterCode_f is null then '0'		
 					end as WCCode_fl
+				,case 
+					when wc.WorkCenterName_f is not null then wc.WorkCenterName_f
+					--when wc.WorkCenter is null then 'No_WC_Assigned'		
+					  when wc.WorkCenterName_f is null then '0'		
+					end as WCName_fl
                ,case 
 					when wc.WorkCenterGroupCode_f is not null then wc.WorkCenterGroupCode_f
 					--when wc.WorkCenter is null then 'No_WC_Assigned'		
@@ -326,6 +333,7 @@ with fc as (
 				,a.Owner_
 				,a.SupplierName				
 				,WCCode_fl	
+				,WCName_fl
 				,WCGroupCode_fl
 				,WCGroupName_fl
 				,a.localImport
@@ -342,13 +350,9 @@ with fc as (
 
                 from mas a  left join ms_ b on a.ShortItemNumber = b.Short_Item_Number
 
-       --where a.ItemNumber in ('34.481.000')
-
-	   --select * from mas 
-	   --where z.wc <> '0'
+      --where a.ItemNumber in ('34.481.000')
+	  --where a.ItemNumber in ('82.028.903','82.068.911','40.041.131')
+	  -- select * from mas 
+	  -- where z.wc <> '0'
+	        
 GO
-
-
-
----
-

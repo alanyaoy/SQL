@@ -111,17 +111,24 @@ select max(h.SlsMth_latest) as LatestMonth from JDE_DB_Alan.vw_Sls_History_HD h
 select * from JDE_DB_Alan.SlsHist_AWFHDMT_FCPro_upload s where s.ItemNumber in ('34.216.000')
 select * from JDE_DB_Alan.px_AWFHDMT_FCPro_upload s where s.ItemNumber in ('34.216.000')
 
-select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('850520000202.002')
-select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('850520000202.002')
-select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('850520000202')
 
-select * from JDE_DB_Alan.FCPRO_SafetyStock s where s.ItemNumber in ('34.226.000')
+select * from JDE_DB_Alan.OpenPO a where a.ItemNumber in ('24.7127.0155')
+select * from JDE_DB_Alan.vw_OpenPO a where a.ItemNumber in ('24.7127.0155')
 
+
+select m.ItemNumber,m.Owner_,m.Description from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('18.010.035','18.010.036','18.615.007','24.5403.0000','24.7100.0199','24.7120.0155','24.7121.0155','24.7122.0155','24.7124.0155','24.7127.0155','24.7200.0001','24.7219.0199','24.7334.0199','32.379.200','32.455.155','32.501.000','43.212.003')
+---('850520000202.002','7493500914','46.616.000')
+select m.ItemNumber,m.FamilyGroup from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('42.652.000','46.421.000','46.508.500','46.508.700','46.531.500','46.531.700','7137040000','7370250182','7370250914','7370300182','7370300914','7370350182','7370350914','7370400001','7370400182','7370400914','7441500001B','7441500182B','7441500914B','7441700001B','7441700182B','7441700914B','7442700000','7442700001','7442700182','7442700914','7456500182','7457500001','7457500182','7457500914','7460500000','7460700000','7467040100','7467070100','7468500001','7468500182','7468500914','7468700000','7468700001','7468700182','7468700914','7477500001','7477500182','7477500914','7477700000','7477700001','7477700182','7477700914','7478500001','7478500182','7478500914','7478700000','7478700001','7478700182','7478700914','7479500001','7479500182','7479500914','7479700000','7479700001','7479700182','7479700914','7485700000','7488500001','7488500182','7488500914','7488700000','7488700001','7488700182','7488700914','7489500001','7489500182','7489500914','7489700000','7489700001','7489700182','7489700914','7491500001','7491500182','7491500914','7491700000','7491700001','7491700182','7491700914','7493500001','7493500182','7493500914','7493700000','7493700001','7493700182','7493700914','7494500001','7494500182','7494500914','7494700000','7494700001','7494700182','7494700914','7496500001','7496500182','7496500914','7496700001','7496700182','7496700914','7497700000','7497700001','7497700182','7497700914','7498700000','7498700001','7498700182','7498700914','7499700000','7499700001','7499700182','7499700914','7766050000','7766070000','7766250000','7766270000')
+order by m.FamilyGroup desc
+
+select * from JDE_DB_Alan.Master_ML345 m where m.ItemNumber in ('0751031000207H','0751031003030H','0850531000202H','0850531000222H','0850531000707H','0850531000720H','0850531003010H','43.205.574M','43.205.635M','43.205.663M','43.207.532M','43.207.584M','43.207.635M','43.295.537','44.010.001','44.012.008')
+
+select * from JDE_DB_Alan.FCPRO_SafetyStock s where s.ItemNumber in ('F16174A949')
 
 
 select * from JDE_DB_Alan.FCPRO_SafetyStock s where s.ItemNumber in ('82.058.928')
 select * from JDE_DB_Alan.vw_FC f where f.ItemNumber in ('82.058.928')
-select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('27.163.785','27.166.785','27.276.502')
+select * from JDE_DB_Alan.vw_Mast m where m.ItemNumber in ('38.011.001','38.013.001','38.013.006','38.014.003','4152336885B','KIT2350','38.007.001','38.007.003','38.007.004','38.012.003','38.001.006','28.645.858','4152336048B','28.627.858','24.5353.1858','28.665.858','28.617.858','28.682.858','24.5353.4459','24.5353.0952','28.682.114','28.627.462')
 select * from JDE_DB_Alan.MasterFamily f where f.Code like ('14%')
 select * from [hd-vm-bi-sql01.hd.local].HDDW_PRD.star.d_product p where p.item_code in ('44.011.007')      --- works ! 3/6/2020  -- need to created new linked server : hd-vm-bi-sql01.hd.local
 select * from [hd-vm-bi-sql01].HDDW_PRD.star.d_product p where p.item_code in ('44.011.007')              --- not working, if your linked server is : hd-vm-bi-sql01   3/6/2020
@@ -532,7 +539,7 @@ drop column UniqueItemNum
 --alter column UniqueItemNum int
 
 
-
+select * from JDE_DB_Alan.vw_Mast a where a.ItemNumber in ('82.374.901','82.390.909','82.390.910','82.390.911')
 
 -----------------------------------------------------------------------------------------------------------
 
@@ -611,91 +618,91 @@ select * from JDE_DB_Alan.Master_R55ML345
 CREATE TABLE JDE_DB_Alan.Master_ML345_Jde
    ( 
     BusinessUnit		 varchar(100),
-	X					varchar(100),
-	ItemNumber			  varchar(100),       
-	Description			   varchar(100),       
+	X					 varchar(100),
+	ItemNumber			 varchar(100),       
+	Description			 varchar(100),       
 	ShortItem			 varchar(100),       
 	Blank				 varchar(100),   
-	StockingType		  varchar(100),   
+	StockingType		 varchar(100),   
 	GLCat				 varchar(100),   
-	LineType			    varchar(100),   
+	LineType			 varchar(100),   
 	--PackQty				   varchar(100),   
 	PackQty				   decimal(18,6),  
 	xx					   varchar(100),
-	MfgUnit				      varchar(100),
+	MfgUnit				   varchar(100),
 	PrimUM				     varchar(100),
-	PurchUM				      varchar(100),
-	PricingUM			        varchar(100),
+	PurchUM				     varchar(100),
+	PricingUM			     varchar(100),
 	ProdUM				     varchar(100),
 	CompUM				     varchar(100),
 	Colour				     varchar(100),
 	PlannerNumber		     varchar(100),       
-	PrimarySupplier		       varchar(100),       
+	PrimarySupplier		     varchar(100),       
 	OriginCountry		     varchar(100),       
-	PriceList			        varchar(100),
-	MaxDisc				      varchar(100),
-	ManFC				    varchar(100),
-	PriceGrp			       varchar(100),
+	PriceList			     varchar(100),
+	MaxDisc				     varchar(100),
+	ManFC				     varchar(100),
+	PriceGrp			     varchar(100),
 	MktGrp				     varchar(100),
-	FamilyGrp			        varchar(100),
+	FamilyGrp			     varchar(100),
 	Family				     varchar(100),
-	SellGrp				      varchar(100),
+	SellGrp				     varchar(100),
 	LocImp				     varchar(100),
-	PlnnrCde			       varchar(100),
-	PlanFmly			       varchar(100),
-	DRP					  varchar(100),
+	PlnnrCde			     varchar(100),
+	PlanFmly			     varchar(100),
+	DRP					     varchar(100),
 	InvCat				     varchar(100),
-	ReportGrp			        varchar(100),
+	ReportGrp			     varchar(100),
 	NonStk				     varchar(100),
 	CurCod				     varchar(100),
 	ForeignPrice		    decimal(18,2),
 	AUDPrice			    decimal(18,2),
 	ListPrice			    decimal(18,2),
-	UOM					  varchar(100),
-	ConvUOM				   varchar(100),
-	ConversionFactor	   decimal(18,3),
+	UOM					    varchar(100),
+	ConvUOM				    varchar(100),
+	ConversionFactor	    decimal(18,3),
 	RelUM				    varchar(100),
-	OrderMultiples		     decimal(18,2),        
+	OrderMultiples		    decimal(18,2),        
 	LeadtimeLevel		    decimal(18,2),        
 	DutyC				    varchar(100),
 	DutyR				    decimal(18,2),
 	DistC				    varchar(100),
 	DistR				    decimal(18,2),
-	FreightC			     varchar(100),
-	FreightR			     decimal(18,2),
-	WfageC				     varchar(100),
-	WfageR				     decimal(18,2),
-	PurchC				     varchar(100),
-	PurchR				     decimal(18,2),
+	FreightC			    varchar(100),
+	FreightR			    decimal(18,2),
+	WfageC				    varchar(100),
+	WfageR				    decimal(18,2),
+	PurchC				    varchar(100),
+	PurchR				    decimal(18,2),
 	UnmappedCostType	    varchar(100),
-	IsCd				   varchar(100),
+	IsCd				    varchar(100),
 	ToolC				    varchar(100),
 	ToolR				    decimal(18,2),
-	ToolDepC			     varchar(100),
-	ToolDepR			     decimal(18,2),
-	ReallC				     varchar(100),
-	ReallR				     decimal(18,2),
+	ToolDepC			    varchar(100),
+	ToolDepR			    decimal(18,2),
+	ReallC				    varchar(100),
+	ReallR				    decimal(18,2),
 	CoreC				    varchar(100),
 	CoreR				    decimal(18,2),
 	CommC				    varchar(100),
 	CommR				    decimal(18,2),
 	MargC				    varchar(100),
 	MargR				    decimal(18,2),
-	StdCost				   decimal(18,2),   
+	StdCost				    decimal(18,2),   
 	Location			    varchar(100),   
-	QtyOnHand			     decimal(18,2),   
-	UOM1				   varchar(100),
-	StockValue			   decimal(18,2),
+	QtyOnHand			    decimal(18,2),   
+	UOM1				    varchar(100),
+	StockValue			    decimal(18,2),
 	OBSST				    varchar(100),
-	BOMRIG				     varchar(100),
-	STKDIS				     varchar(100),
-	ROP					  decimal(18,2),
-	SS					 decimal(18,2),
-	MOQ					  decimal(18,2),
-	OP					 decimal(18,2),
+	BOMRIG				    varchar(100),
+	STKDIS				    varchar(100),
+	ROP					    decimal(18,2),
+	SS					    decimal(18,2),
+	MOQ					    decimal(18,2),
+	OP					    decimal(18,2),
 	EndDate				    int,
-	ECONumber			   varchar(100),
-	CycleCount			  varchar(100)
+	ECONumber			    varchar(100),
+	CycleCount			    varchar(100)
 
   )  
 --GO	
@@ -710,43 +717,43 @@ select * from JDE_DB_Alan.Master_ML345
 ----- This is the one ------
 CREATE TABLE JDE_DB_Alan.Master_ML345				-- you probably need to allow cost,salesprice to be null since people might not enter these values in JDE in its first place -- 1/3/2018
    ( 
-	 BU					 	varchar(100)
-	,ItemNumber				 varchar(100) not null
-	,Description			 varchar(100)
-	,ShortItemNumber		 varchar(100) not null -- primary key
-	,StockingType			 varchar(100)
-	,GLCat					varchar(100)
-	,LineType				varchar(100)
-	,PackQty				decimal(18,6)						-- added 29/3/2019	
-	,MfgUnit				varchar(100)						-- added 29/3/2019
-	,PrimUM				    varchar(100)						-- added 29/3/2019
-	,PurchUM				varchar(100)						-- added 29/3/2019
-	,PricingUM			    varchar(100)						-- added 29/3/2019
-	,ProdUM				    varchar(100)						-- added 29/3/2019	
-	,CompUM				    varchar(100)						-- added 29/3/2019		
-	,Colour					varchar(100)						-- added 29/3/2019
-	,PlannerNumber		   varchar(100)
-	,PrimarySupplier	   varchar(100)
-	--,MaxDisc				decimal(18,6)							-- deleted this field 30/11/2019 by Dan Ross
-	,ManFC					varchar(100)
-	,FamilyGroup			varchar(100)
-	,Family					varchar(100)
-	,SellingGroup			varchar(100)
-	,LocalImport			varchar(100)						-- added 03/8/2020	
-	,InvCat					varchar(100)
-	,NonStk					varchar(100)
-	,WholeSalePrice			decimal(18,6)
-	,UOM					varchar(100)
-	,ConvUOM				  varchar(100)						-- added 29/3/2019
-	,ConversionFactor		  decimal(18,6)						-- added 29/3/2019
-	,LeadtimeLevel			 decimal(18,6)
-	,StandardCost			decimal(18,6)
-	,QtyOnHand				decimal(18,6)
-	,StockValue				 decimal(18,6)
-	--,SS					decimal(18,6)					    -- deleted this field 30/11/2019 by Dan Ross
-	--,MOQ					decimal(18,6)						-- deleted this field 30/11/2019 by Dan Ross
-	,ECONumber				varchar(100)
-	,CycleCount				varchar(100)						-- added 03/8/2020			
+	 BU					 		varchar(100)
+	,ItemNumber					varchar(100) not null
+	,Description				varchar(100)
+	,ShortItemNumber			varchar(100) not null -- primary key
+	,StockingType				varchar(100)
+	,GLCat						varchar(100)
+	,LineType					varchar(100)
+	,PackQty					decimal(18,6)						-- added 29/3/2019	
+	,MfgUnit					varchar(100)						-- added 29/3/2019
+	,PrimUM						varchar(100)						-- added 29/3/2019
+	,PurchUM					varchar(100)						-- added 29/3/2019
+	,PricingUM					varchar(100)						-- added 29/3/2019
+	,ProdUM						varchar(100)						-- added 29/3/2019	
+	,CompUM						varchar(100)						-- added 29/3/2019		
+	,Colour						varchar(100)						-- added 29/3/2019
+	,PlannerNumber				varchar(100)
+	,PrimarySupplier			varchar(100)
+	--,MaxDisc					decimal(18,6)							-- deleted this field 30/11/2019 by Dan Ross
+	,ManFC						varchar(100)
+	,FamilyGroup				varchar(100)
+	,Family						varchar(100)
+	,SellingGroup				varchar(100)
+	,LocalImport				varchar(100)						-- added 03/8/2020	
+	,InvCat						varchar(100)
+	,NonStk						varchar(100)
+	,WholeSalePrice				decimal(18,6)
+	,UOM						varchar(100)
+	,ConvUOM					varchar(100)						-- added 29/3/2019
+	,ConversionFactor			decimal(18,6)						-- added 29/3/2019
+	,LeadtimeLevel				decimal(18,6)
+	,StandardCost				decimal(18,6)
+	,QtyOnHand					decimal(18,6)
+	,StockValue					 decimal(18,6)
+	--,SS						decimal(18,6)					    -- deleted this field 30/11/2019 by Dan Ross
+	--,MOQ						decimal(18,6)						-- deleted this field 30/11/2019 by Dan Ross
+	,ECONumber					varchar(100)
+	,CycleCount					varchar(100)						-- added 03/8/2020			
 	
 	,ItemCreateDate			varchar(100)						-- added 3/12/2019
 	,WMSItem				varchar(100)						-- added 3/12/2019
@@ -779,33 +786,41 @@ create clustered index i1 on JDE_DB_Alanbulk
 ALTER INDEX i1 ON JDE_DB_Alan.Master_ML345  DISABLE;
 ALTER INDEX i1 ON JDE_DB_Alan.Master_ML345  REBUILD;
 
+drop table JDE_DB_Alan.Master_ML345_temp
+select * from JDE_DB_Alan.Master_ML345_temp
+
+select * from JDE_DB_Alan.Master_ML345 a 
+select * from JDE_DB_Alan.Master_ML345_tmp a 
+
+
+select * into JDE_DB_Alan.Master_ML345_tmp from JDE_DB_Alan.Master_ML345
 CREATE TABLE JDE_DB_Alan.Master_ML345_temp
    ( 
-	 BU				varchar(100),
-	ItemNumber      varchar(100) not null,
-	Description      varchar(100),
-	ShortItemNumber	 varchar(100) not null,
-	StockingType      varchar(100),
-	GLCat			varchar(100),
-	LineType		varchar(100),
-	PlannerNumber      varchar(100),
-	PrimarySupplier    varchar(100),
-	MaxDisc			decimal(18,6),
-	ManFC			varchar(100),
-	FamilyGroup		varchar(100),
-	Family			varchar(100),
-	SellingGroup	varchar(100),
-	InvCat			varchar(100),
-	NonStk			varchar(100),
-	WholeSalePrice	decimal(18,6),
-	UOM				varchar(100),
-	LeadtimeLevel   decimal(18,6),
-	StandardCost	decimal(18,6),
-	QtyOnHand      decimal(18,6),
-	StockValue      decimal(18,6),
-	SS				decimal(18,6),
-	MOQ				decimal(18,6),
-	ECONumber      varchar(100)
+	 BU						varchar(100),
+	ItemNumber				varchar(100) not null,
+	Description				varchar(100),
+	ShortItemNumber			varchar(100) not null,
+	StockingType			varchar(100),
+	GLCat					varchar(100),
+	LineType				varchar(100),
+	PlannerNumber			varchar(100),
+	PrimarySupplier			varchar(100),
+	MaxDisc					decimal(18,6),
+	ManFC					varchar(100),
+	FamilyGroup				varchar(100),
+	Family					varchar(100),
+	SellingGroup			varchar(100),
+	InvCat					varchar(100),
+	NonStk					varchar(100),
+	WholeSalePrice			decimal(18,6),
+	UOM						varchar(100),
+	LeadtimeLevel			decimal(18,6),
+	StandardCost			decimal(18,6),
+	QtyOnHand				decimal(18,6),
+	StockValue				decimal(18,6),
+	SS						decimal(18,6),
+	MOQ						decimal(18,6),
+	ECONumber      			varchar(100)
 
 	,constraint ck_illegal_char_ check(charindex(',',Description)=0 )
 	)
@@ -820,8 +835,8 @@ CREATE TABLE JDE_DB_Alan.Master_ML345_old
 	 SellingGroup		varchar(100),
 	 FamilyGroup		varchar(100),
 	 Family				varchar(100),
-	 StandardCost	decimal(18,6),	
-	 WholeSalePrice	decimal(18,6)	
+	 StandardCost		decimal(18,6),	
+	 WholeSalePrice		decimal(18,6)	
   )  
 --GO	
 
@@ -834,8 +849,8 @@ CREATE TABLE JDE_DB_Alan.Master_ML345_test
 	 SellingGroup		varchar(100),
 	 FamilyGroup		varchar(100),
 	 Family				varchar(100),
-	 StandardCost	decimal(18,6),	
-	 WholeSalePrice	decimal(18,6)	
+	 StandardCost		decimal(18,6),	
+	 WholeSalePrice		decimal(18,6)	
   )  
 --GO	
 
@@ -882,7 +897,7 @@ select * from JDE_DB_Alan.Master_V4102A p
 CREATE TABLE JDE_DB_Alan.Master_V4102A					--- planning Master			
    ( 
 	
-	 Business_Unit             varchar(100)
+	 Business_Unit            varchar(100)
 	,Short_Item_Number        varchar(100)				 --- primary key
 	,Item_Number              varchar(100)				not null
 
@@ -908,34 +923,34 @@ CREATE TABLE JDE_DB_Alan.Master_V4102A					--- planning Master
 	,Origin_Country            varchar(100)
 
 	,ROP                       decimal(18,6)			-- ROP value ? Yes !
-	,Reorder_Quantity           decimal(18,6)			-- EOQ
+	,Reorder_Quantity          decimal(18,6)			-- EOQ
 	,Reorder_Qty_Max           decimal(30,6)
 	,Reorder_Qty_Min           decimal(30,6)
 	,Order_Multiples           decimal(18,6)
 	,Srvc_Lvl                  varchar(100)
-	--,Safety_Stock              decimal(18,6)			--- is this field ( SS ) populated field ? Yes ! , this is safety stock in Jde ( updated last time ), waiting for updated next time, but is current value in Jde -- 17/3/2021
-	,SS_Adj_Jde              decimal(18,6)				--- name changed 17/3/2021
-	,Shelf_Days               decimal(18,6)
-	,C_A                      varchar(100)
+	--,Safety_Stock            decimal(18,6)			--- is this field ( SS ) populated field ? Yes ! , this is safety stock in Jde ( updated last time ), waiting for updated next time, but is current value in Jde -- 17/3/2021
+	,SS_Adj_Jde                decimal(18,6)				--- name changed 17/3/2021
+	,Shelf_Days                decimal(18,6)
+	,C_A                       varchar(100)
 	,LC_Src                    varchar(100)
-	,Lot_Stat_Code            varchar(100)
-	,P_C                      varchar(100)
+	,Lot_Stat_Code             varchar(100)
+	,P_C                       varchar(100)
 	,G_C                       varchar(100)
-	,Item_Group               varchar(100)			    --- Item price group 
-	,Back_Y_N                varchar(100)
-	,It_Mg                    varchar(100)
+	,Item_Group                varchar(100)			    --- Item price group 
+	,Back_Y_N                  varchar(100)
+	,It_Mg                     varchar(100)
 
-	,ABC_1_Sls               varchar(100)
-	,ABC_2_Mrg               varchar(100)
-	,ABC_3_Inv               varchar(100)
+	,ABC_1_Sls                varchar(100)
+	,ABC_2_Mrg                varchar(100)
+	,ABC_3_Inv                varchar(100)
 	,ABC_Ovrride              varchar(100)
 	,Carrier_Number           varchar(100)
 	,Stocking_Type            varchar(100)   not null
 	,Ln_Ty                    varchar(100)
 	,FIFO_Pricessing          varchar(100)
-	,Cyc_Cnt                   varchar(100)
+	,Cyc_Cnt                  varchar(100)
 
-	--,Planning_Code             varchar(100)				--- planning code
+	--,Planning_Code           varchar(100)				--- planning code
 	,Planning_Code             decimal(18,6)				--- planning code
 
 	,Dsp_Cod                   decimal(18,6)
@@ -947,19 +962,19 @@ CREATE TABLE JDE_DB_Alan.Master_V4102A					--- planning Master
 	,Leadtime_MFG              decimal(18,6)
 	,InTransit_Days            decimal(18,6)			--- in transit days ( related to lead time )
 
-	,Order_Policy              decimal(18,6)
+	,Order_Policy               decimal(18,6)
 	,Order_Policy_Value         decimal(18,6)
 	,MFG_Leadtime_Quantity      decimal(18,6)
 	,Leadtime_Per_Unit          decimal(18,6)
 
-	,T_F                       varchar(100)				--- Planning Fence rule
-	,FV_Lt                     varchar(100)			--- Lead time fixed or variable
+	,T_F                        varchar(100)				--- Planning Fence rule
+	,FV_Lt                      varchar(100)			--- Lead time fixed or variable
 
-	,IsCd                     varchar(100)
-	,ECO_Number               varchar(100)
+	,IsCd                      varchar(100)
+	,ECO_Number                varchar(100)
 	,Change_Date			   datetime			--- date time
 
-	--,Plan_Time_Fence             varchar(100)			--- Planning Time Fence value			
+	--,Plan_Time_Fence         varchar(100)			--- Planning Time Fence value			
 
 	,Plan_Time_Fence             decimal(18,6)			--- Planning Time Fence value			---9/3/2021
 	,Frz_Time_Fence              decimal(18,6)			--- Freeze Fence
@@ -973,18 +988,18 @@ CREATE TABLE JDE_DB_Alan.Master_V4102A					--- planning Master
 	,Work_Stn_ID                 varchar(100)
    --,Date_Updated				  -- varchar(100)		
 	,Date_Updated                 datetime				--- date time
-	,Time_of_Day                 varchar(100)
-	,St_UM                       varchar(100)
+	,Time_of_Day                  varchar(100)
+	,St_UM                        varchar(100)
 	,Best_Before_Days             decimal(18,6)
 	,Commitment_Date_Method       decimal(18,6)
 	,Exp_Date_Calc_Method         decimal(18,6)
 	,Lot_Effective_Days           decimal(18,6)
 	,Mix_DL                       varchar(100)
-	,Sell_By_Days                  decimal(18,6)
-	,Purch_Eff_Days                decimal(18,6)
-	,Sellable_Item                 varchar(100)
+	,Sell_By_Days                 decimal(18,6)
+	,Purch_Eff_Days               decimal(18,6)
+	,Sellable_Item                varchar(100)
 		
-	,ReportDate			    datetime default(getdate())			-- 
+	,ReportDate					  datetime default(getdate())			-- 
 	
 	,constraint PK_ShortItem_Planning_master	primary key (Short_Item_Number)
 	--,constraint ck_illegal_char check(charindex(',',Description)=0 )
@@ -1001,14 +1016,14 @@ CREATE TABLE JDE_DB_Alan.PO_All_Staging					--- PO All with data type set as var
 	,Business_Unit                 varchar(100)
 	,Order_Number                  varchar(100)
 	,Item_Number                   varchar(100)
-	,Descrip						 varchar(100)
-	,Short_Item_No                  varchar(100)
+	,Descrip					   varchar(100)
+	,Short_Item_No                 varchar(100)
 	,Or_Ty                         varchar(100)
-	,Line_Number                    varchar(100)
+	,Line_Number                   varchar(100)
 	,Address_Number                varchar(100)
 	,Ship_To_Number                varchar(100)
 	,Buyer_Number                  varchar(100)
-	,Account_ID                     varchar(100)
+	,Account_ID                    varchar(100)
 	,UM                            varchar(100)
 	,Quantity_Open                 varchar(100)
 	,Amount_Open_1                 varchar(100)
@@ -1016,29 +1031,27 @@ CREATE TABLE JDE_DB_Alan.PO_All_Staging					--- PO All with data type set as var
 	,Currency_Code                 varchar(100)
 	
 	,Order_Date                    varchar(100)
-	,Request_Date                   varchar(100)
+	,Request_Date                  varchar(100)
 	,Original_Promised_Date        varchar(100)
 	,G_L_Date                      varchar(100)
-	,Cancel_Date                    varchar(100)
+	,Cancel_Date                   varchar(100)
 	
 	,Last_Stat                     varchar(100)
-	,Next_Stat                      varchar(100)
-	,Transaction_Originator         varchar(100)
+	,Next_Stat                     varchar(100)
+	,Transaction_Originator        varchar(100)
 	,Third_Item_Number             varchar(100)
 	,Ln_Ty                         varchar(100)
 	,Quantity_Ordered              varchar(100)
 	,Related_PO_SO_No              varchar(100)
-	,Rel_Ord_Type                 varchar(100)
-	,Related_PO_SO_Line_No        varchar(100)
-
-
+	,Rel_Ord_Type                  varchar(100)
+	,Related_PO_SO_Line_No         varchar(100)
 	
-	,Extended_Price              varchar(100)
-	,Foreign_Extended_Price      varchar(100)
+	,Extended_Price               varchar(100)
+	,Foreign_Extended_Price       varchar(100)
 	,Unit_Cost                    varchar(100)
-	,Foreign_Unit_Cost           varchar(100)
+	,Foreign_Unit_Cost            varchar(100)
 
-	,Actual_Ship_Date              varchar(100)	
+	,Actual_Ship_Date             varchar(100)	
 	
 	,Related_Item_No              varchar(100)
 	,Shipment_Number              varchar(100)
@@ -1046,7 +1059,7 @@ CREATE TABLE JDE_DB_Alan.PO_All_Staging					--- PO All with data type set as var
 	,Sched_Pick                   varchar(100)
 	,User_Reference               varchar(100)
 
-	--,ReportDate			    datetime default(getdate())			
+	--,ReportDate			     datetime default(getdate())			
 	
 	,constraint PK_ShortItem_PO_All_Staging	primary key (Short_Item_No,Order_Number,Line_Number)
 
@@ -1204,8 +1217,8 @@ CREATE TABLE JDE_DB_Alan.Master_V4102A_test					--- planning Master
 
 	,ROP                       decimal(18,6)
 	,Reorder_Quantity           decimal(18,6)
-	,Reorder_Qty_Max           decimal(30,6)
-	,Reorder_Qty_Min           decimal(30,6)
+	,Reorder_Qty_Max           decimal(30,6)				--- decimal(30,6)
+	,Reorder_Qty_Min           decimal(30,6)				--- decimal(30,6)
 	,Order_Multiples           decimal(18,6)
 	,Srvc_Lvl                  varchar(100)
 	,Safety_Stock              decimal(18,6)
@@ -1491,8 +1504,8 @@ CREATE TABLE JDE_DB_Alan.HD_WorkCenter
 
 select * from JDE_DB_Alan.HD_WorkCenter_Staging
 drop table JDE_DB_Alan.HD_WorkCenter_Staging												--- 21/5/2021
-CREATE TABLE JDE_DB_Alan.HD_WorkCenter_Staging								--- Staging table or / Stage.table is raw data table
-   ( 
+CREATE TABLE JDE_DB_Alan.HD_WorkCenter_Staging								--- Staging table or / Stage.table is raw data table; tb data is updated @1/11/21 with old Textile - 712 SKUs + Metal work center SKUs ( 971 SKUs -CTL SKU - 'K' item , Warehouse lable SKUs etc ) = 1,683 SKUs     --- 1/11/2021
+   (																		--- Staging table or / Stage.table is raw data table; tb data is updated @2/11/21 with old Textile - 712 SKUs + Metal work center SKUs ( 928 SKUs -CTL SKU - 'K' item , Warehouse lable SKUs etc ) = 1,640 SKUs		--- 2/11/2021
      BU						varchar(100) NOT NULL, 
 	 ShortItemNumber		varchar(100) NOT NULL, 
 	 ItemNumber				varchar(100) NOT NULL,
@@ -1518,7 +1531,26 @@ CREATE UNIQUE CLUSTERED INDEX IDX_V1
    ON JDE_DB_Alan.vw_HD_WorkCenter (ShortItemNumber);
 GO
 
+select * from JDE_DB_Alan.HD_WorkCenter_Staging_old
+drop table JDE_DB_Alan.HD_WorkCenter_Staging_old								--- 01/11/2021
+CREATE TABLE JDE_DB_Alan.HD_WorkCenter_Staging_old								--- Staging table or / Stage.table is raw data table
+   ( 
+     BU						varchar(100) NOT NULL, 
+	 ShortItemNumber		varchar(100) NOT NULL, 
+	 ItemNumber				varchar(100) NOT NULL,
+	 EffectiveFrom			datetime,		
+	 EffectiveThru			datetime,
+	 WorkCenterCode			varchar(1000) not null,
+	 WorkCenterName			varchar(100) not null,
+	 WorkCenterGroupCode	varchar(100) not null,
+	 WorkCenterGroupName	varchar(100) not null,
+	 --Item_Status		varchar(100),	 						
+	 ReportDate			datetime default(getdate()),
+	 constraint PK_HDWCItm primary key (BU,ShortItemNumber,WorkCenterName)
+  )  
 
+  
+  insert into JDE_DB_Alan.HD_WorkCenter_Staging_old select * from JDE_DB_Alan.HD_WorkCenter_Staging
 
 ----------------- Transaction Data Tabel Below   --------------------------
 
@@ -1629,18 +1661,34 @@ CREATE TABLE JDE_DB_Alan.FCPRO_MI_tmp
 select * from JDE_DB_Alan.FCPRO_MI_tmp
 
 
-
-CREATE TABLE JDE_DB_Alan.JDE_Fcst_DL								-- JDE forecast download table			1/5/2018
+drop table JDE_DB_Alan.Jde_Fcst_DL										-- JDE forecast download table			1/5/2018
+drop table JDE_DB_Alan.Jde_Fcst_Download
+select * from JDE_DB_Alan.Jde_Fcst_Download	
+CREATE TABLE JDE_DB_Alan.Jde_Fcst_Download								-- JDE forecast download table			18/3/2022
 (       
-		ShortItemNunber		varchar(100),
-		BU					varchar(100),
-		DataType_1			varchar(100),
-		Date				datetime,
-		Qty					decimal(18,12),		
-		ItemNumber			varchar(100),	
-		DataType_2			varchar(100),
-		Bypass_Forcing		varchar(100),				
-		ReportDate			datetime default(getdate())
+		
+	BU					varchar(100)	
+	,ShortItemNumber	varchar(100)
+	,ItemNumber			varchar(100)
+	,Jde_Request_Date		datetime
+	,Jde_FC_Value			decimal(18,12)	
+	,Data_Type		    varchar(100)
+	,FC_Type	        varchar(100)
+	,Bypass_Forcing		varchar(100)				
+	,JdeFC_ReportDate			datetime default(getdate())
+)
+
+select * from JDE_DB_Alan.vw_SafetyStock a where a.ItemNumber in ('87.001.001','87.502.001','87.100.001')
+select * from JDE_DB_Alan.FCPRO_SafetyStock a where a.ItemNumber in ('87.001.001','87.502.001','87.100.001')
+select * from JDE_DB_Alan.vw_Mast a where a.ItemNumber in ('87.001.001','87.502.001','87.100.001','7126070000')
+
+
+CREATE TABLE JDE_DB_Alan.JDE_SafetyStock_Download				-- JDE safety stock download table		21/3/2022  -- no need just use 'vw_Mast' ( which combine data of 4102A table) or use 'vw_Mast_planning' or just 'Master_4102A'  table which has Jde SS
+(     		
+
+	ItemNumber				 varchar(100)
+	,Jde_SS_Value			 decimal(18,12)
+	,JdeFC_ReportDate		 datetime default(getdate())
 )
 
 
@@ -1702,12 +1750,11 @@ CREATE TABLE JDE_DB_Alan.FCPRO_SafetyStock
 		StandardCost					decimal(18,6),
 
 		Order_Policy					 decimal(18,6),
-		Order_Policy_Description		varchar(100),	
-		Planning_Code					decimal(18,6),
-		Planning_Code_Description		varchar(100),	
-		Planning_Fence_Rule				varchar(100),	
-		Planning_Fence_Rule_Description		varchar(100),	
-
+		Order_Policy_Description		 varchar(100),	
+		Planning_Code					 decimal(18,6),
+		Planning_Code_Description		 varchar(100),	
+		Planning_Fence_Rule				 varchar(100),	
+		Planning_Fence_Rule_Description	 varchar(100),	
 
 		--Date_Updated	    datetime,		
 		ReportDate			datetime default(getdate()),
@@ -2066,6 +2113,7 @@ alter table JDE_DB_Alan.FCPRO_Fcst drop constraint [DF__FCPRO_Fcs__Repor__3FD078
 select GETDATE()
 
 
+select top 3 a.* from JDE_DB_Alan.SlsHist_Excp_FCPro_upload a
 
 drop table JDE_DB_Alan.SlsHist_Excp_FCPro_upload
 CREATE TABLE JDE_DB_Alan.SlsHist_Excp_FCPro_upload
@@ -2074,8 +2122,8 @@ CREATE TABLE JDE_DB_Alan.SlsHist_Excp_FCPro_upload
 		ItemNumber			varchar(100)      not null,
 		Description			varchar(100) , 
 		Date				int not null,		
-		Value_Sls_Old		decimal(18,12),	
-		Value_Sls_Adj		decimal(18,12),
+		Value_Sls_Old		decimal(18,6),	
+		Value_Sls_Adj		decimal(18,6),
 		ValidStatus			varchar(100),						-- if valid then active , for record keeping purpose	
 		Date_Updated		datetime,		
 		ReportDate			datetime default(getdate()),
@@ -2242,33 +2290,38 @@ CREATE TABLE JDE_DB_Alan.SlsHistoryRM
 --GO
 
 
+select * from JDE_DB_Alan.StkAvailability
+drop table JDE_DB_Alan.StkAvailability				--Old
+CREATE TABLE JDE_DB_Alan.StkAvailability			--New		--21/7/2022
+drop table JDE_DB_Alan.Item_Availability
 
-drop table JDE_DB_Alan.StkAvailability
-CREATE TABLE JDE_DB_Alan.StkAvailability
+select * from JDE_DB_Alan.Jde_Item_Availability
+drop table JDE_DB_Alan.Jde_Item_Availability
+CREATE TABLE JDE_DB_Alan.Jde_Item_Availability				--- roughly 170,000 records & 24 columns
    ( 
-    Short_Item_No                    char(100),
-	Business_Unit                    char(100),
-	Location_                        char(100),
-	Lot_Serial_Number                int,
+    Short_Item_Num                   char(100),
+	Business_Unit                    char(100),		
 	Primary_Location                 char(100),
+	Location_                        char(100),
+	Lot_Serial_Number                char(100),				--- int ?? a lot item has empty space
 	Lot_Stat_Code                    char(100),
-	QTY_On_Hand                      decimal(18,2),
+	QTY_On_Hand                      decimal(18,2),	
+	QTY_On_PO                        decimal(18,2),			--- supply future PO in pipeline
+	QTY_On_WO_Or_RC                  decimal(18,2),
 	QTY_Backordered                  decimal(18,2),
-	QTY_On_PO                      decimal(18,2),
-	QTY_On_WO_RC                     decimal(18,2),
 	QTY_On_other_1                   decimal(18,2),
 	QTY_On_Other_2                   decimal(18,2),
 	QTY_on_Other_PO                  decimal(18,2),
 	QTY_Hard_Committed               decimal(18,2),
 	Qty_Soft_Committed               decimal(18,2),
-	QTY_On_Future                    decimal(18,2),
-	WO_Soft_Commit                   decimal(18,2),
-	Qty_Hard_Committed_WO            decimal(18,2),
+	QTY_On_Future                    decimal(18,2),			--- customer demand on fuutre ?
+	Qty_Soft_Commit_WO               decimal(18,2),
+	Qty_Hard_Commit_WO            decimal(18,2),
 	QTY_In_Transit                   decimal(18,2),
 	QTY_In_Inspection                decimal(18,2),
 	QTY_In_Operation_1               decimal(18,2),
 	QTY_In_Operation_2               decimal(18,2),
-	Last_Rcpt_Date                   datetime,
+	Last_Receipt_Date                datetime,
 	--_2nddry_QTY_Hard_Committed        decimal(18,2),
 	--_2nddry_QTY_Soft_Committed        decimal(18,2),
 	--_2nddry_QTY_On_Hand               decimal(18,2),
@@ -2281,10 +2334,12 @@ CREATE TABLE JDE_DB_Alan.StkAvailability
 	--Unique_Configuration_ID           int
 	Reportdate						  datetime default(getdate())
 
+	,constraint PK_ShortItemNum_Item_Availability	primary key (Short_Item_Num,Business_Unit,Primary_Location,Location_,Lot_Serial_Number)
+
   )  
 --GO	
 
-ALTER TABLE JDE_DB_Alan.StkAvailability
+ALTER TABLE JDE_DB_Alan.Item_Availability
 ADD Reportdate datetime;
 
 drop table JDE_DB_Alan.OpenPO
@@ -2522,6 +2577,48 @@ CREATE TABLE JDE_DB_Alan.Textile_ItemCrossRef
    )
 
 
+drop table JDE_DB_Alan.ActionMsg
+CREATE TABLE JDE_DB_Alan.ActionMsg
+   ( 
+	
+	 Item_Number					varchar(100) 
+	,Short_Item_Num_3411		varchar(100) 
+	,Short_Item_Num_4102		varchar(100) 
+	,Unique_Key_ID				varchar(100) 
+	,Business_Unit_F4102		varchar(100) null
+	,Business_Unit_F3411		varchar(100) null
+	,Branch						varchar(100) null
+	,Msg_Typ					varchar(100) null
+	,A_C						varchar(100) null
+	,H_C						varchar(100) null
+	,Order_Co					varchar(100) null
+	,Order_Number				varchar(100) null
+	,Or_Ty						varchar(100) null
+	,Description				varchar(100) null
+	,Trans_QTY					decimal(30,2) null
+	,Primary_Supplier			varchar(100) null
+	,Request_Date				datetime null
+	,Start_Date					datetime null
+	,Date_Updated				datetime null
+	,Plan_Fmly					varchar(100) null
+	,Planner_Number				varchar(100) null
+	,Buyer_Number				varchar(100) null
+	,Stocking_Type				varchar(100) null
+	,Leadtime_Level				decimal(18,6) null
+	,FV_Lt						varchar(100) null
+	,Msg_Time_Fence				decimal(18,6) null
+	,Time_Basis					varchar(100) null
+	,Recom_Eff_Date				datetime null
+	,Orig_Eff_Date				datetime null
+	,Source_Demang				varchar(100) null
+
+	
+	,Reportdate					datetime default(getdate())	
+    constraint PK_ActionMsg primary key (Short_Item_Num_4102,Unique_Key_ID,Reportdate)
+   )
+
+select * from JDE_DB_Alan.ActionMsg
+delete from JDE_DB_Alan.ActionMsg
 
 --=============================== Data --==============================================================
 -------------------------- bulk insert for Master Data ---------------------------------------------
@@ -2704,7 +2801,7 @@ delete from JDE_DB_Alan.MasterFamilyGroup
 delete fJDE_DB_Alan.Master_V4102Arom JDE_DB_Alan.MasterMTLeadingZeroItemList 
 delete from JDE_DB_Alan.MasterSupplier
 delete from JDE_DB_Alan.Textile_ItemCrossRef
-delete from 
+delete from JDE_DB_Alan.HD_WorkCenter_Staging
 
 --bulk insert JDE_DB_Alan.JDE_Fcst
 --bulk insert JDE_DB_Alan.Master_ItemCrossRef
@@ -2713,18 +2810,21 @@ delete from
  --BULK INSERT JDE_DB_Alan.MasterFamily
  --BULK INSERT JDE_DB_Alan.Master_ML345
  -- BULK INSERT JDE_DB_Alan.Textile_ItemCrossRef
- --BULK INSERT JDE_DB_Alan.MasterSupplier
+ BULK INSERT JDE_DB_Alan.MasterSupplier
 --BULK INSERT JDE_DB_Alan.Master_UOMConversion
 -- BULK INSERT JDE_DB_Alan.Master_ML345
 -- BULK INSERT JDE_DB_Alan.MasterPrices
 --  BULK INSERT JDE_DB_Alan.MasterMTSuperssionItemList
  --BULK INSERT JDE_DB_Alan.MasterMTLeadingZeroItemList
-  BULK INSERT JDE_DB_Alan.Master_V4102A
+  --BULK INSERT JDE_DB_Alan.Master_V4102A
+--  bulk insert JDE_DB_Alan.HD_WorkCenter_Staging
+
     --  from 'C:\Alan_GWA_C\Work\ImportData.csv'
     -- from 'E:\ImportDataa.txt'
 
   -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_V4102A\Master_JDE_Item_Branch_V4102A_Template.csv'
-     from  'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_V4102A\test.txt'
+--from  'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_V4102A\test.txt'
+ --from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_DemandPlanning\HD_Mismatch_Analysis\Rough_Cut_Capacity_Planning_Data_Template\Jde_P30202_HD_Work_Center_Raw_Data_Template_CSV_02_11_2021.csv'
 
 -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_R55ML345.csv'
  --  from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_R55ML345_HD_2017_11_CSV.csv'			-- use this one
@@ -2740,7 +2840,8 @@ delete from
   --  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\Master_Hierarchy_ETC\HierarchyMaster_Family_CSV.csv'
   --  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Supplier_Summary.csv'
 
-  --    from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_Vendor.csv'
+     -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_Vendor.csv'
+	  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\Master_Supplier\Master_Vendor_2020.csv'  
 	  -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Master_Data_Download\UOM_Conversion.csv'
 --	 from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Report_HD_Conversions_CSV.csv'
  -- from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\Master_Hierarchy_ETC\Master_Bricos_MT_SuperssionItems_CSV.csv'
@@ -2791,6 +2892,7 @@ select count(*) TTL_Record, count(distinct x.ItemNumber) TTL_UniqueItem from JDE
  delete from JDE_DB_Alan.FCPRO_NP_tmp
  delete from JDE_DB_Alan.FCPRO_MI_tmp
  delete from JDE_DB_Alan.SlsHist_Excp_FCPro_upload
+ delete from JDE_DB_Alan.FCPRO_SafetyStock_Excp
 
  --Bulk insert JDE_DB_Alan.FCPRO_Fcst_downloaded
  --bulk insert JDE_DB_Alan.StkAvailability
@@ -2801,9 +2903,9 @@ select count(*) TTL_Record, count(distinct x.ItemNumber) TTL_UniqueItem from JDE
   --BULK INSERT JDE_DB_Alan.SlsHistoryHD
    -- Bulk insert JDE_DB_Alan.FCPRO_Fcst
   --  Bulk insert JDE_DB_Alan.SlsHistoryRM
-	--Bulk insert JDE_DB_Alan.SlsHist_Excp_FCPro_upload
-	--Bulk insert JDE_DB_Alan.FCPRO_SafetyStock_Excp
-	Bulk insert JDE_DB_Alan.PO_All_Staging
+	Bulk insert JDE_DB_Alan.SlsHist_Excp_FCPro_upload
+	Bulk insert JDE_DB_Alan.FCPRO_SafetyStock_Excp
+	--Bulk insert JDE_DB_Alan.PO_All_Staging
 
  -- bulk insert JDE_DB_Alan.FCPRO_NP_tmp
  -- bulk insert JDE_DB_Alan.FCPRO_MI_tmp
@@ -2813,11 +2915,15 @@ select count(*) TTL_Record, count(distinct x.ItemNumber) TTL_UniqueItem from JDE
    --from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\FC_Raw_Data\RI transactions MT since Jan15_CSV.csv'
   --from 'T:\Forecast Pro\Forecast Pro TRAC\Input\HD Branch Plant\archive\FC_Raw_Data\RI transactions HD since Jan15_CSV.csv'
   --from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Transaction_Data_Download\JDE_Transaction_IM_2\RawMaterial_SS_Nic_CSV.csv'
- -- from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Transaction_Data_Upload_To_SQL\HD_Sales_History_Temp_Exception_Data.csv'
+  --from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Transaction_Data_Upload_To_SQL\HD_Sales_History_Temp_Exception_Data.csv'
+  --from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Transaction_Data_Upload_To_SQL\HD_Sales_History_Temp_Exception_Data_May_2022.csv'
+
+
  --   from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_IT_DB\FC_Input\HD_Branch\JDE_Transaction_Data_Upload_To_SQL\HD_Sales_History_Temp_Exception_Data.xlsx'
 
   --from  'C:\Users\yaoa\Alan_HD\Alan_Work\HD_DemandPlanning\HD_Pareto_Safety_Stock_And_Inventory\SafetyStock_Exception_Temp.csv'
-    from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_DemandPlanning\HD_Pareto_Analysis\Supplier_Leadtime_Raw_Data_24_02_2021_Txt.txt'
+    from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_DemandPlanning\HD_Pareto_Analysis\SafetyStock_Analysis\SafetyStock_Exception_Temp.csv'
+  --  from 'C:\Users\yaoa\Alan_HD\Alan_Work\HD_DemandPlanning\HD_Pareto_Analysis\Supplier_Leadtime_Raw_Data_24_02_2021_Txt.txt'
    
   --from 'T:\s _ Supply Chain\archive\Inventory_By_Location_Template_CSV.csv'
   --from  'T:\Forecast Pro\Forecast Pro TRAC\Output\Hunter Douglas\FC_Pro_Fcst_upload_To_SQLSVR_CSV_Download_Template.csv'
@@ -3111,7 +3217,7 @@ delete from JDE_DB_Alan.SalesHistoryMT
 							  ,case  
 							        when sup.ConversionRate_UOM is null then con.Quantity
 									when sup.ConversionRate_UOM = 1 then con.Quantity							        
-									when sup.ConversionRate_UOM <> 1 then con.Quantity/sup.ConversionRate_UOM
+									when sup.ConversionRate_UvaOM <> 1 then con.Quantity/sup.ConversionRate_UOM
 									 end as fQuantity	
 
 						from con left join JDE_DB_Alan.MasterSuperssionItemList sup on con.ShortItemNum = sup.CurrentShortItemNumber		-- join by ShortItemNumber
@@ -3673,6 +3779,7 @@ select distinct m.LeadtimeLevel from JDE_DB_Alan.Master_ML345 m
 where m.PrimarySupplier in ('1454')
 
 
+
          ---22/03/2021 ---
    ---=============================================================================================
    ----- Query the SS ... --- will be carried out in Seperate SQL Query -- See code in 'Master_Code' .... Below is snippet from 'Master_Code' -- appox line 3600
@@ -3688,13 +3795,14 @@ where m.PrimarySupplier in ('1454')
 	 --5) Note 'Safety stock' table is appeneded/updated each month, so this table 'Safety sto;ck' has history of SS, be careful when query or update ( select/delete/update - DML command or create/drop/alter - DDL )
          
  
- with tb as ( 
+ ;with tb as ( 
 		
 				select ss.ItemNumber,ss.SS_Adj,m.StandardCost,isnull(ss.SS_Adj*m.StandardCost,0) as SS_Adj_Dollar,m.LeadtimeLevel
 				,m.PrimarySupplier,m.PlannerNumber,m.StockingType
 				,m.SellingGroup
 			    ,m.Owner_
 				,ss.Pareto
+			    ,m.SupplierName,m.familygroup,m.familygroup_
 				,sum(isnull(ss.SS_Adj*m.StandardCost,0)) over ( partition by m.PrimarySupplier) as SS_TTL_By_Vendor
 				,sum(isnull(ss.SS_Adj*m.StandardCost,0)) over ( partition by m.FamilyGroup) as SS_TTL_By_FGrp
 				,ss.ReportDate
@@ -3705,11 +3813,15 @@ where m.PrimarySupplier in ('1454')
 				-- where ss.ItemNumber in ('42.210.031')
 				-- where cte_.StockingType not in ('O','U') --and cte_.ItemNumber in ('36.241.855')  -- Q is BTO and M is MTO
 				 where m.StockingType not in ('O','U','Q','M') --and cte_.ItemNumber in ('36.241.855')  -- Q is BTO and M is MTO
-					  and m.SellingGroup in ('AD','TM','WC','FI')
+					  --and m.SellingGroup in ('AD','TM','WC','FI')
+					  and m.SellingGroup in ('WC')
 		 
 		    )
-
- select 'HD' as BU,a.ItemNumber,a.SS_Adj as SS_Qty,a.SS_Adj as SS_Qty_ImpersonatedOld,a.standardcost as Cost,a.SS_Adj_Dollar as SS_Dollars,a.LeadtimeLevel,a.PrimarySupplier,a.PlannerNumber,a.StockingType,a.SellingGroup,a.Owner_,a.Pareto
+ 
+ select 'HD' as BU,a.ItemNumber,a.SS_Adj as SS_Qty,a.SS_Adj as SS_Qty_ImpersonatedOld
+		--,a.standardcost as Cost
+		,a.SS_Adj_Dollar as SS_Dollars,a.LeadtimeLevel,a.PrimarySupplier,a.PlannerNumber,a.StockingType,a.SellingGroup,a.Owner_,a.Pareto
+		,a.Owner_,a.SupplierName,a.familygroup
 		--,case
 		--     when a.Pareto in ('A','B') then a.SS_Adj * 1.1
 		--	 when a.Pareto in ('C') then a.SS_Adj
@@ -3764,7 +3876,7 @@ select * from JDE_DB_Alan.vw_Mast_Planning m where m.Item_Number in ('42.210.031
 		,cte_.PrimarySupplier,cte_.PlannerNumber,cte_.StockingType
 		,cte_.SellingGroup
 		,case cte_.PlannerNumber 
-								--when '20071' then 'Domenic Cellucci'
+							  --when '20071' then 'Domenic Cellucci'
 								when '20071' then 'Rosie Ashpole'
 								when '20072' then 'Salman Saeed'
 								when '20004' then 'Margaret Dost'	
@@ -4788,32 +4900,42 @@ declare @ShortItemIDs table ( Ids varchar(8000) )
 		 order by fc_.Ids,fc_.Period_YMD_3
 
 
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1383681'			-- Has to use ShortItemNumber !
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1435743'			-- Has to use ShortItemNumber !
+
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1439980,1439998,1440008,1440016,1440024,1440032,1440041,1440059,1440067,1440075,1440083,1440091,1440104,1440112,1440121,1440139,1440147,1440155,1440163,1440171,1440180,1440198,1440201,1440219,1440227,1440235,1440243,1440251,1440260'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut  '1440067,1440075,1440083,1440091,1440104,1440112,1440121,1439980,1439998,1440008,1440016,1440032,1440041,1440155,1440147,1440198,1440227,1440171,1440219,1440163'
+
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1380480,1380498,1380501,1380519,1269888,1372295,741116,741255,1372367,741360,741378,867587,1269896,1372324,741415,741554,1372404,741669,741677,867528,1347372,1347381,1347399,1347364,1347356,1347401,1347410,1412461'
+
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1245309,1245368,1245392,1245350,1245421,1245317,1245384,1245341,1245448,1287007,1287031,1287023,1287040,1287015,1287058,1286987,1286936,1286979,1286961,1287138,1287162,1287154,1287171,1287146,1287189,1287111,1287066,1287082,1287103,1287091'			
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '746005,1371276'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1353289,1353254,1353191,1353182,1362716,1362724,1362732,1362759,1362791,1353211,1353078,1353115,1353086,1353060,1353094,1409131,1353019,1353051,1353027,1353001,1353035,1409123,1353131,1353174,1353140,1353123,1353158,1409158,1353271,1353262,1353246,1353203,1353220,1353238,1370636'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1383681,1383699'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1169879,1322052'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1072111,1088913,1141577,1141585'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1149940,1150529'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1150545,1150553'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1150553'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1420103'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1351208'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1424737'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1067194'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1437984,1437976,1437968,1437950,1437941,1437933,1437925,1437917,1437909,1437896,1437888,1437870,1437861,1438021,1438012,1438004,1437992'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '983537,1366400,1366418,1366426'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1425318,1425326,1425334,1425342,1425351,1425369,1425377,1425385,1425393,1425406'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1268885,1245430,1268869,1310537,1363428,1268973,1192593,1269061,954381,1333827,1333261,1363452,1157608,1268931,1352825,1386566,1363444,1407232,1367453,1077000,1075987,1363305,1268877,1352788,1363284,1269001,1157595,1388203,1269095,1045041,1299850,1363508,1268922,1363516,1363348,1370652,886286,1316656,1363292,1045091,1300726,1269116,886737,1379868,1316701,1367470,1316761,1363495,1268893,1363559,1352770,1363882,1363313,1404921,1404939,1404904,1379809,897225,1372279,1300742,1404808,1363372,1370687,1344091,1404883,1404875,1363129,1404891,1363698,1363701,1363364,1381079,1381087,897081,1351591,1382338,1116620,1363655,1363102,1363663,1363604,1363612,153576,1159988,1363647,1045059,1363639,1363111,1363671,1168809,1363583,1362679,1363680,1372332,1382645,1363567,1363719,1363727,1362687,1363735,1382629,1382565,1316736,1382549,812181,1373175,1363487,1363575,1381731,1139848,1139856,1074571,1356754,1383277,1116742,1333835,1378371,1379825,1379833,1386523,1381061,1316787,1299841,1362450,1382178,1382194,1382186,1333270,1162175,1224508,1382952,1382717,1382881,1382733,1382590,1382653,1382581,1382557,1382611,1382602,1116611,1373255,1139864,1316672,537422,1351574,1098863,1383331,1362652,1362484,1316752,1356746,1139872,1382768,1382928,1382944,1382936,1382813,1382696,1382741,1382901,1382805,1382961,1382872,1382856,1373183,1382848,1382725,1382821,1063679,1397716,1381749,1316728,1316710,1383349,1116751,1383285,1351321,1006797,1382573,1382637,1300401,1074589,1404744,1029905,1383197,1386620,1383357,1362661,1384325,1383293,1333392,1286995,1222115,1386507,1386515,1400583,1382784,1382776,1382979,1382750,1382910,1382709,1382864,1382688,1382899,1300419,1362695,1316779,1333341,1243178,1370759,1370741,1095603,1269204,1382493,1350627,1350598,1224487,1381669,1300427,1300718,1139813,1139821,1139830,1362345,1362353,1381941,1347989,912106,1366514,1245405,1333350,897655,918938,1038123,1381968,1381950,1316744,1372287,1362361,1335443,985735,1386638,1404912,1386603,997146,1243194,1362302,997197,539399,1348877,997517,1411805,1362425,1404867,1362409,1063214,1351259,954390'
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '930911,930865,930890,1372172,1383269,1383242,1383251,1383322,1383314,955368,955464,1335216,1250984,1026069,1162191,1278709,1278688,1278696,1278653,1278661,1278670,1281570,1299884,1175048,1076808,1076816,1076824,1367488,1367509,1065148,1330028,1384472,1051782,1377088,1015503,991289,991297,1038895'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1398461,1398479,1398487'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1380543,1401156,1401164'
-exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1413552'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1344059,1344067,1344041,1344104,1344121,1344112'
 exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1354345,1354353,1354361,1354370,1354388,1354396,1354409,1354417,1354425,1401800,1354257,1412103,1354265,1354273,1354281,1354290,1412111,1354302,1412120,1401826,1354311,1391621,1412138,1412171,1412162,1412146,1412189,1412154,1354329,1412200,1412488,1354337,1391648,1401906,1413982,1401931,1401949,1401957'
 
+--- Halogen Free products in Textile --- 
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1437984,1437976,1437968,1437950,1437941,1437933,1437925,1437917,1437909,1437896,1437888,1437870,1437861,1438021,1438012,1438004,1437992'
+
+
 
 select m.ItemNumber,m.ShortItemNumber,m.description from JDE_DB_Alan.vw_Mast m where m.ItemNumber in 
-('34.215.000','34.216.000','34.230.000','34.232.000','34.233.000','34.234.000')
+('46.574.000','82.431.917','27.585.141','46.576.000','46.575.000','BC.01005.290.NS','82.602.904','6528050000','46.577.000','4151070006','46.567.000','82.038.942','TI.03044.PA503','46.549.000','46.569.000','4150951656','2801433862','TI.03011.240.00','46.597.000','TI.03011.360.00','44.207.000','82.038.940','26.556.171','2801434072','82.038.918','82.038.916','2801433661','SC.07065.075.01','82.201.953','2801433072','33.380.030','2801434862','82.038.917','26.556.820','46.542.000','26.556.831','S3000NET5250N801CL','33.340.155')
+
+--('34.215.000','34.216.000','34.230.000','34.232.000','34.233.000','34.234.000')
 --('38.002.001','38.002.002','38.002.003','38.002.004','38.002.005','38.002.006','26.353.0000')
 
 
-select * from JDE_DB_Alan.vw_Mast m
-where m
+
 
 
 --- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -4896,7 +5018,7 @@ select * from JDE_DB_Alan.dbo.fnSplitString ('27.255.943,2991221862,27.251.682,2
 -- ('2780143000'),('2780047000'),('2851236354')     -- Item Number
 -- ('979516'),('1262'),('35610'),('20025')			--Imelda_Chan
 -- ('503978'),('20037')								--Margaret_Dost
--- ('1459')											--Salman_Saeed			--
+-- ('1459')											--Salman_Saeed			
 
 
 declare @Supplier_id varchar(8000)
@@ -5005,18 +5127,18 @@ select * from JDE_DB_Alan.FCPRO_Fcst  f where f.ItemNumber in ('24.5354.0204')
    exec JDE_DB_Alan.sp_Exp_FPFcst_func  null,'40.033.131,2780047000','AdjFC'		-- does not work,misspelling -- 30/1/2018
   
   exec JDE_DB_Alan.sp_Exp_FPFcst_func  null,'34.345.000,34.346.000,34.347.000,34.348.000,34.349.000,34.350.000,34.351.000,34.359.000,34.360.000,34.361.000,34.370.000,34.449.000,34.451.000,34.452.000','Forecast,Sales'
-  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'40.033.131,2780047000','Adj_FC'
+  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'7493700914','Adj_FC'
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'2780136000','Adj_FC'
  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,null,'Adj_FC'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Exl  null,'27.253.000','Adj_FC,Sales'
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde '2140857',null,'Adj_FC'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'34.523.000,34.522.000,34.521.000,34.519.000,34.514.000,34.515.000,34.516.000,34.520.000,34.513.000,34.517.000,34.518.000,18.618.042,18.618.043,18.618.044,18.618.046,18.618.041,4171291133,4171292133,4171291320,4171292320,4171291785,4171292785,4171291862,4171292862,4171291885,4171292885,4171291765,4171292765,4171291180,4171292180,4171291651,4171292651,4171324050,4171324060,4171324070,4171324080,4171324090,4171325050,4171325060,4171325070,4171325080,4171325090,34.530.000,34.531.000,34.528.000,34.529.000,34.532.000,34.533.000,34.534.000,34.527.000','Adj_FC'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'52.029.010,52.030.000,52.017.850,52.017.810,52.017.100,52.017.735,52.017.737,52.017.000,52.017.134','Adj_FC'
-    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'34.531.000','Adj_FC'
+    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'46.617.000,7478500001','Adj_FC'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde_ZeroOut '1394654'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'18.010.035,18.010.036,18.013.089,18.615.007,24.5349.4459,24.7002.0001,24.7102.1858,24.7120.4459,24.7121.4459,24.7122.4459,24.7124.4459,24.7127.4459,24.7146.4459A,24.7163.0000A,24.7168.4459A,24.7169.4459A,24.7207.4459,24.7219.4459,24.7250.4459,24.7251.4459,24.7253.4459,24.7334.4459,2780229000,32.379.200,32.455.155','Adj_FC'
 	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'24.7218.4462,32.501.000,43.211.004,32.379.200,32.380.855,18.607.016,24.7201.0000,24.7102.7052,24.7102.7052,32.455.465,24.7115.0952A,24.7114.0952A,24.7128.0952,709895,24.7353.0000A,24.7136.0155A,709901,24.7120.0952','Adj_FC'
-  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'S3000NET5300N001','Adj_FC'
+  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'7127950000,7127960000,7127940000,7390030000,7127900000,7493700000,7468700000,7127990000,7126070000,7127150000,7127910000,7127970000,7390020000,7442700000,7488700000,7489700000,7491700000,7494700000,7742140000,7134230000,7478700000,7479700000,7127510000,7129200000,7477700000,7127620000,7127710000,7127700000,7127600000,7390950000,7499700000,7497700000,7498700000,7127660000,7146500000,7127650000,7127690000,7390930000','Adj_FC'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'44.003.102,44.003.104,44.003.113,44.003.114,44.004.102,44.004.104,44.004.113,44.004.114,44.005.102,44.005.104','Adj_FC'	
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null, '44.003.102,44.003.104,44.003.113,44.003.114,44.004.102,44.004.104,44.004.113,44.004.114,44.005.102,44.005.104,44.003.102K,44.003.104K,44.003.113K,44.003.114K,44.004.102K,44.004.104K,44.004.113K,44.004.114K,44.005.102K,44.005.104K','Adj_FC'	
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'18.010.035,18.010.036,18.615.007,24.7102.0199,24.7127.0155,24.7128.0155,24.7129.0155A,24.7201.0000,24.7206.0000,32.379.200,18.013.089,32.380.002,32.455.155,24.5358.0000,24.7124.0155,24.7203.0000,24.7220.0199,S3000NET5300N001,82.696.901,82.696.930','Adj_FC'
@@ -5031,7 +5153,15 @@ select * from JDE_DB_Alan.FCPRO_Fcst  f where f.ItemNumber in ('24.5354.0204')
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Exl null,'27.255.943,2991221862,27.251.682,27.252.951,27.251.996,27.252.955,27.239.664,27.239.470,27.237.575,2780034000,27.708.454,F17174A951,27.393.785,27.589.140,27.702.977,27.704.950,27.707.454,2780471000,Z43088A547,4170681885,7300111000,7300159000,4151068300,2671000000,27.200.647,27.222.502,27.222.634,27.231.644,27.231.916,27.232.700,27.239.502,27.240.470,27.251.624,27.251.744,27.251.750,27.251.955,27.252.457,27.252.686,27.252.688,27.252.713,27.252.986,27.589.137,27.589.141,27.589.195,27.254.944,27.255.940,27.585.126,7502000000,7502001000,7504001000,2780115000,2780128000,2780136000,2801386048,2801386785,2801386879,2801463000,4600291661,27.704.964,27.708.400,2801382669,2920033000,2991228000,FZ42088A547,F9174A951,FZ45088A599,KIT2759,PR101075951,PR101075989,PR161075604,27.232.707,27.232.977,27.237.572,27.240.502,27.240.664,27.251.457,27.251.688,27.251.749,27.251.951,27.251.953,27.251.985,27.251.986,27.252.682,27.252.985,27.254.938,27.255.938,2801386669,27.200.634,27.200.664,27.231.545,27.231.634,27.231.975,2801382785,2801382862,2801404000,2801462000,27.200.502,27.252.749,2982128000,7520000008,27.231.738,2920441200,7300110000,27.237.916,27.200.738,2801386609,F37174A400,2801382048,2801386180,7612208007,2991219785,27.251.737,27.252.624,27.252.916,27.171.661,2801382320,2781315000,2801382609,2801386320,4600189661,27.171.785,2801386862,27.240.467,2801382180,27.589.196,F17174A955,4600276661,4600289661,7501001000,7501005000,7511000000,7541000000,7542000000,KIT2758,PR241050501,PR241050502,7520064000,27.251.713,27.251.916,27.251.994,27.252.953,27.254.940,27.255.944,27.222.643,27.232.702,27.237.576,27.237.653,27.237.738,27.251.681,27.292.000,27.585.110,27.585.140,27.585.141,27.701.599,27.701.635,27.702.955,27.589.133,27.703.605,27.703.951,27.704.951,27.710.957,2770004000,2770011785,2780470000,2801386276,2801386661,2801382276,2801382661,2801382879,27.708.445,27.708.458,2921273000,4150054785,4151070300,2920443000,4152336885,2991333661,2991333862,3400112300,2851284354,2851284609,2851284669,4170681133,4170681651,4160144125,4155352000,2801385661,27.710.952,2801436276,2801436048,2801350000,2801436862,2851230661,2851230689,2851230785,2851224785,2851230072,2851236785,2851284167,2780050000,2780120000,2780229000,27.704.965,27.703.977,27.703.908,27.700.635,27.700.689,27.703.568,27.588.201,27.588.226,2780143000,27.251.686,27.243.785,27.258.000,7530000005,7530000013,4611200661,27.200.916,27.160.135,2770002534,4600260000,F36174A458,F16174A568,F16174A951,27.161.785,27.171.180,27.171.862,2851284785,2801381661,F8174A949,F8174A955,2991221661,27.171.048,27.702.710,4600228000,2780145000,34.043.000,2991221785,2801386324,2801382324,2920076000,2920905000,2851230862,2851284661,27.170.785,27.588.238,J6108A146,7503000000,4150459000,27.171.320,4170681785,2789000951,27.240.487,4600277917,2991380000,7520000016,27.171.879,FP3108A544,2920750000,H7174N952,2801382810,PR141075604,2991319180,2991227000,2801386689,2801386810,2801436072,2851224862,2851230167,2851230354,27.251.928,27.171.810,PR221050502,PR81075200,PR81075951,2801382580,KIT2729,PR111075N951,PR131075600,PR141075605,FM45108A599,FQ1096A401,FZ40088A501,PR161075601,PR161075605,PR61075200,F17174A952,F9174A952,FM45108A594,PR111075N953,PR121075411,PR121075949,PR121075953,PR91075N951,2991333785,2801436354,2801436661,2920435200,2991221180,2991221276,2851284862,2920830000,2801382689,2789000682,2851284048,2851284072,2851284324,27.710.576,2770000785,2789000953,2789000955,2780144000,4600197000,7840001000,4600277532,4150288785,4155349000,4155350000,4155351000,4170417000,4170418000,7590002000,7602209013,27.587.201,27.264.850,4600208001,4600230000,4150951885,27.395.785,4150082180,27.700.599,27.702.908,3400369320,27.254.943,27.252.000,4170681320,4600195000,4150249102,4150951180,4150951785,4170440000,27.161.661,7602209005,4170729000,4170730000,7503001000,7504000000,F16174A948,F16174A949,F16174A977,F8174A951,F9174A568,F9174A576,7300109000,7300158000,2789000457,27.710.951,2770002535,27.587.238,27.707.445,27.704.952,27.704.955,27.700.660,27.701.660,27.702.948,27.702.949,27.585.127,27.585.125,4600198000,27.257.000,4150249103,D8174A700,F16174A565,F16174A955,27.703.948,27.710.955,2801386580,2801436785,2920247000,27.703.955,F9174A955,FZ5088A221,2851224661,F8174A948,2789000713,27.271.120,27.588.213,7804000000,27.254.946,27.704.784,27.239.467,4150951426,27.171.580,27.170.661,4600186661,PRHRV3L949,PRHRV3S924,4600172550,4199040300,4199070000,5007312000,4600220486,4600220661,27.162.661,27.174.882,2801499245,2911532245,2911530276,3400669661,2991307000,2991263785,2991279000,2991280000,2991573000,2991906785,34.033.000,3400382000,3400669048,342J6108221,342M4501,342M4511,342M45594,342Q296401,342Q296402,342Q296403,342Q296410,342J6108141,7300444000,4199050820,4199060000,4199040820,3200156862,2801433276,2990932000,2801436324,2911529862,KIT8105,2991290000,34.028.000,2801491661,4600279000,4150082320,4150155137,4140126000,4150082785,5007311000,4150084133,4152336685,4152336849,4152336450,4153085000,4150144128,4199080000,4199120000,4199030300,4199030331,4250085528,4600172133,4600173486,4600172810,4600173133,2801499609,27.587.208,27.587.213,27.394.785,27.308.036,27.309.036,27.311.037,27.392.000,27.707.400,27.707.458,2780033000,2781094000,2780043000,2780114000,2780143355,2780143370,2780143379,2780144150,2780144280,2780144360,2780144571,2780144636,2780144820,2780144890,2780145330,2780145360,2780145840,2780148320,2780148810,2780148879,2780149048,2780149580,2780149689,2780149810,2780155000,2780163000,2780167000,2780228000', 'Adj_FC' 
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Exl null,'UR13112,UR12412,UR84912,UR66212,UR11812,UR10012,UR14712,UR10512,XUR19916,XUR13116,XUR12416,XUR84916,XUR66216,XUR11816,XUR10016,XUR14716,XUR10516,UEC131,UEC124,UEC849,UEC662,UEC118,UEC100,UEC147,UEC105,XUEC199,XUEC131,XUEC124,XUEC849,XUEC662,XUEC118,XUEC100,XUEC147,XUEC105,UCLC849,UCLC118,UCLC100,UCLC105,XUCLC131,XUCLC124,XUCLC849,XUCLC118,XUCLC100,XUCLC147,XUCLC105,UCS801,XUCS801,CS100,6800125000,CS707,XCS707,2930424885,2932623048,2932623609,2932623785,2932623885,2974000000,50-0150-000,2974000111,CS12007,30-CS606,310200,3200156000C,3116199,3116131,3116124,3116849,3116662,3116118,3116100,3116147,3116105,5007311000,5007312000,3024954983F,3024954765F,3024954133F,3024954849F,3024954387F,3024954587F,3024954246F,3024954135F,3024954125F,3024956000F,08-30-06-01,11417,31122765,31122849,31122587,31122246,31122135,311202,31121983,31121765,31121849,31121587,31121246,31121135,311201,311620,311621,31017021,500199000,KIT2350,CS4023,XCS4023,4181301661,4181301048,4181301320,4181301765,4181301862,4181301176,3051303661,3051303048,3051303320,3051303765,3051303862,3051303176,4231301661,4231301048,4231301320,4231301765,4231301862,4231301176,6121302,2151308,2151307,6281301,6281303,5241301,2131301,4231303,4231302,1081401,7231303,2920673100,PA3701,2920700100,2984495100,2780093125,2780093246,2780093587,2780094125,2780094133,2780094246,2780094587,2920639100,2920637100','Adj_FC' 
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Exl null,'UR13112','Sales,Adj_FC'
-    
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'38.010.001,38.010.002,38.010.003,38.010.004,38.010.005,38.010.006,38.010.007','Sales,Adj_FC'
+
+ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'42.652.000,46.421.000,46.508.500,46.508.700,46.531.500,46.531.700,7137040000,7370250182,7370250914,7370300182,7370300914,7370350182,7370350914,7370400001,7370400182,7370400914,7441500001B,7441500182B,7441500914B,7441700001B,7441700182B,7441700914B,7442700000,7442700001,7442700182,7442700914,7456500182,7457500001,7457500182,7457500914,7460500000,7460700000,7467040100,7467070100,7468500001,7468500182,7468500914,7468700000,7468700001,7468700182,7468700914,7477500001,7477500182,7477500914,7477700000,7477700001,7477700182,7477700914,7478500001,7478500182,7478500914,7478700000,7478700001,7478700182,7478700914,7479500001,7479500182,7479500914,7479700000,7479700001,7479700182,7479700914,7485700000,7488500001,7488500182,7488500914,7488700000,7488700001,7488700182,7488700914,7489500001,7489500182,7489500914,7489700000,7489700001,7489700182,7489700914,7491500001,7491500182,7491500914,7491700000,7491700001,7491700182,7491700914,7493500001,7493500182,7493500914,7493700000,7493700001,7493700182,7493700914,7494500001,7494500182,7494500914,7494700000,7494700001,7494700182,7494700914,7496500001,7496500182,7496500914,7496700001,7496700182,7496700914,7497700000,7497700001,7497700182,7497700914,7498700000,7498700001,7498700182,7498700914,7499700000,7499700001,7499700182,7499700914,7766050000,7766070000,7766250000,7766270000','Adj_FC'			--- Salman 122 SKUs
+ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'28.665.002,28.665.131,28.665.388,28.665.462,28.665.481,28.665.858,46.616.000,46.617.000,46.618.000,46.617.100,46.618.100,46.617.134,46.618.134,46.617.734,46.618.734,46.617.737,46.618.737,46.617.810,46.618.810,46.617.850,46.618.850,46.617.104,46.618.104','Adj_FC'                     --- 46.617-618.xxx and 28.xxx ( Veri shade tracks )
+ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'24.7128.0155,24.7128.0155A,24.7128.0952,24.7128.0952A,24.7128.1858,24.7128.1858A,24.7128.4459,24.7128.4459A,38.001.001,38.001.002,38.001.003,38.001.004,38.001.005,38.001.006,38.004.000S,38.006.001,38.006.002,38.006.003,38.006.004,38.006.005,38.006.006,38.006.007,38.006.008,38.006.009,38.006.010,38.006.011,38.007.001,38.007.003,38.007.004,38.007.006,38.011.001,38.011.002,38.011.003,38.011.004,38.011.005,38.011.006,38.011.007,38.012.001,38.012.002,38.012.003,38.012.004,38.012.005,38.012.006,38.013.001,38.013.002,38.013.003,38.013.004,38.013.005,38.013.006,38.013.007,38.013.008,38.014.001,38.014.002,38.014.003,38.014.004,38.014.005,38.014.006','Adj_FC'          --- 38.xxx veri shade fabric , 24.7.xxx  Roller parts
+ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'28.665.002','Adj_FC'
+
+ --- all together --- 
+ exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'42.652.000,46.421.000,46.508.500,46.508.700,46.531.500,46.531.700,7137040000,7370250182,7370250914,7370300182,7370300914,7370350182,7370350914,7370400001,7370400182,7370400914,7441500001B,7441500182B,7441500914B,7441700001B,7441700182B,7441700914B,7442700000,7442700001,7442700182,7442700914,7456500182,7457500001,7457500182,7457500914,7460500000,7460700000,7467040100,7467070100,7468500001,7468500182,7468500914,7468700000,7468700001,7468700182,7468700914,7477500001,7477500182,7477500914,7477700000,7477700001,7477700182,7477700914,7478500001,7478500182,7478500914,7478700000,7478700001,7478700182,7478700914,7479500001,7479500182,7479500914,7479700000,7479700001,7479700182,7479700914,7485700000,7488500001,7488500182,7488500914,7488700000,7488700001,7488700182,7488700914,7489500001,7489500182,7489500914,7489700000,7489700001,7489700182,7489700914,7491500001,7491500182,7491500914,7491700000,7491700001,7491700182,7491700914,7493500001,7493500182,7493500914,7493700000,7493700001,7493700182,7493700914,7494500001,7494500182,7494500914,7494700000,7494700001,7494700182,7494700914,7496500001,7496500182,7496500914,7496700001,7496700182,7496700914,7497700000,7497700001,7497700182,7497700914,7498700000,7498700001,7498700182,7498700914,7499700000,7499700001,7499700182,7499700914,7766050000,7766070000,7766250000,7766270000,28.665.002,28.665.131,28.665.388,28.665.462,28.665.481,28.665.858,46.616.000,46.617.000,46.618.000,46.617.100,46.618.100,46.617.134,46.618.134,46.617.734,46.618.734,46.617.737,46.618.737,46.617.810,46.618.810,46.617.850,46.618.850,46.617.104,46.618.104,24.7128.0155,24.7128.0155A,24.7128.0952,24.7128.0952A,24.7128.1858,24.7128.1858A,24.7128.4459,24.7128.4459A,38.001.001,38.001.002,38.001.003,38.001.004,38.001.005,38.001.006,38.004.000S,38.006.001,38.006.002,38.006.003,38.006.004,38.006.005,38.006.006,38.006.007,38.006.008,38.006.009,38.006.010,38.006.011,38.007.001,38.007.003,38.007.004,38.007.006,38.011.001,38.011.002,38.011.003,38.011.004,38.011.005,38.011.006,38.011.007,38.012.001,38.012.002,38.012.003,38.012.004,38.012.005,38.012.006,38.013.001,38.013.002,38.013.003,38.013.004,38.013.005,38.013.006,38.013.007,38.013.008,38.014.001,38.014.002,38.014.003,38.014.004,38.014.005,38.014.006','Adj_FC'
 
  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,'26.812.410,26.812.901,26.812.604,26.812.820,26.812.902,26.812.962,26.815.410,26.815.901,26.815.604,26.815.820,26.815.902,26.815.962,26.814.410,26.814.901,26.814.604,26.814.820,26.814.902,26.814.962','Adj_FC'
   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Exl null,'38.001.001,38.003.001,38.004.000,38.001.002,38.001.003,38.001.004,38.001.005,38.001.006,38.002.001,38.002.002,38.002.003,38.002.004,38.002.005,38.002.006,38.003.002,38.003.003,38.003.004,38.003.005,38.003.006','Adj_FC'
@@ -5047,15 +5177,21 @@ select * from JDE_DB_Alan.FCPRO_Fcst  f where f.ItemNumber in ('24.5354.0204')
 
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde null,null,'Adj_FC'
 
-
-
    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'22.748.091,22.749.091,24.5110.7178,24.5349.0204,24.5349.0952,24.5349.1858,24.5349.4459,24.5353.0204,24.5353.0952,24.5353.1858,24.5353.4459,24.5354.0204,24.5354.0952,24.5354.1858,24.5354.4459,24.5358.0000,24.5360.0204,24.5360.1858,24.5361.0204,24.5361.1858,24.5362.0204,24.5362.1858,24.5363.0204,24.5363.1858,24.5396.0000,24.5397.0000,24.5398.0000,24.5399.0000,24.5403.0000,24.5404.0000,24.5405.0000,24.5411.0000,24.5412.0000,24.5413.0000,24.5414.0000,24.5415.0000,24.5416.0000,24.5417.0000,24.5418.0000,24.5424.0204,24.5424.0952,24.5424.1858,24.5424.4459,24.5425.0204,24.5425.0952,24.5425.1858,24.5425.4459,24.5426.0204,24.5426.0952,24.5426.1858,24.5426.4459,24.5427.0204,24.5427.0952,24.5427.1858,24.5427.4459,24.7002.0000,24.7002.0000T,24.7002.0001,24.7002.0001T,24.7100.0199,24.7100.1858,24.7100.4459A,24.7100.7052A,24.7102.0199,24.7102.1858,24.7102.4459A,24.7102.7052,24.7102.7052A,24.7110.0155,24.7110.0952,24.7110.0952A,24.7110.1858,24.7110.4459,24.7110.4459A,24.7114.0155,24.7114.0952A,24.7114.1858,24.7114.4459A,24.7116.0155,24.7120.0155,24.7120.0952,24.7120.0952A,24.7120.1858,24.7120.4459,24.7120.4459A,24.7121.0155,24.7121.0952,24.7121.0952A,24.7121.1858,24.7121.4459,24.7121.4459A,24.7122.0155,24.7122.0952,24.7122.0952A,24.7122.1858,24.7122.4459,24.7122.4459A,24.7124.0155,24.7124.0952,24.7124.0952A,24.7124.1858,24.7124.4459,24.7124.4459A,24.7125.0155,24.7125.0952,24.7125.0952A,24.7125.1858,24.7125.4459,24.7125.4459A,24.7127.0155,24.7127.0952,24.7127.1858,24.7127.4459,24.7128.0155,24.7128.0155A,24.7128.0952,24.7128.0952A,24.7128.1858,24.7128.1858A,24.7128.4459,24.7128.4459A,24.7192.7060A,24.7193.0199A,24.7195.0199A,24.7195.1858A,24.7196.7060A,24.7200.0000,24.7200.0000T,24.7200.0001,24.7200.0001T,24.7201.0000,24.7201.0000T,24.7201.0002,24.7202.0000,24.7202.0001,24.7219.0199,24.7219.0952,24.7219.1858,24.7219.4459,24.7219.4460,24.7219.4462,24.7219.4464,24.7219.4465,24.7300.7060,24.7307.1858,24.7333.0199,24.7333.0952,24.7333.1858,24.7333.4459,24.7334.0199,24.7334.0952,24.7334.1858,24.7334.4459,24.7363.0199,24.7363.0952,24.7363.1858,24.7363.4459,24.7364.0199,24.7364.0952,24.7364.1858,24.7364.4459,32.340.000,32.341.155,32.341.176,32.341.855,32.379.200,32.455.155,32.455.460,32.455.461,32.455.462,32.455.465,32.455.855,43.525.101,43.525.102,43.525.103,43.525.105,43.525.107,43.525.403,43.525.404,43.525.405,43.530.101,43.530.102,43.530.103,43.530.105,43.530.107,43.530.403,43.530.404,43.530.405,82.691.901,82.691.902,82.691.903,82.691.904,82.691.905,82.691.906,82.691.907,82.691.908,82.691.909,82.691.910,82.691.911,82.691.912,82.691.919,82.691.926,82.691.927,82.691.928,82.691.929,82.691.930,82.691.931,82.691.932,82.691.933,82.696.901,82.696.902,82.696.903,82.696.904,82.696.905,82.696.906,82.696.907,82.696.908,82.696.909,82.696.910,82.696.911,82.696.912,82.696.913,82.696.914,82.696.915,82.696.918,82.696.919,82.696.920,82.696.921,82.696.922,82.696.923,82.696.924,82.696.925,82.696.926,82.696.927,82.696.928,82.696.929,82.696.930,82.696.931,82.696.932,82.696.933,82.696.934,82.696.941,34.274.0155,34.263.0155,34.264.0155,34.265.0155,34.266.0000,34.267.0155,34.268.0000,34.269.0155,34.270.0155,34.271.0155,34.272.0155,34.273.0155,34.276.0000','Adj_FC'
+   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'34.274.0155,34.263.0155,34.264.0155,34.265.0155,34.266.0000,34.267.0155,34.268.0000,34.269.0155,34.270.0155,34.271.0155,34.272.0155,34.273.0155,34.276.0000','Adj_FC'
+   exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'27.200.502,27.200.634,27.200.647,27.231.545,27.231.634,27.231.644,27.231.738,27.231.916,27.231.975,27.237.572,27.237.575,27.237.738,27.222.502,27.222.634,27.222.643,27.255.938,27.255.940,27.255.943,27.255.944,27.254.938,27.254.940,27.254.943,27.254.944,27.254.946,27.276.502,27.276.504,27.276.930,27.276.951,27.277.502,27.277.504,27.277.930,27.277.951,27.170.048,27.170.661,27.170.785,27.170.862,27.170.879,27.171.048,27.171.661,27.171.785,27.171.810,27.171.862,27.171.879,27.172.661,27.172.785,27.172.862,27.172.879,27.173.661,27.173.785,27.173.862,27.173.879,27.174.048,27.174.661,27.174.785,27.174.810,27.174.862,27.174.879,27.175.661,27.175.785,27.175.810,27.175.862,27.175.879,27.176.048,27.176.661,27.176.785,27.176.862,27.176.879,27.257.000,27.258.000,27.271.120,27.291.001,2780115000,2780128000,2780307000,2801669000,2802564048,2802564072,2802564167,2802564245,2802564354,2802564609,2802564661,2802564669,2802564785,2802564862,2802565048,2802565072,2802565167,2802565245,2802565354,2802565609,2802565661,2802565669,2802565785,2802565862,2802566661,2802566862,2802567072,2802567661,2802567862,2802573000,2802574000,1020780,2780478000,2781094000,2781209000,2911673000,2911675048,2911675072,2911675167,2911675245,2911675354,2911675609,2911675661,2911675669,2911675785,2911675862,2911677000,2920002520,2920033000,2920433000,2920434000,2920435100,2920435200,2920435300,2920435400,2920435700,2920435800,2920435900,2920436000,2920539000,2920540000,2921061000,2921274000,7506000000,7506001000,7506002000,7506003000,7520000008,7520000016,7520073000,7530000005,7541002000,7542000000,7543000000,7602209005,7602209013,7602209019,7602209052,7602209055,7602209490,7602209491,7602209492,7612077053,7612077054,7612208007,7612208013,7612208057,7804000000,1020383,2980106000,2980116000,2981043000,2990102490,2990102491,2990102595,2990133000,2990848000,2990856785,2990865000,2990915000,2990923785,2990932000,2991090785,2991221048,2991221180,2991221276,2991221661,2991221785,2991221810,2991221862,2991226000,2991227000,2991228000,2991237000,2991238000,2991259000,2991260000,2991284000,2991290000,2991319048,2991319180,2991319661,2991323000,2991324000,2991333048,2991333180,2991333276,2991333661,2991333785,2991333810,2991333862,2991379000,2991380000,2991523000,2991906785,2992862584,2993979000,2999019000,2999137000,KIT2652,KIT2757,KIT2764,KIT2765,1006753,1006754,2801433072,2801433661,2801434072,2801434661,2801434862,2801480000,2801481000,2801490048,2801490095,2801490167,2801490245,2801490324,2801490351,2801490354,2801490661,2801490669,2801490785,2801490862,2801491048,2801491072,2801491095,2801491167,2801491245,2801491354,2801491661,2801491669,2801491785,2801491862,2801627000,2801628000,2801748000,2801749000,2851218072,2851218167,2851218245,2851218351,2851218354,2851218661,2851218669,2851218689,2851218785,2851218862,2851224072,2851224167,2851224245,2851224276,2851224351,2851224354,2851224661,2851224669,2851224689,2851224785,2851224862,2851230072,2851230167,2851230245,2851230276,2851230351,2851230354,2851230661,2851230669,2851230785,2851230862,2851236072,2851236167,2851236245,2851236276,2851236351,2851236354,2851236661,2851236669,2851236785,2851236862,2851284048,2851284095,2851284167,2851284276,2851284324,2851284354,2851284609,2851284669,2851284862,2851512072,2851512167,2851512351,2851512785,2851512862,2851542245,2851542661,2851542785,2851548167,2851548245,2851548351,2851548661,2851548785,27.251.457,27.251.479,27.251.480,27.251.482,27.251.624,27.251.681,27.251.682,27.251.686,27.251.688,27.251.713,27.251.737,27.251.749,27.251.750,27.251.916,27.251.951,27.251.953,27.251.955,27.251.985,27.251.986,27.251.994,27.252.457,27.252.479,27.252.480,27.252.482,27.252.624,27.252.682,27.252.686,27.252.688,27.252.713,27.252.733,27.252.737,27.252.749,27.252.750,27.252.916,27.252.951,27.252.953,27.252.955,27.252.985,27.252.986,27.252.994,1003020,2780050000,2780103000,2780105000,2780139785,2780229002,2781315000,2801381320,2801381661,2801381862,2801382048,2801382180,2801382276,2801382320,2801382324,2801382496,2801382580,2801382609,2801382661,2801382669,2801382689,2801382785,2801382810,2801382862,2801382879,2801385320,2801385661,2801385862,2801386048,2801386180,2801386276,2801386320,2801386324,2801386496,2801386580,2801386609,2801386661,2801386669,2801386689,2801386785,2801386810,2801386862,2801386879,2801389048,2801389072,2801389167,2801389245,2801389354,2801389609,2801389661,2801389669,2801389785,2801389862,2801390048,2801390072,2801390095,2801390167,2801390245,2801390351,2801390354,2801390609,2801390661,2801390669,2801390689,2801390785,2801390862,2801395072,2801395661,2801395862,2801396048,2801396072,2801396095,2801396167,2801396245,2801396324,2801396354,2801396609,2801396661,2801396669,2801396689,2801396785,2801396862,2801403072,2801403862,2801404000,2801405048,2801405072,2801405095,2801405167,2801405245,2801405276,2801405351,2801405354,2801405609,2801405661,2801405669,2801405785,2801405862,2801407862,2801436048,2801436072,2801436095,2801436167,2801436245,2801436324,2801436351,2801436354,2801436609,2801436661,2801436669,2801436689,2801436785,2801436862,2982128000,3200156862,KIT2758,KIT2759,1012954,1012955,1012957,1014243,1014651,1014654,1014660,1014664,1014680,1014685,1014686,1014688,1014691,1014715,1014716,1014717,1014720,1014723,1014724,1015800,1015801,2780042000,2780043000,2781208000,2801350000,2801641785,2801641862,2801643785,2801643862,2801687785,2801687862,2801688048,2801701785,2801719000,2801738785,2983802000,5109604505,7300109000,7300110000,7300111000,7300137001,7300158000,7300159000,7300555000,KIT2029,KIT2777,7507000000,18.020.028,27.162.661,27.162.862,27.163.661,27.163.785,27.163.862,27.164.661,27.164.785,27.164.862,27.165.320,27.165.661,27.165.862,27.166.661,27.166.785,27.166.862,27.252.000,27.253.000,27.285.178,27.298.000,27.160.320,27.160.661,27.160.785,27.160.862,27.161.320,27.161.661,27.161.785,27.161.862,F8174A710,F8174A908,F8174A948,F8174A949,F8174A951,F8174A955,F8174A977,F9174A568,F9174A576,F9174A951,F9174A952,F9174A955,H7174N952,E40174A599,E40174A635,E40174A660,E40174A689,F16174A565,F16174A568,F16174A605,F16174A908,F16174A948,F16174A949,F16174A950,F16174A951,F16174A955,F16174A964,F16174A965,F16174A977,F36174A400,F36174A445,F36174A454,F36174A458,D7174N748,E41174A599,E41174A635,E41174A660,E41174A689,F17174A617,F17174A784,F17174A950,F17174A951,F17174A952,F17174A955,F17174A964,F17174A965,F37174A400,F37174A445,F37174A454,F37174A458,D8174A700,D8174A702,D8174A916,D9174A977,2950010785,2970010785,2980041785,2980042785,08-30-06-01,1000002,1019884,1081401,11417,2131301,2151307,2151308,27.262.850B,27.316.000B,2770004000B,2780033000B,2780120000B,2780135000B,2780136000B,2780923000,2781211000,2920247000B,2920673100,2920698000B,2920700100,2920707000B,2920750000B,2930130000,2930220000,2930230000B,2930340000,2930424885B,2930561000,2932623048,2932623609,2932623785,2932623885,2950020785,2950062000,2950100000B,2954000000,2970020785,2970061000,2970300000B,2974000111,2980035000,2980037000,2980040000,2980045000,2980048785,2982028000B,2983396000,2989875000B,2989899000B,2989900000B,2989901000B,2989902000B,2995840000,3024954125F,3024954133F,3024954135F,3024954246F,3024954387F,3024954587F,3024954765F,3024956000F,3051303048,3051303176,3051303320,3051303661,3051303765,3051303785,30-CS606,31017021,310200,311201,311202,31121048,31121133,31121135,31121246,31121587,31121765,31122048,31122133,31122135,31122246,31122587,31122765,3116048,3116100,3116105,3116118,3116124,3116131,3116147,311620,311621,3116662,3200156000C,34.600.000,34.601.000,34.602.000,34.603.000,4152336048B,4152336133B,4152336276B,4152336450B,4152336451B,4152336785B,4152336849B,4152336862B,4152336885B,4181301048,4181301176,4181301320,4181301661,4181301765,4181301785,4199010000,4199020000,4199030000,4199030107,4199030111,4199030300,4199030321,4199030331,4199030360,4199030680,4199030820,4199030822,4199030840,4199030888,4199040000,4199040111,4199040300,4199040321,4199040680,4199040820,4199040822,4199040840,4199040888,4199050000,4199050111,4199050300,4199050321,4199050360,4199050680,4199050820,4199050822,4199050840,4199050888,4199060000,4199070000,4199080000,4199120000,4199150000,4231301048,4231301176,4231301320,4231301661,4231301765,4231301785,4231302,4231303,4254220005,500098000,500199000,5007311000,5007312000,5241301,6121302,6281301,6281303,6800125000,7020080000,7231303,7520068000,9935015000,CS100,CS12007,CS4023,CS707,KIT2350,PA3701,UCLC100,UCLC105,UCLC118,UCLC131,UCS801,UEC100,UEC105,UEC118,UEC124,UEC131,UEC147,UEC662,UR10012,UR10512,UR11812,UR12412,UR13112,UR14712,UR66212,XCS4023,XCS707,XP301801660P,XUCLC048,XUCLC100,XUCLC105,XUCLC118,XUCLC124,XUCLC131,XUCLC147,XUCS801,XUEC048,XUEC100,XUEC105,XUEC118,XUEC124,XUEC131,XUEC147,XUEC662,XUR04816,XUR10016,XUR10516,XUR11816,XUR12416,XUR13116,XUR14716,XUR66216,ZUH080000A00,E28174A753,E28174A754,E28174A766,E28174A767,E28174A770,E28174A772,1001690,2930320000,4140126000,4150009111,4150057885,4150256000,4150288785,4151334000,4152336180,4152336319,4152336320,4152336405,4152336496,4152336551,4152336609,4152336656,4152336669,4152336810,4152336879,4154739000,4170417000,4170418000,4170439000,4170440000,4178581000,KIT9125,KIT9126,27.585.110,27.585.125,27.585.126,27.585.127,27.585.140,27.589.133,27.589.137,27.589.140,27.589.141,27.589.195,27.589.196,4171324050,4171324060,4171324070,4171325050,4171325060,4155349000,4155350000,4155351000,4155352000,4155353000,4155354000,4170729000,4170730000,4170874000,4170877000,4174775785,4250085126,4250085437,4250085530,4253111000,4253112000,7503000000,1001693,1001696,4150082785,4150082885,1001715,1001717,4150128785,4150128885,4150951133,4150951180,4150951320,4150951651,4150951785,4150951862,4150951885,4150084320,4150084785,4150084885,4170950651,4170950785,4170950885,4171290133,4171290180,4171290320,4171290426,4171290651,4171290785,4171290862,4171290885,4171291180,4171291320,4171291651,4171291765,4171291785,4171291885,4171292320,4171292651,4171292765,4171292785,4171292885,4150144116,4150144125,4150144126,4150144127,4150144143,4160144116,4160144125,4160144126,4160144127,4160144133,4160144143,4150083133,4150083320,4150083651,4150083765,4150083785,4150083862,4150083885,27.588.201,27.588.213,27.588.226,27.588.238,4171325070,27.587.201,27.587.208,27.587.213,27.587.226,27.587.238,4171325080,4150381000,4600252155,PR101075287,PR101075411,PR101075948,PR101075951,PR101075953,PR121075287,PR121075411,PR121075924,PR121075948,PR121075949,PR121075951,PR121075953,PR141075600,PR161075600,PR161075604,PR161075605,PR221050501,PR221050835,PR241050501,PR241050502,PR241050835,PR601070287,PR601070411,PR601070951,PR61075109,PR61075905,PR61075949,PR61075951,PR621070287,PR621070411,PR621070951,PR641070605,PR641070616,PR661070605,PR661070616,PR81075109,PR81075905,PR81075949,PR81075951,PRBRL109,PRBRL905,PRBRL949,PRBRL951,PRBRS287,PRBRS411,PRBRS600,PRBRS604,PRBRS605,PRBRS616,PRBRS924,PRBRS948,PRBRS949,PRBRS951,PRBRS953,PRBRSH501,PRBRSH502,PRBRSH835,PRHRL109,PRHRV3L905,PRHRV3S287,PRHRV3SH835,4600000021,4600000070,4600230000,4600220180,4600220320,4600220405,4600220486,4600220550,4600220661,4600289661,4600172133,4600172180,4600172320,4600172405,4600172486,4600172550,4600172661,4600172810,4600173133,4600173180,4600173320,4600173405,4600173486,4600173550,4600173661,4600173810,4600182000,4600185000,4600189661,4600195000,4600196000,4600205000,4600208001,4600228000,4600260000,4600261000,4600276661,4600277486,4600277532,4600277849,4600277917,4600280000,4600285000,4600286000,4600291661,4600343000,4600197000,4600198000,4600279000,4600000230,4600000231,4600000346,4600000347,4600293048,4600309000,4600310000,4600311000,4600312000,4600313000,4600314000,4600315000,4600317000,1010181,4600290748,7840001000,PRHRV3L949,PRHRV3L951,PRHRV3S411,PRHRV3S600,PRHRV3S604,PRHRV3S605,PRHRV3S924,PRHRV3S948,PRHRV3S949,PRHRV3S951,PRHRV3S953,PRHRV3SH501,PRHRV3SH502','Adj_FC'
+	
 
-    exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'34.274.0155,34.263.0155,34.264.0155,34.265.0155,34.266.0000,34.267.0155,34.268.0000,34.269.0155,34.270.0155,34.271.0155,34.272.0155,34.273.0155,34.276.0000','Adj_FC'
-    
-	
-	exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'27.200.502,27.200.634,27.200.647,27.231.545,27.231.634,27.231.644,27.231.738,27.231.916,27.231.975,27.237.572,27.237.575,27.237.738,27.222.502,27.222.634,27.222.643,27.255.938,27.255.940,27.255.943,27.255.944,27.254.938,27.254.940,27.254.943,27.254.944,27.254.946,27.276.502,27.276.504,27.276.930,27.276.951,27.277.502,27.277.504,27.277.930,27.277.951,27.170.048,27.170.661,27.170.785,27.170.862,27.170.879,27.171.048,27.171.661,27.171.785,27.171.810,27.171.862,27.171.879,27.172.661,27.172.785,27.172.862,27.172.879,27.173.661,27.173.785,27.173.862,27.173.879,27.174.048,27.174.661,27.174.785,27.174.810,27.174.862,27.174.879,27.175.661,27.175.785,27.175.810,27.175.862,27.175.879,27.176.048,27.176.661,27.176.785,27.176.862,27.176.879,27.257.000,27.258.000,27.271.120,27.291.001,2780115000,2780128000,2780307000,2801669000,2802564048,2802564072,2802564167,2802564245,2802564354,2802564609,2802564661,2802564669,2802564785,2802564862,2802565048,2802565072,2802565167,2802565245,2802565354,2802565609,2802565661,2802565669,2802565785,2802565862,2802566661,2802566862,2802567072,2802567661,2802567862,2802573000,2802574000,1020780,2780478000,2781094000,2781209000,2911673000,2911675048,2911675072,2911675167,2911675245,2911675354,2911675609,2911675661,2911675669,2911675785,2911675862,2911677000,2920002520,2920033000,2920433000,2920434000,2920435100,2920435200,2920435300,2920435400,2920435700,2920435800,2920435900,2920436000,2920539000,2920540000,2921061000,2921274000,7506000000,7506001000,7506002000,7506003000,7520000008,7520000016,7520073000,7530000005,7541002000,7542000000,7543000000,7602209005,7602209013,7602209019,7602209052,7602209055,7602209490,7602209491,7602209492,7612077053,7612077054,7612208007,7612208013,7612208057,7804000000,1020383,2980106000,2980116000,2981043000,2990102490,2990102491,2990102595,2990133000,2990848000,2990856785,2990865000,2990915000,2990923785,2990932000,2991090785,2991221048,2991221180,2991221276,2991221661,2991221785,2991221810,2991221862,2991226000,2991227000,2991228000,2991237000,2991238000,2991259000,2991260000,2991284000,2991290000,2991319048,2991319180,2991319661,2991323000,2991324000,2991333048,2991333180,2991333276,2991333661,2991333785,2991333810,2991333862,2991379000,2991380000,2991523000,2991906785,2992862584,2993979000,2999019000,2999137000,KIT2652,KIT2757,KIT2764,KIT2765,1006753,1006754,2801433072,2801433661,2801434072,2801434661,2801434862,2801480000,2801481000,2801490048,2801490095,2801490167,2801490245,2801490324,2801490351,2801490354,2801490661,2801490669,2801490785,2801490862,2801491048,2801491072,2801491095,2801491167,2801491245,2801491354,2801491661,2801491669,2801491785,2801491862,2801627000,2801628000,2801748000,2801749000,2851218072,2851218167,2851218245,2851218351,2851218354,2851218661,2851218669,2851218689,2851218785,2851218862,2851224072,2851224167,2851224245,2851224276,2851224351,2851224354,2851224661,2851224669,2851224689,2851224785,2851224862,2851230072,2851230167,2851230245,2851230276,2851230351,2851230354,2851230661,2851230669,2851230785,2851230862,2851236072,2851236167,2851236245,2851236276,2851236351,2851236354,2851236661,2851236669,2851236785,2851236862,2851284048,2851284095,2851284167,2851284276,2851284324,2851284354,2851284609,2851284669,2851284862,2851512072,2851512167,2851512351,2851512785,2851512862,2851542245,2851542661,2851542785,2851548167,2851548245,2851548351,2851548661,2851548785,27.251.457,27.251.479,27.251.480,27.251.482,27.251.624,27.251.681,27.251.682,27.251.686,27.251.688,27.251.713,27.251.737,27.251.749,27.251.750,27.251.916,27.251.951,27.251.953,27.251.955,27.251.985,27.251.986,27.251.994,27.252.457,27.252.479,27.252.480,27.252.482,27.252.624,27.252.682,27.252.686,27.252.688,27.252.713,27.252.733,27.252.737,27.252.749,27.252.750,27.252.916,27.252.951,27.252.953,27.252.955,27.252.985,27.252.986,27.252.994,1003020,2780050000,2780103000,2780105000,2780139785,2780229002,2781315000,2801381320,2801381661,2801381862,2801382048,2801382180,2801382276,2801382320,2801382324,2801382496,2801382580,2801382609,2801382661,2801382669,2801382689,2801382785,2801382810,2801382862,2801382879,2801385320,2801385661,2801385862,2801386048,2801386180,2801386276,2801386320,2801386324,2801386496,2801386580,2801386609,2801386661,2801386669,2801386689,2801386785,2801386810,2801386862,2801386879,2801389048,2801389072,2801389167,2801389245,2801389354,2801389609,2801389661,2801389669,2801389785,2801389862,2801390048,2801390072,2801390095,2801390167,2801390245,2801390351,2801390354,2801390609,2801390661,2801390669,2801390689,2801390785,2801390862,2801395072,2801395661,2801395862,2801396048,2801396072,2801396095,2801396167,2801396245,2801396324,2801396354,2801396609,2801396661,2801396669,2801396689,2801396785,2801396862,2801403072,2801403862,2801404000,2801405048,2801405072,2801405095,2801405167,2801405245,2801405276,2801405351,2801405354,2801405609,2801405661,2801405669,2801405785,2801405862,2801407862,2801436048,2801436072,2801436095,2801436167,2801436245,2801436324,2801436351,2801436354,2801436609,2801436661,2801436669,2801436689,2801436785,2801436862,2982128000,3200156862,KIT2758,KIT2759,1012954,1012955,1012957,1014243,1014651,1014654,1014660,1014664,1014680,1014685,1014686,1014688,1014691,1014715,1014716,1014717,1014720,1014723,1014724,1015800,1015801,2780042000,2780043000,2781208000,2801350000,2801641785,2801641862,2801643785,2801643862,2801687785,2801687862,2801688048,2801701785,2801719000,2801738785,2983802000,5109604505,7300109000,7300110000,7300111000,7300137001,7300158000,7300159000,7300555000,KIT2029,KIT2777,7507000000,18.020.028,27.162.661,27.162.862,27.163.661,27.163.785,27.163.862,27.164.661,27.164.785,27.164.862,27.165.320,27.165.661,27.165.862,27.166.661,27.166.785,27.166.862,27.252.000,27.253.000,27.285.178,27.298.000,27.160.320,27.160.661,27.160.785,27.160.862,27.161.320,27.161.661,27.161.785,27.161.862,F8174A710,F8174A908,F8174A948,F8174A949,F8174A951,F8174A955,F8174A977,F9174A568,F9174A576,F9174A951,F9174A952,F9174A955,H7174N952,E40174A599,E40174A635,E40174A660,E40174A689,F16174A565,F16174A568,F16174A605,F16174A908,F16174A948,F16174A949,F16174A950,F16174A951,F16174A955,F16174A964,F16174A965,F16174A977,F36174A400,F36174A445,F36174A454,F36174A458,D7174N748,E41174A599,E41174A635,E41174A660,E41174A689,F17174A617,F17174A784,F17174A950,F17174A951,F17174A952,F17174A955,F17174A964,F17174A965,F37174A400,F37174A445,F37174A454,F37174A458,D8174A700,D8174A702,D8174A916,D9174A977,2950010785,2970010785,2980041785,2980042785,08-30-06-01,1000002,1019884,1081401,11417,2131301,2151307,2151308,27.262.850B,27.316.000B,2770004000B,2780033000B,2780120000B,2780135000B,2780136000B,2780923000,2781211000,2920247000B,2920673100,2920698000B,2920700100,2920707000B,2920750000B,2930130000,2930220000,2930230000B,2930340000,2930424885B,2930561000,2932623048,2932623609,2932623785,2932623885,2950020785,2950062000,2950100000B,2954000000,2970020785,2970061000,2970300000B,2974000111,2980035000,2980037000,2980040000,2980045000,2980048785,2982028000B,2983396000,2989875000B,2989899000B,2989900000B,2989901000B,2989902000B,2995840000,3024954125F,3024954133F,3024954135F,3024954246F,3024954387F,3024954587F,3024954765F,3024956000F,3051303048,3051303176,3051303320,3051303661,3051303765,3051303785,30-CS606,31017021,310200,311201,311202,31121048,31121133,31121135,31121246,31121587,31121765,31122048,31122133,31122135,31122246,31122587,31122765,3116048,3116100,3116105,3116118,3116124,3116131,3116147,311620,311621,3116662,3200156000C,34.600.000,34.601.000,34.602.000,34.603.000,4152336048B,4152336133B,4152336276B,4152336450B,4152336451B,4152336785B,4152336849B,4152336862B,4152336885B,4181301048,4181301176,4181301320,4181301661,4181301765,4181301785,4199010000,4199020000,4199030000,4199030107,4199030111,4199030300,4199030321,4199030331,4199030360,4199030680,4199030820,4199030822,4199030840,4199030888,4199040000,4199040111,4199040300,4199040321,4199040680,4199040820,4199040822,4199040840,4199040888,4199050000,4199050111,4199050300,4199050321,4199050360,4199050680,4199050820,4199050822,4199050840,4199050888,4199060000,4199070000,4199080000,4199120000,4199150000,4231301048,4231301176,4231301320,4231301661,4231301765,4231301785,4231302,4231303,4254220005,500098000,500199000,5007311000,5007312000,5241301,6121302,6281301,6281303,6800125000,7020080000,7231303,7520068000,9935015000,CS100,CS12007,CS4023,CS707,KIT2350,PA3701,UCLC100,UCLC105,UCLC118,UCLC131,UCS801,UEC100,UEC105,UEC118,UEC124,UEC131,UEC147,UEC662,UR10012,UR10512,UR11812,UR12412,UR13112,UR14712,UR66212,XCS4023,XCS707,XP301801660P,XUCLC048,XUCLC100,XUCLC105,XUCLC118,XUCLC124,XUCLC131,XUCLC147,XUCS801,XUEC048,XUEC100,XUEC105,XUEC118,XUEC124,XUEC131,XUEC147,XUEC662,XUR04816,XUR10016,XUR10516,XUR11816,XUR12416,XUR13116,XUR14716,XUR66216,ZUH080000A00,E28174A753,E28174A754,E28174A766,E28174A767,E28174A770,E28174A772,1001690,2930320000,4140126000,4150009111,4150057885,4150256000,4150288785,4151334000,4152336180,4152336319,4152336320,4152336405,4152336496,4152336551,4152336609,4152336656,4152336669,4152336810,4152336879,4154739000,4170417000,4170418000,4170439000,4170440000,4178581000,KIT9125,KIT9126,27.585.110,27.585.125,27.585.126,27.585.127,27.585.140,27.589.133,27.589.137,27.589.140,27.589.141,27.589.195,27.589.196,4171324050,4171324060,4171324070,4171325050,4171325060,4155349000,4155350000,4155351000,4155352000,4155353000,4155354000,4170729000,4170730000,4170874000,4170877000,4174775785,4250085126,4250085437,4250085530,4253111000,4253112000,7503000000,1001693,1001696,4150082785,4150082885,1001715,1001717,4150128785,4150128885,4150951133,4150951180,4150951320,4150951651,4150951785,4150951862,4150951885,4150084320,4150084785,4150084885,4170950651,4170950785,4170950885,4171290133,4171290180,4171290320,4171290426,4171290651,4171290785,4171290862,4171290885,4171291180,4171291320,4171291651,4171291765,4171291785,4171291885,4171292320,4171292651,4171292765,4171292785,4171292885,4150144116,4150144125,4150144126,4150144127,4150144143,4160144116,4160144125,4160144126,4160144127,4160144133,4160144143,4150083133,4150083320,4150083651,4150083765,4150083785,4150083862,4150083885,27.588.201,27.588.213,27.588.226,27.588.238,4171325070,27.587.201,27.587.208,27.587.213,27.587.226,27.587.238,4171325080,4150381000,4600252155,PR101075287,PR101075411,PR101075948,PR101075951,PR101075953,PR121075287,PR121075411,PR121075924,PR121075948,PR121075949,PR121075951,PR121075953,PR141075600,PR161075600,PR161075604,PR161075605,PR221050501,PR221050835,PR241050501,PR241050502,PR241050835,PR601070287,PR601070411,PR601070951,PR61075109,PR61075905,PR61075949,PR61075951,PR621070287,PR621070411,PR621070951,PR641070605,PR641070616,PR661070605,PR661070616,PR81075109,PR81075905,PR81075949,PR81075951,PRBRL109,PRBRL905,PRBRL949,PRBRL951,PRBRS287,PRBRS411,PRBRS600,PRBRS604,PRBRS605,PRBRS616,PRBRS924,PRBRS948,PRBRS949,PRBRS951,PRBRS953,PRBRSH501,PRBRSH502,PRBRSH835,PRHRL109,PRHRV3L905,PRHRV3S287,PRHRV3SH835,4600000021,4600000070,4600230000,4600220180,4600220320,4600220405,4600220486,4600220550,4600220661,4600289661,4600172133,4600172180,4600172320,4600172405,4600172486,4600172550,4600172661,4600172810,4600173133,4600173180,4600173320,4600173405,4600173486,4600173550,4600173661,4600173810,4600182000,4600185000,4600189661,4600195000,4600196000,4600205000,4600208001,4600228000,4600260000,4600261000,4600276661,4600277486,4600277532,4600277849,4600277917,4600280000,4600285000,4600286000,4600291661,4600343000,4600197000,4600198000,4600279000,4600000230,4600000231,4600000346,4600000347,4600293048,4600309000,4600310000,4600311000,4600312000,4600313000,4600314000,4600315000,4600317000,1010181,4600290748,7840001000,PRHRV3L949,PRHRV3L951,PRHRV3S411,PRHRV3S600,PRHRV3S604,PRHRV3S605,PRHRV3S924,PRHRV3S948,PRHRV3S949,PRHRV3S951,PRHRV3S953,PRHRV3SH501,PRHRV3SH502','Adj_FC'
-	
+  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'7126070000,7127150000,7127510000,7127600000,7127620000,7127650000,7127660000,7127690000,7127700000,7127710000,7127900000,7127910000,7127940000,7127950000,7127960000,7127970000,7127990000,7129200000,7134210000,7134230000,7146500000,7236040000,7390020000,7390030000,7390930000,7390950000,7442700000,7468700000,7477700000,7478700000,7479700000,7488700000,7489700000,7491700000,7493700000,7494700000,7497700000,7498700000,7499700000,7742140000','Adj_FC'
+  
+  
+   --- Salman's list 120 SKUs    27/6/2022 --- Fabric Awning
+  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'42.652.000,46.421.000,46.508.500,46.508.700,46.531.500,46.531.700,7137040000,7370250182,7370250914,7370300182,7370300914,7370350182,7370350914,7370400001,7370400182,7370400914,7441500001B,7441500182B,7441500914B,7441700001B,7441700182B,7441700914B,7442700000,7442700001,7442700182,7442700914,7456500182,7457500001,7457500182,7457500914,7460500000,7460700000,7467040100,7467070100,7468500001,7468500182,7468500914,7468700000,7468700001,7468700182,7468700914,7477500001,7477500182,7477500914,7477700000,7477700001,7477700182,7477700914,7478500001,7478500182,7478500914,7478700000,7478700001,7478700182,7478700914,7479500001,7479500182,7479500914,7479700000,7479700001,7479700182,7479700914,7485700000,7488500001,7488500182,7488500914,7488700000,7488700001,7488700182,7488700914,7489500001,7489500182,7489500914,7489700000,7489700001,7489700182,7489700914,7491500001,7491500182,7491500914,7491700000,7491700001,7491700182,7491700914,7493500001,7493500182,7493500914,7493700000,7493700001,7493700182,7493700914,7494500001,7494500182,7494500914,7494700000,7494700001,7494700182,7494700914,7496500001,7496500182,7496500914,7496700001,7496700182,7496700914,7497700000,7497700001,7497700182,7497700914,7498700000,7498700001,7498700182,7498700914,7499700000,7499700001,7499700182,7499700914,7766050000,7766070000,7766250000,7766270000','Adj_FC'                     --- Salman's list 120 SKUs    27/6/2022
+  exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'7479500182','Adj_FC'                     --- Salman's list one of 120 SKUs    27/6/2022
+
+  --- 14/7/2022 ---
+exec JDE_DB_Alan.sp_Exp_FPFcst_func2Jde  null,'26.900.971,26.901.676,26.901.820,26.901.962,26.901.963,26.902.659,26.902.676,26.902.820,26.902.830,26.902.833,26.902.962,26.902.963,26.902.971,26.902.133,26.903.659,26.903.676,26.903.820,26.903.830,26.903.833,26.903.962,26.903.963,26.903.971,26.903.133','Adj_FC'
+
 
 	--- soft shade update --- 1104 SKU, 26,496 records
 	--- batch 1 -- 1st 500 skus --- 11976 records	  
@@ -5602,6 +5738,14 @@ order by pvt.ItemNumber
 
   exec JDE_DB_Alan.sp_Z_FC_Hist_Summary 
 
+  ------
+  select b.
+  from JDE_DB_Alan.FCPRO_Fcst_History a left join JDE_DB_Alan.vw_Mast b on a.ItemNumber = b.itemnumber
+   
+  where a.ReportDate between ('2020-01-01') and ('2020-02-01') 
+
+  --------
+
 
      select * from JDE_DB_Alan.FCPRO_Fcst_History h where  h.ReportDate > '2019-12-10' and h.ReportDate <'2019-12-15'
    select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('52.034.000') and h.ReportDate > '2019-12-15' and h.ReportDate <'2019-12-25'
@@ -5610,15 +5754,15 @@ order by pvt.ItemNumber
  select distinct * from JDE_DB_Alan.FCPRO_Fcst f where f.ItemNumber in ('82.058.928')
 
 
-  select distinct h.ReportDate from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('82.058.928')
+  select distinct h.ReportDate from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') order by h.ReportDate
   select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.ReportDate > '2018-09-02'
   select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ItemNumber in ('27.176.320')
   select distinct fh.ReportDate from JDE_DB_Alan.FCPRO_Fcst_History fh 
   select distinct fh.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'
   select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'  select distinct fh.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2018-11-06 13:20' and '2018-11-16 13:39:00'
 
-    select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2020-12-01' and '2020-12-15 17:00:00'
-    select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2021-06-01' and fh.ItemNumber in ('52.008.104')
+ select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate  between '2022-01-02' and '2022-01-19 22:00:00'
+ select * from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2022-01-02' and fh.ItemNumber in ('52.008.104')
 
 
    select fh.ReportDate,count(fh.Value) from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-04-10' group by fh.ReportDate order by fh.ReportDate
@@ -5627,7 +5771,17 @@ order by pvt.ItemNumber
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate between '2018-06-15' and '2018-06-29 13:00:00' group by fh.ReportDate order by fh.ReportDate
   select fh.ReportDate,count(fh.Value) RecordCt from JDE_DB_Alan.FCPRO_Fcst_History fh where fh.ReportDate > '2018-07-02' and fh.ReportDate <'2018-07-26 14:59:00' group by fh.ReportDate order by fh.ReportDate
   
-   select * into FCPRO_Fcst_History_May2021OriginalSavedFC from JDE_DB_Alan.FCPRO_Fcst_History a where a.ReportDate > '2021-06-01'
+ 
+   --- select into will create a new table ---
+  select * into FCPRO_Fcst_History_May2021OriginalSavedFC from JDE_DB_Alan.FCPRO_Fcst_History a where a.ReportDate > '2021-06-01'
+
+   --- insert into will add data to existing table ---
+   insert into JDE_DB_Alan.FCPRO_Fcst_History select * from JDE_DB_Alan.FCPRO_Fcst a where a.DataType1 in ('Adj_FC') and a.ItemNumber in ('42.210.031')
+  
+   select * from JDE_DB_Alan.FCPRO_Fcst_History a where a.DataType1 in ('Adj_FC') and a.ItemNumber in ('42.210.031') and a.ReportDate > '2022-11-01'
+  
+   select * from JDE_DB_Alan.FCPRO_Fcst a where a.DataType1 in ('Adj_FC') and a.ItemNumber in ('42.210.031') 
+
 
   --- last month fc aggregated ---
   ;with a as (
@@ -5650,10 +5804,10 @@ order by pvt.ItemNumber
    delete from JDE_DB_Alan.FCPRO_Fcst_History where ReportDate > select DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) +1
   delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2018-11-05 13:00' and '2018-11-05 15:00:00'
    delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2020-11-10' and ReportDate <'2020-11-25'
- delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2021-05-13' and ReportDate <'2021-05-14 14:59:00'
+ delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate > '2021-09-01' and ReportDate <'2021-09-09 14:59:00'
     delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2020-12-01' and '2020-12-15 17:00:00'
 
-  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2021-06-01' and '2021-06-02 17:00:00'
+  delete from JDE_DB_Alan.FCPRO_Fcst_History where  ReportDate between '2022-12-01' and '2022-12-19 22:00:00'
 
   select dateadd(d,-11,getdate())
   select  getdate()+1
@@ -5666,7 +5820,7 @@ select count(*) cnt from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate > D
 exec JDE_DB_Alan.sp_Z_FC_Hist_Summary
 
 -- delete one month data --
-select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2021-05-13' and '2021-05-13 17:00:00'
+select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2022-03-05' and '2022-03-09 17:00:00'
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30'              -- '2018-09-30' will default to 2018-09-30 00:00:00
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'
 select distinct h.ItemNumber from JDE_DB_Alan.FCPRO_Fcst_History h where h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00'
@@ -5674,6 +5828,15 @@ select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.Date in ('2018-09-01') an
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01 00:00:00.000') and h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('42.210.031') and h.Date in ('2018-09-01') and h.ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'			-- change h.Date format it yield same result
 select * from JDE_DB_Alan.FCPRO_Fcst_History h where h.ItemNumber in ('34.081.000') and h.ReportDate between '2019-04-10' and '2019-04-30 17:00:00:00' and h.Date in ('2019-09-01')
+
+select * from JDE_DB_Alan.FCPRO_Fcst_History h 
+where h.ItemNumber in ('7370300914')
+--where h.ItemNumber in ('42.652.000','46.421.000','46.508.500','46.508.700','46.531.500','46.531.700','7137040000','7370250182','7370250914','7370300182','7370300914','7370350182','7370350914','7370400001','7370400182','7370400914','7441500001B','7441500182B','7441500914B','7441700001B','7441700182B','7441700914B','7442700000','7442700001','7442700182','7442700914','7456500182','7457500001','7457500182','7457500914','7460500000','7460700000','7467040100','7467070100','7468500001','7468500182','7468500914','7468700000','7468700001','7468700182','7468700914','7477500001','7477500182','7477500914','7477700000','7477700001','7477700182','7477700914','7478500001','7478500182','7478500914','7478700000','7478700001','7478700182','7478700914','7479500001','7479500182','7479500914','7479700000','7479700001','7479700182','7479700914','7485700000','7488500001','7488500182','7488500914','7488700000','7488700001','7488700182','7488700914','7489500001','7489500182','7489500914','7489700000','7489700001','7489700182','7489700914','7491500001','7491500182','7491500914','7491700000','7491700001','7491700182','7491700914','7493500001','7493500182','7493500914','7493700000','7493700001','7493700182','7493700914','7494500001','7494500182','7494500914','7494700000','7494700001','7494700182','7494700914','7496500001','7496500182','7496500914','7496700001','7496700182','7496700914','7497700000','7497700001','7497700182','7497700914','7498700000','7498700001','7498700182','7498700914','7499700000','7499700001','7499700182','7499700914','7766050000','7766070000','7766250000','7766270000')      --- Salman' List of 122 SKUs in April 2022
+and h.ReportDate between '2022-07-10' and '2022-07-30 17:00:00:00' 
+and h.Date between '2022-08-01' and '2023-07-02 17:00:00:00' 
+
+
+
 
   delete from JDE_DB_Alan.FCPRO_Fcst_History 
   where  Date in ('2018-09-01') and ReportDate between '2018-09-28' and '2018-09-30 17:00:00:00'
@@ -5746,11 +5909,11 @@ from JDE_DB_Alan.FCPRO_Fcst_History h
 	  and h.Date in ('2019-09-01')
 
 ;update h
-set h.ReportDate = '2021-05-31 15:00:00'
+set h.ReportDate = '2021-07-30 15:00:00'
 --select * 
 from JDE_DB_Alan.FCPRO_Fcst_History h
 --where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
-where h.ReportDate between '2021-06-03' and '2021-06-03 18:00:00'
+where h.ReportDate between '2021-07-03' and '2021-07-15 18:00:00'
 
 ;update h
 set h.ReportDate = '2018-06-30 15:00:00'
@@ -5779,15 +5942,106 @@ where h.ReportDate between '2019-03-01' and '2019-03-30 13:00:00'
 set h.ReportDate = '2020-04-30 15:00:00'
 --select * 
 from JDE_DB_Alan.FCPRO_Fcst_History h
---where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
 where h.ReportDate between '2020-04-01' and '2020-04-15 13:00:00'
 
 ;update h
 set h.ReportDate = '2020-05-31 15:00:00'
 --select * 
 from JDE_DB_Alan.FCPRO_Fcst_History h
---where h.ReportDate between '2018-03-01' and '2018-03-02 13:00:00'
 where h.ReportDate between '2020-05-01' and '2020-05-19 13:00:00'
+
+
+;update h
+set h.ReportDate = '2021-08-31 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2021-08-01' and '2021-08-18 13:00:00'
+
+;update h
+set h.ReportDate = '2021-09-30 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2021-09-01' and '2021-09-18 13:00:00'
+
+
+;update h
+set h.ReportDate = '2021-10-29 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2021-10-01' and '2021-10-18 13:00:00'
+
+;update h
+set h.ReportDate = '2021-12-24 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2021-12-01' and '2021-12-18 13:00:00'
+
+;update h
+set h.ReportDate = '2022-01-31 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-01-15' and '2022-01-25 13:00:00'
+
+;update h
+set h.ReportDate = '2022-01-31 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-01-15' and '2022-01-25 13:00:00'
+
+
+;update h
+set h.ReportDate = '2022-02-28 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-02-03' and '2022-02-25 13:00:00'
+
+;update h
+set h.ReportDate = '2022-03-31 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-03-05' and '2022-03-09 13:00:00'
+
+
+;update h
+set h.ReportDate = '2022-04-29 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-04-05' and '2022-04-16 13:00:00'
+
+;update h
+set h.ReportDate = '2022-07-29 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-07-05' and '2022-07-16 13:00:00'
+
+;update h
+set h.ReportDate = '2022-08-31 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-08-05' and '2022-08-16 13:00:00'
+
+
+;update h
+set h.ReportDate = '2022-09-30 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-09-05' and '2022-09-29 13:00:00'
+
+
+;update h
+set h.ReportDate = '2022-10-31 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-10-05' and '2022-10-29 13:00:00'
+
+
+;update h
+set h.ReportDate = '2022-11-30 15:00:00'
+--select * 
+from JDE_DB_Alan.FCPRO_Fcst_History h
+where h.ReportDate between '2022-11-05' and '2022-11-29 13:00:00'
+
+
 
 ---------------------------------------------------------------------------
 -------- 4/4/2020  -----------------
@@ -6023,7 +6277,7 @@ insert into #fc values
   from JDE_DB_Alan.FCPRO_Fcst_History h inner join #fc f2 on h.ItemNumber = f2.ItemNumber  and h.Date = f2.Date and h.DataType1 = f2.DataType1     ---N0 Need ? Need !                                                                                
      where h.ItemNumber = '38.001.005' and h.DataType1 ='Adj_FC' and h.ReportDate between '2020-02-01' and '2020-02-25' 
 
-
+insert into JDE_DB_Alan.FCPRO_Fcst_History select * from JDE_DB_Alan.FCPRO_Fcst a where a.DataType1 in ('Adj_FC')
 ----------------------------------------------------------------------------------
 --- update one month data --- fc table
 ;update f
@@ -6181,11 +6435,21 @@ https://www.w3schools.com/sql/func_sqlserver_convert.asp
 
 select getdate()
 
-select convert(varchar(7),getdate(),120) as myDate1							-- yield 2018-09 -- this month												
+select convert(varchar(7),getdate(),120) as myDate1							-- yield 2018-09 -- this month	
+select convert(varchar(10),getdate(),126) as myDate1							-- yield 2022-04-13  -- this month	
+select convert(varchar(8),'2019-12-01 00:00:00.000',126) as myDate1				-- yield 2019-12-  -- this month	
+select cast(substring(replace(convert(varchar(8),'2019-12-01 00:00:00.000'),'-',''),5,2) as integer) as month_mock
+select cast(substring(replace(convert(varchar(8),'2019-12-01 00:00:00.000'),'-',''),4,2) as integer) as month_mock
+select cast(substring(replace(convert(varchar(10),'2019-12-01 00:00:00.000'),'-',''),5,2) as integer) as month_mock
+select convert(varchar(10),'2019-12-01 00:00:00.000',126) as myDate1					-- yield 2019-12-01  -- this month	
+
+											
 select cast(SUBSTRING(REPLACE(CONVERT(char(10),getdate(),126),'-',''),1,6) as integer) as [myDate2]		-- yield 201809 -- this month in Integer
 select cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0),126),'-',''),1,6) as integer) as [myDate2]		-- yield 201808 --- last month in Integer
-select cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,GETDATE())-37,0),126),'-',''),1,6) as integer) as dt			-- yield 201508 ---  36 month ago
+select cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,GETDATE())-33,0),126),'-',''),1,6) as integer) as dt			-- yield 201508 ---  36 month ago
 select cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,GETDATE())+6,0),126),'-',''),1,6) as integer) as dt			-- next 6 month
+select cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,GETDATE())+12,0),126),'-',''),1,6) as integer) as dt			-- next 6 month
+
 
 select convert(varchar(10),getdate(),112) -- yield 20171216 - ISO
 select convert(varchar(6),getdate(),112)  -- yield 201712 - ISO
@@ -6236,12 +6500,13 @@ somedate <= select datediff(d, 0, getdate())
 select cast(DATEADD(s,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())+6,0)) as datetime) as startdate		-- Set the StartDate for changing FC from Jun/2018 onwards ( + 6 months ),pay attention to 's' --> seconds, that is clever
 select DATEADD(mm, DATEDIFF(m,0,GETDATE()),0) as startdate									--	this  month			2018-02-01 00:00:00.000
 select DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0) as startdate									-- last  month		2018-01-01 00:00:00.000
-select DATEADD(mm, DATEDIFF(m,0,GETDATE())-18,0) as startdate									-- last 18 month		2018-01-01 00:00:00.000
+select DATEADD(mm, DATEDIFF(m,0,GETDATE())-12,0) as startdate									-- last 18 month		2018-01-01 00:00:00.000
 select DATEADD(mm, DATEDIFF(m,0,GETDATE())+11,0) as startdate									-- next 12  month		2018-01-01 00:00:00.000
 select DATEADD(mm, DATEDIFF(m,0,GETDATE())-37,0) as startdate									-- last 36  month		2018-01-01 00:00:00.000
 
 
 
+select  convert(varchar(7),DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0),120)					--- last month 2022-02
 select dateadd(d,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE()),0))									-- last day of preceding month
 select convert(varchar(10),dateadd(d,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())-1,0)),120)     -- last day of preceding month - only 10 Character includes YYYY-MM-DD
 
@@ -6815,6 +7080,7 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '26.812.410,26.812.901,26.812.604,26.812.820,26.812.902,26.812.962,26.815.410,26.815.901,26.815.604,26.815.820,26.815.902,26.815.962,26.814.410,26.814.901,26.814.604,26.814.820,26.814.902,26.814.962','2020-08-01','2021-03-01'       -- works
 
 
+   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '38.010.001,38.010.002,38.010.003,38.010.004,38.010.005,38.010.006,38.010.007','2021-06-01','2022-05-01'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '6001130009009H','2018-05-01','2018-12-01'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801406324','2018-05-01','2018-12-01'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '2801406324','2019-07-01','2019-12-01'
@@ -6834,7 +7100,9 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
    exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-08-01','2021-07-02'
     exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-09-01','2021-08-02'
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-04-01','2021-03-02'
- exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2021-03-01','2022-02-02'
+ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2022-12-01','2023-11-02'
+  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '87.100.001','2022-02-01','2023-01-02'
+
 
  exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2020-02-01','2021-01-02','rnk'
   exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis '31.118.131,31.119.131,31.120.131,31.122.131,31.123.131,31.124.131,31.125.000,31.126.000,31.127.176,31.127.000,31.128.176,31.128.000,31.129.176,31.129.000,31.130.176,31.130.000,31.105.101,31.150.131,31.151.131,31.152.131,31.153.131,31.155.176,31.156.176,31.157.176,31.155.000,31.156.000,31.157.000,31.161.176,31.161.000,31.163.176,31.163.000,31.165.131,31.167.131,31.168.131,31.169.131,31.170.131,31.171.131,31.172.131,31.166.131','2020-02-01','2021-01-02'
@@ -6843,7 +7111,10 @@ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis @OrderBYClause = 'SlsAmt_12'
  -- 7441500001,7441500182,7441500914,7441700001,7441700182,7441700914,7442700001,7442700182,7442700914,7456500182,7457500001,7457500182,7457500914,7460500000,7460700000,7468500001,7468500182,7468500914,7468700001,7468700182,7468700914,7477500001,7477500182,7477500914,7477700001,7477700182,7477700914,7478500001,7478500182,7478500914,7478700001,7478700182,7478700914,7479500001,7479500182,7479500914,7479700001,7479700182,7479700914,7485700000,7488500001,7488500182,7488500914,7488700001,7488700182,7488700914,7489500001,7489500182,7489500914,7489700001,7489700182,7489700914,7491500001,7491500182,7491500914,7491700001,7491700182,7491700914,7493500001,7493500182,7493500914,7493700001,7493700182,7493700914,7494500001,7494500182,7494500914,7494700001,7494700182,7494700914,7497700001,7497700182,7497700914,7498700001,7498700182,7498700914,7499700001,7499700182,7499700914,7766050000,7766070000,7766250000,46.508.500,46.508.700,46.531.500,46.531.700
 
 
- exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2021-02-01','2022-01-01'
+ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2022-05-01','2023-04-01'
+ exec JDE_DB_Alan.sp_FCPro_Portfolio_Analysis null,'2022-07-01','2023-06-01'
+
+
    	 
   select * from JDE_DB_Alan.FCPRO_SafetyStock ss where ss.ItemNumber in  ('24.7206.0000','2974000000','45.124.000')
   exec JDE_DB_Alan.sp_Cal_SafetyStock

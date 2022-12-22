@@ -1,5 +1,4 @@
 
-
   	--- Updated 21/5/2021 to remove/prevent  duplicate in HD (Textile) Work Center --------
 
     --- Created on 18/8/2020 ---- Use Single Select SQL command ------ Re write code ---- Will this be more efficient in term of performance if use base Master table 
@@ -30,12 +29,17 @@ select BU,ItemNumber,ShortItemNumber,Colour,StockingType,Pareto
 			--when wc.WorkCenter is null then 'No_WC_Assigned'		
 				when wc.WorkCenterCode_f is null then '0'		
 			end as WCCode_fl
+       	,case 
+			when wc.WorkCenterName_f is not null then wc.WorkCenterName_f
+			--when wc.WorkCenter is null then 'No_WC_Assigned'		
+				when wc.WorkCenterName_f is null then '0'		
+			end as WCName_fl
         ,case 
 			when wc.WorkCenterGroupCode_f is not null then wc.WorkCenterGroupCode_f
 			--when wc.WorkCenter is null then 'No_WC_Assigned'		
 				when wc.WorkCenterGroupCode_f is null then '0'		
 			end as WCGroupCode_fl
-            ,case 
+        ,case 
 			when wc.WorkCenterGroupName_f is not null then wc.WorkCenterGroupName_f
 			--when wc.WorkCenter is null then 'No_WC_Assigned'		
 				when wc.WorkCenterGroupName_f is null then '0'		
@@ -199,5 +203,7 @@ from
     -- where b.StockingType in ('P','Q','M','S')							--- 'O' has 37018 records, 'U' has 3096 records, ML_345 table has total 48572 records, 'O' & 'U' occupy about 80% of total count.
 
   --- where ItemNumber in ('24.7111.1858A')
+   ---   where ItemNumber in ('82.028.903','82.068.911','40.041.131')
+
 
 GO

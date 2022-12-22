@@ -58,4 +58,3 @@ with _np as
 		--  select * from JDE_DB_Alan.FCPRO_NP_tmp
 		
 GO
-

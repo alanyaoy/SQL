@@ -1,4 +1,4 @@
-      --- 10/4/2020,  --- For Family Group Level --- Level 2
+   --- 10/4/2020,  --- For Family Group Level --- Level 2
 		  --- This code will use Family level accuracy data as nput to feed in accuracy for Family Group accuracy, therefore Level 2. Rather than use Family Group Accury data on itw own for Input.
 
 	    --- Better to use view to extract modified data from  'JDE_DB_Alan.FCPRO_FC_Accy_Group'  table ----

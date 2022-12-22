@@ -21,7 +21,9 @@ go
   --select * from  so
    ,comb as (
 		   select so.order_number as So_num,so.work_order_number as So_wo_num,pr.wo_number as Part_wo_num
-				 ,so.d_product_key as Parent_pd_key,so.item_code as Parent,pr.d_product_key Child_pd_key,pr.item_code as Child,pr.parts_description2,so.primary_quantity as ParentSoldQty,pr.quantity as ChildSoldQty,pr.uom Child_uom
+				 ,so.d_product_key as Parent_pd_key,so.item_code as Parent,pd.item_name as Parent_desc,pd.family_group_code
+				 ,pr.d_product_key Child_pd_key,pr.item_code as Child,pr.parts_description2,so.primary_quantity as ParentSoldQty,so.cost_amount as Parent_cost,so.sales_amount as Parent_amount
+				 ,pr.quantity as ChildSoldQty,pr.uom Child_uom
 				  ,cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,so.order_date),0),126),'-',''),1,8) as integer) as Ord_YYMMDD	
 				  ,cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,so.order_date),0),126),'-',''),1,6) as integer) as Ord_YYMM
   				 ,c.contact_name as customer
@@ -40,8 +42,9 @@ go
 				--and pr.item_code in ('42.421.855','52.018.000','44.011.007')
 				   --  so.order_number in ('5623307')                  -- Sun solution dummy order
 				 --  so.order_number in ('5626957')                  -- Sun solution real order
-				 so.order_number in ('5695361')                  -- Workhouse Interior
-		 
+				-- so.order_number in ('5695361')                  -- Workhouse Interior
+		        ---  so.order_number in ('5742681','5742684','5742686')
+				so.order_number in ('5742780','5742799','5742812','5742818')
 		   --  order by so.order_number                       
 		 )
 
@@ -54,7 +57,8 @@ go
 	 order by z.So_num
 
  select top 3 * from star.d_product
-
+ select top 3 * from star.f_so_detail_current
+ select top 3 * from star.f_so_detail_history
 
   select count(*) from HDDW_PRD.Star.d_customer
 

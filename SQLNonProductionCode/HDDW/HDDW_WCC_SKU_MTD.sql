@@ -63,7 +63,7 @@ where  	   -- h.item_code in ('2770004000B','43.212.001','43.211.001','43.205.63
 		--h.item_code in ('82.696.901')
 		--  h.item_code in ('26.800.820'	)
 		--  h.item_code in ('82336.3000.00.01')
-		  h.item_code in ('52.008.104')
+		--  h.item_code in ('52.008.104')
 		-- h.item_code in ('46.507.000')
 		  --h.item_code in ('42.210.031','24.7221.0952','43.207.584M')
 		 --  h.item_code in ('26.800.659','26.800.676','26.800.820','26.800.830','26.800.833','26.800.962','26.800.963','26.800.971','26.801.676','26.801.820','26.801.962','26.801.963','26.803.659','26.803.676','26.803.820','26.803.830','26.803.833','26.803.962','26.803.963','26.803.971','26.802.659','26.802.676','26.802.820','26.802.830','26.802.833','26.802.962','26.802.963','26.802.971')
@@ -79,6 +79,7 @@ where  	   -- h.item_code in ('2770004000B','43.212.001','43.211.001','43.205.63
 		--	  h.item_code in ('40.174.131','40.041.131')		--- Metal Awning parts -- 964
     --where f.order_number in ('5456172')
 	 --   f.order_number in ('5653693')
+	 --     f.order_number in ('5742681','5742684','5742686')
    --  and h.invoice_date is not null					--- do you need to include SKUs with no invoice date but possible with Order date ?
         --and p.business_unit_name = 'Blindmaker'		--- do you need this one ? DOes AWF selling components ?  10/12/2019
 		-- and p.business_unit_name = 'Components'      --- state expplicitly albeit h.business_unit is in 'select' clause
@@ -97,7 +98,8 @@ where  	   -- h.item_code in ('2770004000B','43.212.001','43.211.001','43.205.63
 		--  and p.family_group_code in ('982')			--- choose special category ( family group )	-- 	'Contemporary Collection'  18/2020
 		 -- p.family_group_code in ('910')				--- choose special category ( family group )	-- 	'Veri Shades' for Victory Blinds   1/3/2021
 
-		 -- and p.family_code in ('633')					--- choose family  -- --- Alpha awning  
+		 -- and p.family_code in ('633')				--- choose family  -- --- Alpha awning  
+		  p.family_code in ('635')					    --- choose family  -- --- Magnatrack  awning 
 		 --  p.family_code in ('89J','89K')					--- choose family  -- --- Alpha awning  
 		  and cast(SUBSTRING(REPLACE(CONVERT(char(10),DATEADD(mm, DATEDIFF(m,0,h.invoice_date),0),126),'-',''),1,6) as integer) > 201912-- narrow your range		10/7/2020
 
@@ -111,7 +113,7 @@ group by h.jde_business_unit
 		 ,c.contact_name
 
 		 --,p.family_group_desc
-		 ,h.order_type,h.last_line_status_code,h.next_line_status_code
+		-- ,h.order_type,h.last_line_status_code,h.next_line_status_code
 
 		 ,p.family_group_code,p.family_group_desc
 		 ,p.family_code,p.family_desc

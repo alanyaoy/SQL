@@ -1,26 +1,3 @@
-/*    ==Scripting Parameters==
-
-    Source Server Version : SQL Server 2016 (13.0.4001)
-    Source Database Engine Edition : Microsoft SQL Server Express Edition
-    Source Database Engine Type : Standalone SQL Server
-
-    Target Server Version : SQL Server 2016
-    Target Database Engine Edition : Microsoft SQL Server Express Edition
-    Target Database Engine Type : Standalone SQL Server
-*/
-
-USE [JDE_DB_Alan]
-GO
-
-/****** Object:  View [JDE_DB_Alan].[vw_SafetyStock]    Script Date: 30/03/2021 12:27:26 PM ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-
 
 
 -- 8/3/2021 ---
@@ -33,7 +10,7 @@ GO
 --- Need to reorganize the column to align with .SafetyStock table  --- 22/3/2021
 
 
-ALTER view [JDE_DB_Alan].[vw_SafetyStock] with schemabinding as
+CREATE view [JDE_DB_Alan].[vw_SafetyStock] with schemabinding as
 
 
  ----- Query the SS --------
@@ -149,5 +126,3 @@ ALTER view [JDE_DB_Alan].[vw_SafetyStock] with schemabinding as
 
 
 GO
-
-

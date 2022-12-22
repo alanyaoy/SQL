@@ -176,7 +176,7 @@ with a as (
 				,SQRT(sum(d.Variance_) over( partition by d.item_number)/d.Orde_Count ) as Root_ 				  			  
 				,d.Sig_Itm
 				,(d.Avg_Ship_Days + d.Sig_Itm *1.5) as Actual_Ship_LT_Days_Final			-- 1 std 68%, 1.3 80%, 1.5 std 85-86%, 2 std 95%, 3 std 99%
-
+																							
 				,d.Max_Gap_day
 				,d.Min_Gap_day
 				,d.rk_0
@@ -205,4 +205,3 @@ with a as (
     
 
 GO
-

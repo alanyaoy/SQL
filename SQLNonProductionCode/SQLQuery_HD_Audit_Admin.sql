@@ -12,6 +12,10 @@ print 'ho'
 go
 
 
+
+use JDE_DB_Alan
+go
+
   --- Hot KEy
 
   -- Fn + end , Fn + home to begining / end of line
@@ -29,6 +33,10 @@ select @@servicename -- yield 'HOME_2016EXPAD'
 
 use demandplanning
 go
+
+
+create database TestDb
+
 
 SELECT  createdate as Sql_Server_Install_Date 
 FROM    sys.syslogins 

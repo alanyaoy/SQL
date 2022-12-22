@@ -1,5 +1,4 @@
-
-  --- Updated 21/5/2021 to Remove/Prevent duplicate in HD (Textile) Work Center --------
+--- Updated 21/5/2021 to Remove/Prevent duplicate in HD (Textile) Work Center --------
 
     ------ 7/12/2020 ---------
 
@@ -200,6 +199,12 @@ CREATE view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
 					--when wc.WorkCenter is null then 'No_WC_Assigned'		
 					  when wc.WorkCenterCode_f is null then '0'		
 					end as WCCode_fl
+				,case 
+					when wc.WorkCenterName_f is not null then wc.WorkCenterName_f
+					--when wc.WorkCenter is null then 'No_WC_Assigned'		
+					  when wc.WorkCenterName_f is null then '0'		
+					end as WCName_fl
+
                ,case 
 					when wc.WorkCenterGroupCode_f is not null then wc.WorkCenterGroupCode_f
 					--when wc.WorkCenter is null then 'No_WC_Assigned'		
@@ -254,7 +259,8 @@ CREATE view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
 				,a.SS_Adj													--- SS_Adj is alway new safety stock value from '.Fcst_SafetyStock' table using 'Cal_Safety_Stock 'store procedure
 				
 				,a.Stdevp_,a.SS_Latest_upd_date,a.ValidStatus_Adj_Flag		
-				,WCCode_fl	
+				,WCCode_fl
+				,WCName_fl	
 				,WCGroupCode_fl
 				,WCGroupName_fl
 			   	 
@@ -266,7 +272,8 @@ CREATE view [JDE_DB_Alan].[vw_Mast_Planning] with schemabinding as
 				--where a.Item_Number in ('42.210.031')
 				--where a.Item_Number in ('8200100890926','24.008.824S')			--- 36 records against this code, it should be come out as 1 records
 			   -- where a.Item_Number in ('4152336276B','FT.01367.060.01','850525000202')
-				
+				--where a.Item_Number in ('82.028.903','82.068.911','40.041.131')
+
 	   --select * from mas 
 	   --where z.wc <> '0'
 

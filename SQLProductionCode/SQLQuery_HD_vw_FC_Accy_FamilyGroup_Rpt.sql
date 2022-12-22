@@ -1,3 +1,4 @@
+
         --- 10/4/2020,  --- For Family Group Level ---
 	    --- Better to use view to extract modified data from  'JDE_DB_Alan.FCPRO_FC_Accy_Group'  table ----
 		  --- 'JDE_DB_Alan.FCPRO_FC_Accy_Group' table willl accumulate data month in & out, but you want to get most recent month data each time ---
